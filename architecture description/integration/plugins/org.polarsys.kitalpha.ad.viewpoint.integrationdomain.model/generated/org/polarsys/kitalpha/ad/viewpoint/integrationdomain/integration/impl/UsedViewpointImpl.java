@@ -1,43 +1,49 @@
-/**
- * <copyright>
- * </copyright>
- *
- * $Id$
- */
+/*******************************************************************************
+ * Copyright (c) 2015 Thales Global Services S.A.S.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *  
+ * Contributors:
+ *   Thales Global Services S.A.S - initial API and implementation
+ *******************************************************************************/
 
 package org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.IntegrationPackage;
 import org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.UsedViewpoint;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Used Viewpoint</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Used Viewpoint</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl.UsedViewpointImpl#getVpId <em>Vp Id</em>}</li>
- *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl.UsedViewpointImpl#getVersion <em>Version</em>}</li>
- *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl.UsedViewpointImpl#isFiltered <em>Filtered</em>}</li>
+ * <li>
+ * {@link org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl.UsedViewpointImpl#getVpId
+ * <em>Vp Id</em>}</li>
+ * <li>
+ * {@link org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl.UsedViewpointImpl#getVersion
+ * <em>Version</em>}</li>
+ * <li>
+ * {@link org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.impl.UsedViewpointImpl#isFiltered
+ * <em>Filtered</em>}</li>
  * </ul>
  * </p>
- *
+ * 
  * @generated
  */
 public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 
 	/**
 	 * The default value of the '{@link #getVpId() <em>Vp Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVpId()
 	 * @generated
 	 * @ordered
@@ -46,21 +52,18 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 
 	/**
 	 * The cached value of the '{@link #getVpId() <em>Vp Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVpId()
 	 * @generated
 	 * @ordered
 	 */
 	protected String vpId = VP_ID_EDEFAULT;
 
-
-
-
 	/**
-	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getVersion() <em>Version</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -68,21 +71,19 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 	protected static final String VERSION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getVersion() <em>Version</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
 	 */
 	protected String version = VERSION_EDEFAULT;
 
-
-
 	/**
-	 * The default value of the '{@link #isFiltered() <em>Filtered</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isFiltered() <em>Filtered</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isFiltered()
 	 * @generated
 	 * @ordered
@@ -90,20 +91,18 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 	protected static final boolean FILTERED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isFiltered() <em>Filtered</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isFiltered() <em>Filtered</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isFiltered()
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean filtered = FILTERED_EDEFAULT;
 
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected UsedViewpointImpl() {
@@ -113,8 +112,8 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -122,13 +121,9 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 		return IntegrationPackage.Literals.USED_VIEWPOINT;
 	}
 
-
-
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 
@@ -137,11 +132,9 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 		return vpId;
 	}
 
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 
@@ -154,14 +147,9 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 
 	}
 
-
-
-
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 
@@ -170,11 +158,9 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 		return version;
 	}
 
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 
@@ -187,12 +173,9 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 
 	}
 
-
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 
@@ -202,8 +185,8 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 
@@ -217,95 +200,92 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IntegrationPackage.USED_VIEWPOINT__VP_ID:
-				return getVpId();
-			case IntegrationPackage.USED_VIEWPOINT__VERSION:
-				return getVersion();
-			case IntegrationPackage.USED_VIEWPOINT__FILTERED:
-				return isFiltered();
+		case IntegrationPackage.USED_VIEWPOINT__VP_ID:
+			return getVpId();
+		case IntegrationPackage.USED_VIEWPOINT__VERSION:
+			return getVersion();
+		case IntegrationPackage.USED_VIEWPOINT__FILTERED:
+			return isFiltered();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IntegrationPackage.USED_VIEWPOINT__VP_ID:
-				setVpId((String)newValue);
-				return;
-			case IntegrationPackage.USED_VIEWPOINT__VERSION:
-				setVersion((String)newValue);
-				return;
-			case IntegrationPackage.USED_VIEWPOINT__FILTERED:
-				setFiltered((Boolean)newValue);
-				return;
+		case IntegrationPackage.USED_VIEWPOINT__VP_ID:
+			setVpId((String) newValue);
+			return;
+		case IntegrationPackage.USED_VIEWPOINT__VERSION:
+			setVersion((String) newValue);
+			return;
+		case IntegrationPackage.USED_VIEWPOINT__FILTERED:
+			setFiltered((Boolean) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IntegrationPackage.USED_VIEWPOINT__VP_ID:
-				setVpId(VP_ID_EDEFAULT);
-				return;
-			case IntegrationPackage.USED_VIEWPOINT__VERSION:
-				setVersion(VERSION_EDEFAULT);
-				return;
-			case IntegrationPackage.USED_VIEWPOINT__FILTERED:
-				setFiltered(FILTERED_EDEFAULT);
-				return;
+		case IntegrationPackage.USED_VIEWPOINT__VP_ID:
+			setVpId(VP_ID_EDEFAULT);
+			return;
+		case IntegrationPackage.USED_VIEWPOINT__VERSION:
+			setVersion(VERSION_EDEFAULT);
+			return;
+		case IntegrationPackage.USED_VIEWPOINT__FILTERED:
+			setFiltered(FILTERED_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
-
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IntegrationPackage.USED_VIEWPOINT__VP_ID:
-				return VP_ID_EDEFAULT == null ? vpId != null : !VP_ID_EDEFAULT.equals(vpId);
-			case IntegrationPackage.USED_VIEWPOINT__VERSION:
-				return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
-			case IntegrationPackage.USED_VIEWPOINT__FILTERED:
-				return filtered != FILTERED_EDEFAULT;
+		case IntegrationPackage.USED_VIEWPOINT__VP_ID:
+			return VP_ID_EDEFAULT == null ? vpId != null : !VP_ID_EDEFAULT.equals(vpId);
+		case IntegrationPackage.USED_VIEWPOINT__VERSION:
+			return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+		case IntegrationPackage.USED_VIEWPOINT__FILTERED:
+			return filtered != FILTERED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
 
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (vpId: ");
@@ -318,5 +298,4 @@ public class UsedViewpointImpl extends EObjectImpl implements UsedViewpoint {
 		return result.toString();
 	}
 
-
-} //UsedViewpointImpl
+} // UsedViewpointImpl
