@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Thales Global Services S.A.S.
+ * Copyright (c) 2014-2015 Thales Global Services S.A.S.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 
 package org.polarsys.kitalpha.ad.viewpoint.ui.views;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -25,11 +26,13 @@ import org.polarsys.kitalpha.resourcereuse.model.Resource;
  */
 public class ViewpointManagerLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+	private EObject context;
+
 	public Image getColumnImage(Object element, int columnIndex) {
 		if (columnIndex != 0)
 			return null;
 		Resource vp = (Resource) element;
-		if (ViewpointManager.INSTANCE.isActive(vp.getId()))
+		if (context != null && ViewpointManager.getInstance(context).isActive(vp.getId()))
 			return Activator.getDefault().getImage(AFImages.RUNNING_VP);
 		return Activator.getDefault().getImage(AFImages.VP);
 	}
@@ -40,7 +43,9 @@ public class ViewpointManagerLabelProvider extends LabelProvider implements ITab
 		case 0:
 			return vp.getName();
 		case 1:
-			return ViewpointManager.INSTANCE.isActive(vp.getId()) ? "Active" : "Unactive";
+			if (context == null)
+				return "N/A";
+			return ViewpointManager.getInstance(context).isActive(vp.getId()) ? "Used" : "Unused";
 		case 2:
 			return vp.getProviderLocation().toString();
 		case 3:
@@ -50,4 +55,9 @@ public class ViewpointManagerLabelProvider extends LabelProvider implements ITab
 		}
 		return "";
 	}
+
+	public void setContext(EObject context) {
+		this.context = context;
+	}
+
 }

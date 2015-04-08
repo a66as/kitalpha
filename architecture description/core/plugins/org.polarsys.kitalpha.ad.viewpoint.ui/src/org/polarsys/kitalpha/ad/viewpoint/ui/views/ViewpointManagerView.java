@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Thales Global Services S.A.S.
+ * Copyright (c) 2014-2015 Thales Global Services S.A.S.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -27,6 +28,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -34,6 +36,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
@@ -41,11 +44,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.polarsys.kitalpha.ad.common.AD_Log;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointActivationException;
@@ -114,6 +121,7 @@ public class ViewpointManagerView extends ViewPart {
 		}
 	}
 
+	private EObject context;
 	private TableViewer viewer;
 	private Action startAction;
 	private Action stopAction;
@@ -148,6 +156,7 @@ public class ViewpointManagerView extends ViewPart {
 			}
 		}
 	};
+	private final ViewpointManagerLabelProvider labelProvider = new ViewpointManagerLabelProvider();
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -156,10 +165,51 @@ public class ViewpointManagerView extends ViewPart {
 		clayout.numColumns = 3;
 		composite.setLayout(clayout);
 
+		final Label label = new Label(composite, SWT.None);
+		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		layoutData.horizontalSpan = 3;
+		label.setLayoutData(layoutData);
 		createViewer(composite);
 		init();
 		ViewpointManager.addListener(vpListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(wsListener);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addSelectionListener(new ISelectionListener() {
+
+			@Override
+			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+				label.setText(selection.toString());
+				if (selection.isEmpty()) {
+					clearSelection("Empty selection");
+					return;
+				}
+				if (selection instanceof TreeSelection) {
+					Object[] selected = ((TreeSelection) selection).toArray();
+					if (selected.length > 1) {
+						clearSelection("Multiple selection");
+						return;
+					}
+					if (selected[0] instanceof EObject)
+						setSelection((EObject) selected[0]);
+					else
+						clearSelection("Expecting an EObject");
+
+				}
+			}
+
+			private void setSelection(EObject ctx) {
+				label.setText("Context: " + ctx);
+				labelProvider.setContext(ctx);
+				context = ctx;
+				viewer.refresh();
+			}
+
+			private void clearSelection(String text) {
+				label.setText(text);
+				labelProvider.setContext(null);
+				context = null;
+				viewer.refresh();
+			}
+		});
 	}
 
 	public void createViewer(final Composite composite) {
@@ -206,7 +256,7 @@ public class ViewpointManagerView extends ViewPart {
 		table.setSortDirection(SWT.DOWN);
 
 		viewer.setContentProvider(new ViewpointManagerContentProvider());
-		viewer.setLabelProvider(new ViewpointManagerLabelProvider());
+		viewer.setLabelProvider(labelProvider);
 
 		makeActions();
 		hookContextMenu();
@@ -290,9 +340,9 @@ public class ViewpointManagerView extends ViewPart {
 
 	protected void updateButtons(IStructuredSelection selection) {
 		int size = selection == null ? 0 : selection.size();
-		if (size == 1) {
+		if (size == 1 && context != null) {
 			Resource res = (Resource) selection.getFirstElement();
-			boolean active = ViewpointManager.INSTANCE.isActive(res.getId());
+			boolean active = ViewpointManager.getInstance(context).isActive(res.getId());
 			startAction.setEnabled(!active);
 			stopAction.setEnabled(active);
 			openViewAction.setEnabled(active);
@@ -310,24 +360,14 @@ public class ViewpointManagerView extends ViewPart {
 			public void run() {
 				IStructuredSelection ss = (IStructuredSelection) viewer.getSelection();
 				int size = ss.size();
-				if (size != 1)
+				if (size != 1 || context == null)
 					return;
 				final Resource res = (Resource) ss.getFirstElement();
-				if (ViewpointManager.INSTANCE.isActive(res.getId()))
+				ViewpointManager vpMgr = ViewpointManager.getInstance(context);
+				if (vpMgr.isActive(res.getId()))
 					return;
 				try {
-					ViewpointManager.INSTANCE.activate(res.getId());
-
-					// // we need a short delay to wait for new freshly
-					// installed
-					// // bundles to be ready
-					// getSite().getShell().getDisplay().timerExec(500, new
-					// Runnable() {
-					//
-					// public void run() {
-					// ViewHelper.openViews(res);
-					// }
-					// });
+					vpMgr.activate(res.getId());
 				} catch (ViewpointActivationException e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					AD_Log.getDefault().logError(e);
@@ -342,13 +382,14 @@ public class ViewpointManagerView extends ViewPart {
 			public void run() {
 				IStructuredSelection ss = (IStructuredSelection) viewer.getSelection();
 				int size = ss.size();
-				if (size != 1)
+				if (size != 1 || context == null)
 					return;
 				Resource res = (Resource) ss.getFirstElement();
-				if (!ViewpointManager.INSTANCE.isActive(res.getId()))
+				ViewpointManager vpMgr = ViewpointManager.getInstance(context);
+				if (!vpMgr.isActive(res.getId()))
 					return;
 				try {
-					ViewpointManager.INSTANCE.desactivate(res.getId());
+					vpMgr.desactivate(res.getId());
 				} catch (ViewpointActivationException e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					Activator.getDefault().logError(e);

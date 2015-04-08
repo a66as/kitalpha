@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Thales Global Services S.A.S.
+ * Copyright (c) 2014-2015 Thales Global Services S.A.S.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,11 +11,6 @@
 
 package org.polarsys.kitalpha.ad.services.manager;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,19 +21,20 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.osgi.util.NLS;
 import org.osgi.framework.Bundle;
 import org.polarsys.kitalpha.ad.common.AD_Log;
 import org.polarsys.kitalpha.ad.common.utils.URIHelper;
-import org.polarsys.kitalpha.ad.services.Activator;
 import org.polarsys.kitalpha.ad.services.Messages;
 import org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint;
+import org.polarsys.kitalpha.ad.viewpoint.integration.IntegrationHelper;
 import org.polarsys.kitalpha.resourcereuse.helper.ResourceReuse;
 import org.polarsys.kitalpha.resourcereuse.model.Resource;
 import org.polarsys.kitalpha.resourcereuse.model.SearchCriteria;
@@ -49,17 +45,19 @@ import org.polarsys.kitalpha.resourcereuse.model.SearchCriteria;
  */
 public class ViewpointManager {
 
-	private static final String STATE_FILENAME = "viewpointManager.state";
-
-	private final Map<String, List<String>> dependencies = new HashMap<String, List<String>>();
-	private final Set<String> activated = new HashSet<String>();
-
-	private EObject target;
 	private final static Set<String> discarded = new HashSet<String>();
 	private final static List<Listener> listeners = new ArrayList<Listener>();
+	private static final int ACTIVATED = 1;
+	private static final int DEACTIVATED = 2;
+	private final static Map<TransactionalEditingDomain, ViewpointManager> instances = new HashMap<TransactionalEditingDomain, ViewpointManager>();
 
-	// private final StateManager stateManager = new StateManager();
-	public void setTarget(EObject target) {
+	public static ViewpointManager INSTANCE = new ViewpointManager();
+
+	private final Map<String, List<String>> dependencies = new HashMap<String, List<String>>();
+
+	private TransactionalEditingDomain target;
+
+	public void setTarget(TransactionalEditingDomain target) {
 		this.target = target;
 	}
 
@@ -110,14 +108,14 @@ public class ViewpointManager {
 	}
 
 	public boolean isActive(String id) {
-		return activated.contains(id);
+		return IntegrationHelper.getInstance().isInUse(target, id);
 	}
 
 	public void activate(String id) throws ViewpointActivationException {
 		Resource vpResource = getViewpoint(id);
 		if (vpResource == null)
 			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_3, id));
-		if (activated.contains(id))
+		if (isActive(id))
 			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_4, id));
 
 		ResourceSet set = new ResourceSetImpl();
@@ -135,8 +133,7 @@ public class ViewpointManager {
 	protected void doActivate(ResourceSet set, Resource vpResource) throws ViewpointActivationException {
 		startBundle(vpResource);
 		manageDependencies(set, vpResource);
-		activated.add(vpResource.getId());
-		// TODO ajouter le vp dans le nouveau model ajouté a la resource
+		IntegrationHelper.getInstance().setUsage(target, vpResource.getId(), true);
 		fireEvent(vpResource, ACTIVATED);
 	}
 
@@ -154,7 +151,7 @@ public class ViewpointManager {
 		for (Viewpoint dep : dependencies) {
 			String id = dep.getId();
 			vpDependencies.add(id);
-			if (!activated.contains(id))
+			if (!isActive(id))
 				doActivate(set, getViewpoint(id));
 		}
 
@@ -192,7 +189,7 @@ public class ViewpointManager {
 		Resource vpResource = getViewpoint(id);
 		if (vpResource == null)
 			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_3, id));
-		if (!activated.contains(id))
+		if (!isActive(id))
 			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_6, id));
 		for (Entry<String, List<String>> entry : dependencies.entrySet()) {
 			if (entry.getValue().contains(id))
@@ -204,7 +201,7 @@ public class ViewpointManager {
 		// additional events such PRE_DEACTIVATED or POST_DEACTIVATED
 		String providerSymbolicName = vpResource.getProviderSymbolicName();
 		desactivateBundle(providerSymbolicName);
-		activated.remove(id);
+		IntegrationHelper.getInstance().setUsage(target, id, false);
 		fireEvent(vpResource, DEACTIVATED);
 		// stateManager.saveState();
 	}
@@ -218,70 +215,6 @@ public class ViewpointManager {
 		}
 	}
 
-	// public void loadState() {
-	// stateManager.loadState();
-	// }
-
-	public class StateManager {
-		private boolean loading = false;
-
-		public void loadState() {
-			if (!activated.isEmpty()) {
-				AD_Log.getDefault().logError(Messages.Viewpoint_Manager_error_1);
-				return;
-			}
-			boolean errorInLoading = false;
-			loading = true;
-			try {
-				IPath stateLocation = Activator.getDefault().getStateLocation();
-				stateLocation = stateLocation.append(STATE_FILENAME);
-				File file = stateLocation.toFile();
-				if (!file.exists())
-					return;
-				ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-				Set<String> data = (Set<String>) in.readObject();
-				in.close();
-				for (String id : data) {
-					try {
-						activate(id);
-					} catch (AlreadyInStateException e) {
-						// don't care
-					} catch (Exception e) {
-						AD_Log.getDefault().logError(e);
-						errorInLoading = true;
-					}
-				}
-
-			} catch (Exception e) {
-				AD_Log.getDefault().logError(e);
-			} finally {
-				loading = false;
-				if (errorInLoading)
-					saveState();
-			}
-
-		}
-
-		public void saveState() {
-			if (loading)
-				return;
-			IPath stateLocation = Activator.getDefault().getStateLocation();
-			stateLocation = stateLocation.append(STATE_FILENAME);
-			File file = stateLocation.toFile();
-			try {
-				if (!file.exists())
-					file.createNewFile();
-				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-				out.writeObject(activated);
-				out.close();
-			} catch (Exception e) {
-				AD_Log.getDefault().logError(e);
-			}
-
-		}
-
-	}
-
 	public static interface Listener {
 		void hasBeenActivated(Resource vp);
 
@@ -292,12 +225,18 @@ public class ViewpointManager {
 
 	}
 
-	private static final int ACTIVATED = 1;
-	private static final int DEACTIVATED = 2;
+	public static ViewpointManager getInstance(EObject ctx1) {
+		TransactionalEditingDomain ctx = TransactionUtil.getEditingDomain(ctx1);
+		ViewpointManager instance = instances.get(ctx);
+		if (instance == null) {
+			instances.put(ctx, instance = createInstance());
+			// if (!ctx.equals(OBJ))
+			instance.setTarget(ctx);
+		}
+		return instance;
+	}
 
-	public static ViewpointManager INSTANCE = new ViewpointManager();
-
-	public static ViewpointManager createInstance() {
+	private static ViewpointManager createInstance() {
 		ViewpointManager instance = null;
 		try {
 			IConfigurationElement[] elts = Platform.getExtensionRegistry().getConfigurationElementsFor("org.polarsys.kitalpha.ad.services.viewpoint.manager");
