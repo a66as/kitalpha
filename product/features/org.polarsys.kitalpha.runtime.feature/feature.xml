@@ -19,7 +19,7 @@
 
 
    <requires>
-      <import feature="org.polarsys.kitalpha.resourcereuse.feature" version="0.5.1.qualifier"/>
+      <!--import feature="org.polarsys.kitalpha.resourcereuse.feature" version="0.5.1.qualifier"/>
       <import feature="org.polarsys.kitalpha.resourcereuse.feature" version="0.5.1.qualifier"/>
       <import feature="org.polarsys.kitalpha.resourcereuse.ui.feature" version="0.5.1.qualifier"/>
       <import feature="org.polarsys.kitalpha.composer.feature" version="0.5.1.qualifier"/>
@@ -45,7 +45,7 @@
       <import feature="org.polarsys.kitalpha.model.attachment.feature" version="0.5.1.qualifier"/>
       <import feature="org.polarsys.kitalpha.doc.gen.business.core.feature" version="0.5.1.qualifier"/>
       <import feature="org.polarsys.kitalpha.doc.gen.business.ecore.feature" version="0.5.1.qualifier"/>
-      <import feature="org.polarsys.kitalpha.patterns.feature" version="0.5.1.qualifier"/>
+      <import feature="org.polarsys.kitalpha.patterns.feature" version="0.5.1.qualifier"/-->
    </requires>
 
 </feature>
