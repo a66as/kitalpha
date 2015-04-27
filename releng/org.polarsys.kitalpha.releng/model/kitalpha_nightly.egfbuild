@@ -350,7 +350,7 @@
     <steps xsi:type="buildstep:InstallStep" xmi:id="_GiG_4FOGEeS0CZx9NVRo1A" name="detachment feature" id="TP_juno" profile="SDKProfile" resultSteps="_tZFTMAHGEeSWLIhgOb7dcQ" installResultStepsSourceFeatures="true"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_bFHvoF64EeSHbaZAI7j8zw" name="attachment feature" id="TP_juno" profile="SDKProfile" resultSteps="_YGNHcF64EeSHbaZAI7j8zw" installResultStepsSourceFeatures="true"/>
   </jobs>
-  <jobs xmi:id="_iWVjgK3VEeSJ-MyosVUkEw" name="examples" enabled="false">
+  <jobs xmi:id="_iWVjgK3VEeSJ-MyosVUkEw" name="examples">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_iWVjga3VEeSJ-MyosVUkEw" name="examples">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_iWVjgq3VEeSJ-MyosVUkEw" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="accuracy/examples/plugins"/>
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_iWVjg63VEeSJ-MyosVUkEw" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="accuracy/examples/features"/>
@@ -406,7 +406,8 @@
         <reusedStep xsi:type="buildcore:StepContainer" href="platformSetup.egfbuild#_3DxKYJKCEeSPapwxSH2ZqQ"/>
       </steps>
       <steps xsi:type="buildstep:InstallStep" xmi:id="_HE0cEJKXEeSPapwxSH2ZqQ" name="install kitalpha" id="${TP_name}" profile="SDKProfile" resultSteps="_8qpRQDY9EeOP8MSofnrGNA" installResultStepsSourceFeatures="true"/>
-      <steps xsi:type="buildstep:EgfStep" xmi:id="_A3txYT5oEeSTuepII-sKzw">
+      <steps xsi:type="buildstep:InstallStep" xmi:id="_c6qd4OyzEeSglZQLgL2lTg" name="install kitalpha debug" id="${TP_name}" profile="SDKProfile" resultSteps="_FfL3EOdyEeSYhdkYY0fPMw" installResultStepsSourceFeatures="true"/>
+      <steps xsi:type="buildstep:EgfStep" xmi:id="_A3txYT5oEeSTuepII-sKzw" enabled="false">
         <properties xmi:id="_A3txYj5oEeSTuepII-sKzw" key="platformPath" value="${publish}/${TP_name}"/>
         <properties xmi:id="_A3txYz5oEeSTuepII-sKzw" key="version" value="${mdk_version}"/>
         <properties xmi:id="_A3txZD5oEeSTuepII-sKzw" key="buildId" value="${timestamp}"/>
@@ -414,7 +415,7 @@
         <properties xmi:id="_Sg35ED5rEeSTuepII-sKzw" key="application" value="org.polarsys.kitalpha.application"/>
         <egfActivities xmi:id="_A3txZT5oEeSTuepII-sKzw" uri="platform:/plugin/org.polarsys.kitalpha.releng/egf/customPlatform.fcore#_iQtBQK1QEeCY7YPdntiIaQ"/>
       </steps>
-      <steps xsi:type="buildfile:ZipStep" xmi:id="_YEebIJKXEeSPapwxSH2ZqQ" name="zip juno results" baseDir="${publish}/${TP_name}" destinationFilePath="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-juno-incubation.zip"/>
+      <steps xsi:type="buildfile:ZipStep" xmi:id="_YEebIJKXEeSPapwxSH2ZqQ" name="zip juno results" baseDir="${publish}/${TP_name}" destinationFilePath="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-mars-incubation.zip"/>
     </steps>
     <steps xsi:type="buildcore:StepContainer" xmi:id="_NAn1cJWzEeSPapwxSH2ZqQ" name="TP_win32-win32-x86_64">
       <properties xmi:id="_NAn1cZWzEeSPapwxSH2ZqQ" key="TP_name" value="TP_win32-win32-x86_64" type="INLINED"/>
@@ -434,7 +435,7 @@
         <properties xmi:id="_NAn1fJWzEeSPapwxSH2ZqQ" key="application" value="org.polarsys.kitalpha.application"/>
         <egfActivities xmi:id="_NAn1fZWzEeSPapwxSH2ZqQ" uri="platform:/plugin/org.polarsys.kitalpha.releng/egf/customPlatform.fcore#_iQtBQK1QEeCY7YPdntiIaQ"/>
       </steps>
-      <steps xsi:type="buildfile:ZipStep" xmi:id="_NAn1fpWzEeSPapwxSH2ZqQ" name="zip juno results" baseDir="${publish}/${TP_name}" destinationFilePath="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-juno-incubation.zip"/>
+      <steps xsi:type="buildfile:ZipStep" xmi:id="_NAn1fpWzEeSPapwxSH2ZqQ" name="zip juno results" baseDir="${publish}/${TP_name}" destinationFilePath="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-mars-incubation.zip"/>
     </steps>
     <steps xsi:type="buildcore:StepContainer" xmi:id="_U6KkkJWzEeSPapwxSH2ZqQ" name="TP_linux-gtk-x86">
       <properties xmi:id="_U6KkkZWzEeSPapwxSH2ZqQ" key="TP_name" value="TP_linux-gtk-x86" type="INLINED"/>
@@ -454,7 +455,7 @@
         <properties xmi:id="_U6KknJWzEeSPapwxSH2ZqQ" key="application" value="org.polarsys.kitalpha.application"/>
         <egfActivities xmi:id="_U6KknZWzEeSPapwxSH2ZqQ" uri="platform:/plugin/org.polarsys.kitalpha.releng/egf/customPlatform.fcore#_iQtBQK1QEeCY7YPdntiIaQ"/>
       </steps>
-      <steps xsi:type="buildfile:TarStep" xmi:id="_bCk0wdExEeSTbrZQrXnDzg" name="tar juno results" description="" destfile="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-juno-incubation.tar.gz" baseDir="${publish}/${TP_name}" compression="gzip"/>
+      <steps xsi:type="buildfile:TarStep" xmi:id="_bCk0wdExEeSTbrZQrXnDzg" name="tar juno results" description="" destfile="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-mars-incubation.tar.gz" baseDir="${publish}/${TP_name}" compression="gzip"/>
     </steps>
     <steps xsi:type="buildcore:StepContainer" xmi:id="_caErsJWzEeSPapwxSH2ZqQ" name="TP_linux-gtk-x86_64">
       <properties xmi:id="_caErsZWzEeSPapwxSH2ZqQ" key="TP_name" value="TP_linux-gtk-x86_64" type="INLINED"/>
@@ -466,7 +467,7 @@
         <reusedStep xsi:type="buildcore:StepContainer" href="platformSetup.egfbuild#_3DxKYJKCEeSPapwxSH2ZqQ"/>
       </steps>
       <steps xsi:type="buildstep:InstallStep" xmi:id="_caErtpWzEeSPapwxSH2ZqQ" name="install kitalpha" id="${TP_name}" profile="SDKProfile" resultSteps="_8qpRQDY9EeOP8MSofnrGNA" installResultStepsSourceFeatures="true"/>
-      <steps xsi:type="buildstep:EgfStep" xmi:id="_caErt5WzEeSPapwxSH2ZqQ">
+      <steps xsi:type="buildstep:EgfStep" xmi:id="_caErt5WzEeSPapwxSH2ZqQ" enabled="false">
         <properties xmi:id="_caEruJWzEeSPapwxSH2ZqQ" key="platformPath" value="${publish}/${TP_name}"/>
         <properties xmi:id="_caEruZWzEeSPapwxSH2ZqQ" key="version" value="${mdk_version}"/>
         <properties xmi:id="_caErupWzEeSPapwxSH2ZqQ" key="buildId" value="${timestamp}"/>
@@ -495,7 +496,7 @@
         <egfActivities xmi:id="_e0YK_ZWzEeSPapwxSH2ZqQ" uri="platform:/plugin/org.polarsys.kitalpha.releng/egf/customPlatform.fcore#_iQtBQK1QEeCY7YPdntiIaQ"/>
       </steps>
       <steps xsi:type="buildstep:AntStep" xmi:id="_Nu2DsMgDEeSUVaUqISCvPA" targetName="fixPermission" xml="&lt;target name=&quot;fixPermission&quot;>&#xD;&#xA;&#x9;&lt;chmod file=&quot;${publish}/${TP_name}/Eclipse.app/Contents/MacOS/eclipse&quot; perm=&quot;700&quot; verbose=&quot;true&quot;/>&#xD;&#xA;&lt;/target>"/>
-      <steps xsi:type="buildfile:TarStep" xmi:id="_3s0WwcfdEeSUVaUqISCvPA" name="Tar juno results" destfile="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-juno-incubation.tar.gz" baseDir="${publish}/${TP_name}" compression="gzip"/>
+      <steps xsi:type="buildfile:TarStep" xmi:id="_3s0WwcfdEeSUVaUqISCvPA" name="Tar juno results" destfile="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-mars-incubation.tar.gz" baseDir="${publish}/${TP_name}" compression="gzip"/>
     </steps>
   </jobs>
   <jobs xmi:id="_Q1gsQKH8EeSCV64W9A5FeQ" name="clean all">
