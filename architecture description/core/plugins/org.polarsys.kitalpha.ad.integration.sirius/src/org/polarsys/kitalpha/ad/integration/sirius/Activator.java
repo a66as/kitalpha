@@ -27,7 +27,7 @@ import org.polarsys.kitalpha.ad.services.manager.ViewpointManager;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointManager.Listener;
 import org.polarsys.kitalpha.ad.viewpoint.ui.AFUIActivator;
 import org.polarsys.kitalpha.emde.extension.ModelExtensionHelper;
-import org.polarsys.kitalpha.emde.extension.ModelExtensionListener;
+import org.polarsys.kitalpha.emde.extension.ModelExtensionOverallListener;
 
 public class Activator extends AFUIActivator {
 
@@ -40,7 +40,7 @@ public class Activator extends AFUIActivator {
 
 	private final Listener listener = new SiriusViewpointActivationManager();
 	private final SessionManagerListener[] sessionListeners = { new ViewpointActivationStateListener() };
-	private final ModelExtensionListener[] listeners = { new DiagramUpdater() };
+	private final ModelExtensionOverallListener[] listeners = { new DiagramUpdater() };
 
 	private static Activator plugin;
 	private static Set<Viewpoint> viewpoints;
@@ -64,8 +64,8 @@ public class Activator extends AFUIActivator {
 		ViewpointManager.addListener(listener);
 		for (SessionManagerListener l : sessionListeners)
 			SessionManager.INSTANCE.addSessionsListener(l);
-		for (ModelExtensionListener l : listeners)
-			ModelExtensionHelper.addListener(l);
+		for (ModelExtensionOverallListener l : listeners)
+			ModelExtensionHelper.addOverallListener(l);
 
 	}
 
@@ -80,8 +80,8 @@ public class Activator extends AFUIActivator {
 		for (SessionManagerListener l : sessionListeners)
 			SessionManager.INSTANCE.removeSessionsListener(l);
 		ViewpointManager.removeListener(listener);
-		for (ModelExtensionListener l : listeners)
-			ModelExtensionHelper.removeListener(l);
+		for (ModelExtensionOverallListener l : listeners)
+			ModelExtensionHelper.removeOverallListener(l);
 
 		if (viewpoints != null) {
 			for (final Viewpoint viewpoint : viewpoints) {

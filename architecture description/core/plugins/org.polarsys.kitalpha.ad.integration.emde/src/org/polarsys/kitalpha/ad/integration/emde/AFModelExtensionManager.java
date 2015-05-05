@@ -24,7 +24,6 @@ import org.polarsys.kitalpha.ad.common.utils.URIHelper;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointManager;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointManager.EarlyListener;
 import org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint;
-import org.polarsys.kitalpha.emde.extension.DefaultModelExtensionManager;
 import org.polarsys.kitalpha.emde.extension.ExtendedModel;
 import org.polarsys.kitalpha.emde.extension.ExtensibleModel;
 import org.polarsys.kitalpha.emde.extension.ModelExtensionDescriptor;
@@ -58,7 +57,7 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 					for (EPackage pack : vp.getMetamodel().getModels()) {
 						extension2state.put(pack.getNsURI(), enable);
 						managedByAF2state.put(pack.getNsURI(), Boolean.TRUE);
-						DefaultModelExtensionManager.fireExtensionEvent(pack.getNsURI(), enable);
+						fireExtensionEvent(pack.getNsURI(), enable);
 					}
 				}
 				for (Resource r : set.getResources()) {

@@ -32,4 +32,9 @@ public interface ModelExtensionManager {
 	void setExtensionModelDisabled(ExtensibleModel extensibleModel, ExtendedModel extendedModel, boolean disabled);
 
 	List<ExtensionManagerDelegate> getDelegates();
+
+	void addListener(ModelExtensionListener l);
+
+	void removeListener(ModelExtensionListener l);
+
 }

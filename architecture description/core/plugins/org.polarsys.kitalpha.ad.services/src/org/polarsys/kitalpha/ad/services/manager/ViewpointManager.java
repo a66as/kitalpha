@@ -26,8 +26,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.util.NLS;
 import org.osgi.framework.Bundle;
 import org.polarsys.kitalpha.ad.common.AD_Log;
@@ -49,15 +48,15 @@ public class ViewpointManager {
 	private final static List<Listener> listeners = new ArrayList<Listener>();
 	private static final int ACTIVATED = 1;
 	private static final int DEACTIVATED = 2;
-	private final static Map<TransactionalEditingDomain, ViewpointManager> instances = new HashMap<TransactionalEditingDomain, ViewpointManager>();
+	private final static Map<EObject, ViewpointManager> instances = new HashMap<EObject, ViewpointManager>();
 
 	public static ViewpointManager INSTANCE = new ViewpointManager();
 
 	private final Map<String, List<String>> dependencies = new HashMap<String, List<String>>();
 
-	private TransactionalEditingDomain target;
+	private EObject target;
 
-	public void setTarget(TransactionalEditingDomain target) {
+	public void setTarget(EObject target) {
 		this.target = target;
 	}
 
@@ -226,7 +225,7 @@ public class ViewpointManager {
 	}
 
 	public static ViewpointManager getInstance(EObject ctx1) {
-		TransactionalEditingDomain ctx = TransactionUtil.getEditingDomain(ctx1);
+		EObject ctx = EcoreUtil.getRootContainer(ctx1);
 		ViewpointManager instance = instances.get(ctx);
 		if (instance == null) {
 			instances.put(ctx, instance = createInstance());
