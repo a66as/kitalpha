@@ -7,8 +7,6 @@
   </steps>
   <steps xsi:type="buildstep:InstallStep" xmi:id="_JkGN0ZKKEeSPapwxSH2ZqQ" name="install cots features" id="${TP_name}" profile="${TP_profile}" p2_os="${TP_os}" p2_ws="${TP_ws}" p2_arch="${TP_arch}">
     <updateSiteUrls>${egf.repo.url}</updateSiteUrls>
-    <updateSiteUrls>${sirius.repo.url}</updateSiteUrls>
-    <updateSiteUrls>${orbit.repo.url}</updateSiteUrls>
     <updateSiteUrls>${eclipse.download.prefix}/releases/${eclipse_version}</updateSiteUrls>
     <updateSiteUrls>${eef.repo.url}</updateSiteUrls>
     <updateSiteUrls>${acceleo.repo.url}</updateSiteUrls>
@@ -20,6 +18,11 @@
     <featureNames>org.eclipse.xtext.sdk</featureNames>
     <featureNames>org.eclipse.xsd.sdk</featureNames>
     <featureNames>org.eclipse.emf.validation.ocl</featureNames>
+  </steps>
+  <steps xsi:type="buildstep:InstallStep" xmi:id="_YL8A8P32EeSW086H-yDPeg" name="install sirius features" id="${TP_name}" profile="${TP_profile}" p2_os="${TP_os}" p2_ws="${TP_ws}" p2_arch="${TP_arch}">
+    <updateSiteUrls>${sirius.repo.url}</updateSiteUrls>
+    <updateSiteUrls>${orbit.repo.url}</updateSiteUrls>
+    <updateSiteUrls>${eclipse.download.prefix}/releases/${eclipse_version}</updateSiteUrls>
     <featureNames>org.eclipse.sirius.doc.feature</featureNames>
     <featureNames>org.eclipse.sirius.runtime.ide.eef</featureNames>
     <featureNames>org.eclipse.sirius.runtime.ide.ui.acceleo</featureNames>
@@ -53,6 +56,8 @@
   </steps>
   <steps xsi:type="buildstep:InstallStep" xmi:id="_JkGN05KKEeSPapwxSH2ZqQ" name="install ecoretools2" id="${TP_name}" profile="${TP_profile}">
     <updateSiteUrls>${ecoretools2.repo.url}</updateSiteUrls>
+    <updateSiteUrls>${sirius.repo.url}</updateSiteUrls>
+    <updateSiteUrls>${eclipse.download.prefix}/releases/${eclipse_version}</updateSiteUrls>
     <featureNames>org.eclipse.emf.ecoretools.sdk</featureNames>
   </steps>
 </buildcore:StepContainer>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ASCII"?>
 <buildcore:Chain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:buildcore="http://www.eclipse.org/egf/1.0.1/buildcore" xmlns:builddeploy="http://www.eclipse.org/egf/1.0.0/builddeploy" xmlns:buildfile="http://www.eclipse.org/egf/1.0.0/buildfile" xmlns:buildscm="http://www.eclipse.org/egf/1.0.0/buildscm" xmlns:buildstep="http://www.eclipse.org/egf/1.0.2/buildstep" xmi:id="_ZWe-YLdiEd-SDOU_DXNA_g" name="Kitalpha_Nightly">
   <propertyPackages xmi:id="_lb5k0I5EEeOQ8YcnVfa6Wg" name="urls">
-    <properties xmi:id="_kt6SMEE8EeOcseK798bpbA" key="egf.repo.url" value="https://hudson.eclipse.org/egf/job/buckminster-egf-juno/lastSuccessfulBuild/artifact/result/publish/org.eclipse.egf.sdk/site.p2/"/>
+    <properties xmi:id="_kt6SMEE8EeOcseK798bpbA" key="egf.repo.url" value="https://hudson.eclipse.org/egf/job/buckminster-egf-mars/7/artifact/result/publish/org.eclipse.egf.site/site.p2/"/>
     <properties xmi:id="_MWwdkPlvEeCFCIE_fWd_VQ" key="cloudsmith.download.prefix" value="http://download.eclipse.org/external/"/>
     <properties xmi:id="_MlqcQPlvEeCFCIE_fWd_VQ" key="polarion.download.prefix" value="http://download.eclipse.org/external/"/>
     <properties xmi:id="_LPrgwPlvEeCFCIE_fWd_VQ" key="eclipse.download.prefix" value="http://download.eclipse.org"/>
     <properties xmi:id="_p3huoPmBEeCFCIE_fWd_VQ" key="plugin.repo.prefix" value="http://svn.orchestra.ors.services.thales/plugins_repo/trunk"/>
     <properties xmi:id="_C7QgkHs6EeKM-JnMHzahcg" key="plugin.repo.path" value="${plugin.repo.prefix}/MDE/${plugin.repo.version}"/>
-    <properties xmi:id="_7e-7UI5hEeOQ8YcnVfa6Wg" key="sirius.repo.url" value="${eclipse.download.prefix}/sirius/updates/milestones/3.0.0M6/mars"/>
+    <properties xmi:id="_7e-7UI5hEeOQ8YcnVfa6Wg" key="sirius.repo.url" value="${eclipse.download.prefix}/sirius/updates/milestones/3.0.0M7/mars"/>
     <properties xmi:id="_n0G4oJPyEeODqo9Nw0Mw6Q" key="orbit.repo.url" value="${eclipse.download.prefix}/tools/orbit/downloads/drops/R20130827064939/repository/"/>
     <properties xmi:id="_eRQHEZk8EeOez_jbx14D1w" key="eclipse38.download.prefix" value="${eclipse.download.prefix}/releases/${eclipse_version}"/>
     <properties xmi:id="_efiO4BGGEeS7tbIPWaBUAQ" key="eef.repo.url" value="${eclipse.download.prefix}/modeling/emft/eef/updates/milestones/1.5/S201501090502/"/>
     <properties xmi:id="_snr1UBGGEeS7tbIPWaBUAQ" key="acceleo.repo.url" value="${eclipse.download.prefix}/modeling/m2t/acceleo/updates/releases/3.4"/>
-    <properties xmi:id="_dtoK4AdAEeSxv713mpB8TA" key="ecoretools2.repo.url" value="${eclipse.download.prefix}/ecoretools/updates/nightly/3.0.0-N20150305-021244/luna"/>
+    <properties xmi:id="_dtoK4AdAEeSxv713mpB8TA" key="ecoretools2.repo.url" value="${eclipse.download.prefix}/ecoretools/updates/nightly/3.0.x/luna"/>
     <properties xmi:id="_BukoEVkbEeSo0vu-C-A3cw" key="diffmerge.repo.url" value="${eclipse.download.prefix}/diffmerge/releases/0.4.0/emf-diffmerge-site"/>
     <properties xmi:id="_YrTv8FkjEeSo0vu-C-A3cw" key="diffmerge.patterns.repo.url" value="${eclipse.download.prefix}/diffmerge/releases/0.4.0/edm-patterns-site"/>
   </propertyPackages>
@@ -236,11 +236,11 @@
       <components xsi:type="buildstep:Feature" xmi:id="_gXftYDTMEeOTLJ9sjzkh8g" id="org.polarsys.kitalpha.emde.genchain.feature"/>
       <components xsi:type="buildstep:Feature" xmi:id="_wH7XkDY9EeOP8MSofnrGNA" id="org.polarsys.kitalpha.emde.sdk.feature"/>
     </steps>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_Y3BXEC9REeOlq-9ObYy--w" component="_Vj3kQC9REeOlq-9ObYy--w"/>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_LcwVsLtYEd-GFvRlyJMgsw" component="_JqJIkLtYEd-GFvRlyJMgsw"/>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_jq8bIDTMEeOTLJ9sjzkh8g" component="_gXftYDTMEeOTLJ9sjzkh8g"/>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_Y3BXEC9REeOlq-9ObYy--w" enabled="false" component="_Vj3kQC9REeOlq-9ObYy--w"/>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_LcwVsLtYEd-GFvRlyJMgsw" enabled="false" component="_JqJIkLtYEd-GFvRlyJMgsw"/>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_jq8bIDTMEeOTLJ9sjzkh8g" enabled="false" component="_gXftYDTMEeOTLJ9sjzkh8g"/>
     <steps xsi:type="buildstep:PublishStep" xmi:id="_yWFRMDY9EeOP8MSofnrGNA" component="_wH7XkDY9EeOP8MSofnrGNA"/>
-    <steps xsi:type="buildstep:InstallStep" xmi:id="_C9QF4I5xEeORY9jpJq94Og" name="emde feature" id="TP_mars" profile="SDKProfile" resultSteps="_Y3BXEC9REeOlq-9ObYy--w _jq8bIDTMEeOTLJ9sjzkh8g _yWFRMDY9EeOP8MSofnrGNA _LcwVsLtYEd-GFvRlyJMgsw" installResultStepsSourceFeatures="true"/>
+    <steps xsi:type="buildstep:InstallStep" xmi:id="_C9QF4I5xEeORY9jpJq94Og" name="emde feature" id="TP_mars" profile="SDKProfile" resultSteps="_yWFRMDY9EeOP8MSofnrGNA" installResultStepsSourceFeatures="true"/>
   </jobs>
   <jobs xmi:id="_Ky5S0FkcEeSo0vu-C-A3cw" name="patterns">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_Ky5S0VkcEeSo0vu-C-A3cw" name="patterns">
@@ -427,7 +427,7 @@
         <reusedStep xsi:type="buildcore:StepContainer" href="platformSetup.egfbuild#_3DxKYJKCEeSPapwxSH2ZqQ"/>
       </steps>
       <steps xsi:type="buildstep:InstallStep" xmi:id="_NAn1dpWzEeSPapwxSH2ZqQ" name="install kitalpha" id="${TP_name}" profile="SDKProfile" resultSteps="_8qpRQDY9EeOP8MSofnrGNA" installResultStepsSourceFeatures="true"/>
-      <steps xsi:type="buildstep:EgfStep" xmi:id="_NAn1d5WzEeSPapwxSH2ZqQ">
+      <steps xsi:type="buildstep:EgfStep" xmi:id="_NAn1d5WzEeSPapwxSH2ZqQ" enabled="false">
         <properties xmi:id="_NAn1eJWzEeSPapwxSH2ZqQ" key="platformPath" value="${publish}/${TP_name}"/>
         <properties xmi:id="_NAn1eZWzEeSPapwxSH2ZqQ" key="version" value="${mdk_version}"/>
         <properties xmi:id="_NAn1epWzEeSPapwxSH2ZqQ" key="buildId" value="${timestamp}"/>
@@ -447,7 +447,7 @@
         <reusedStep xsi:type="buildcore:StepContainer" href="platformSetup.egfbuild#_3DxKYJKCEeSPapwxSH2ZqQ"/>
       </steps>
       <steps xsi:type="buildstep:InstallStep" xmi:id="_U6KklpWzEeSPapwxSH2ZqQ" name="install kitalpha" id="${TP_name}" profile="SDKProfile" resultSteps="_8qpRQDY9EeOP8MSofnrGNA" installResultStepsSourceFeatures="true"/>
-      <steps xsi:type="buildstep:EgfStep" xmi:id="_U6Kkl5WzEeSPapwxSH2ZqQ">
+      <steps xsi:type="buildstep:EgfStep" xmi:id="_U6Kkl5WzEeSPapwxSH2ZqQ" enabled="false">
         <properties xmi:id="_U6KkmJWzEeSPapwxSH2ZqQ" key="platformPath" value="${publish}/${TP_name}"/>
         <properties xmi:id="_U6KkmZWzEeSPapwxSH2ZqQ" key="version" value="${mdk_version}"/>
         <properties xmi:id="_U6KkmpWzEeSPapwxSH2ZqQ" key="buildId" value="${timestamp}"/>
@@ -487,7 +487,7 @@
         <reusedStep xsi:type="buildcore:StepContainer" href="platformSetup.egfbuild#_3DxKYJKCEeSPapwxSH2ZqQ"/>
       </steps>
       <steps xsi:type="buildstep:InstallStep" xmi:id="_e0YK9pWzEeSPapwxSH2ZqQ" name="install kitalpha" id="${TP_name}" profile="SDKProfile" resultSteps="_8qpRQDY9EeOP8MSofnrGNA" installResultStepsSourceFeatures="true"/>
-      <steps xsi:type="buildstep:EgfStep" xmi:id="_e0YK95WzEeSPapwxSH2ZqQ">
+      <steps xsi:type="buildstep:EgfStep" xmi:id="_e0YK95WzEeSPapwxSH2ZqQ" enabled="false">
         <properties xmi:id="_e0YK-JWzEeSPapwxSH2ZqQ" key="platformPath" value="${publish}/${TP_name}"/>
         <properties xmi:id="_e0YK-ZWzEeSPapwxSH2ZqQ" key="version" value="${mdk_version}"/>
         <properties xmi:id="_e0YK-pWzEeSPapwxSH2ZqQ" key="buildId" value="${timestamp}"/>
