@@ -8,7 +8,8 @@ import org.eclipse.egf.model.pattern.*;
 import org.eclipse.egf.pattern.execution.*;
 import org.eclipse.egf.pattern.query.*;
 
-public class runinxvnc extends org.eclipse.egf.portfolio.eclipse.build.hudson.call.BuildWrapperadd {
+public class runinxvnc extends
+		org.eclipse.egf.portfolio.eclipse.build.hudson.call.BuildWrapperadd {
 	protected static String nl;
 
 	public static synchronized runinxvnc create(String lineSeparator) {
@@ -18,8 +19,11 @@ public class runinxvnc extends org.eclipse.egf.portfolio.eclipse.build.hudson.ca
 		return result;
 	}
 
-	public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
-	protected final String TEXT_1 = "    <hudson.plugins.xvnc.Xvnc>" + NL + "      <takeScreenshot>false</takeScreenshot>" + NL + "    </hudson.plugins.xvnc.Xvnc>" + NL;
+	public final String NL = nl == null ? (System.getProperties()
+			.getProperty("line.separator")) : nl;
+	protected final String TEXT_1 = "    <hudson.plugins.xvnc.Xvnc>" + NL
+			+ "      <takeScreenshot>false</takeScreenshot>" + NL
+			+ "    </hudson.plugins.xvnc.Xvnc>" + NL;
 	protected final String TEXT_2 = NL;
 	protected final String TEXT_3 = NL;
 
@@ -46,7 +50,8 @@ public class runinxvnc extends org.eclipse.egf.portfolio.eclipse.build.hudson.ca
 
 		ctx.setNode(currentNode);
 		if (ctx.useReporter()) {
-			ctx.getReporter().executionFinished(OutputManager.computeExecutionOutput(ctx), ctx);
+			ctx.getReporter().executionFinished(
+					OutputManager.computeExecutionOutput(ctx), ctx);
 		}
 
 		stringBuffer.append(TEXT_2);
@@ -67,10 +72,12 @@ public class runinxvnc extends org.eclipse.egf.portfolio.eclipse.build.hudson.ca
 		return parameters;
 	}
 
-	protected void method_body(final StringBuffer stringBuffer, final PatternContext ctx) throws Exception {
+	protected void method_body(final StringBuffer stringBuffer,
+			final PatternContext ctx) throws Exception {
 
 		stringBuffer.append(TEXT_1);
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "body", stringBuffer.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "body",
+				stringBuffer.toString());
 	}
 }
