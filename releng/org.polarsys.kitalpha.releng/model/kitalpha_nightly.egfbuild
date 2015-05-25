@@ -299,7 +299,7 @@
     <steps xsi:type="buildstep:PublishStep" xmi:id="_x7ip5Z7uEeOjCb9D2yIVHQ" name="" component="_x7ip5J7uEeOjCb9D2yIVHQ"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_x7ip5p7uEeOjCb9D2yIVHQ" name="transposer feature" id="TP_mars" profile="SDKProfile" resultSteps="_x7ip5Z7uEeOjCb9D2yIVHQ" installResultStepsSourceFeatures="true"/>
   </jobs>
-  <jobs xmi:id="_1i8EwUVREeOxuMV9a71i9w" name="ad" enabled="false">
+  <jobs xmi:id="_1i8EwUVREeOxuMV9a71i9w" name="ad">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_8az7gEVREeOxuMV9a71i9w" name="ad">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_NmgvYBGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/core/plugins"/>
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_NmgvYRGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/core/features"/>

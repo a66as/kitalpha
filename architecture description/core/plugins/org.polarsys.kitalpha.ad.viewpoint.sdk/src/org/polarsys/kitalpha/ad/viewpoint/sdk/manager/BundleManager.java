@@ -33,9 +33,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.osgi.baseadaptor.BaseData;
-import org.eclipse.osgi.framework.internal.core.AbstractBundle;
-import org.eclipse.osgi.framework.internal.core.PackageAdminImpl;
 import org.eclipse.osgi.service.resolver.BaseDescription;
 import org.eclipse.osgi.service.resolver.BundleDescription;
 import org.eclipse.osgi.service.resolver.BundleSpecification;
@@ -47,6 +44,8 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.wiring.FrameworkWiring;
+import org.osgi.service.packageadmin.ExportedPackage;
 import org.osgi.service.packageadmin.PackageAdmin;
 import org.polarsys.kitalpha.ad.viewpoint.sdk.Activator;
 import org.polarsys.kitalpha.ad.viewpoint.sdk.Messages;
@@ -107,10 +106,15 @@ public class BundleManager {
 		Bundle installBundle = findBundle(symbolicName);
 		// refresh loaded bundle
 		BundleContext context = Activator.getContext();
-		ServiceReference packageAdminReference = context.getServiceReference(PackageAdmin.class.getName());
-		PackageAdmin packageAdmin = (PackageAdmin) context.getService(packageAdminReference);
-		((PackageAdminImpl) packageAdmin).refreshPackages(collector.toArray(new Bundle[collector.size()]), true, null);
-		((PackageAdminImpl) packageAdmin).resolveBundles(collector);
+		Bundle systemBundle = context.getBundle(0);
+
+
+		FrameworkWiring frameworkWiring = systemBundle.adapt(FrameworkWiring.class);
+		frameworkWiring.refreshBundles(collector);
+//		ServiceReference exportedPackageReference = context.getServiceReference("org.osgi.service.packageadmin.ExportedPackage");
+//		ExportedPackage packageAdmin = (ExportedPackage) context.getService(exportedPackageReference);
+//		((PackageAdminImpl) packageAdmin).refreshPackages(collector.toArray(new Bundle[collector.size()]), true, null);
+//		((PackageAdminImpl) packageAdmin).resolveBundles(collector);
 		// packageAdmin.resolveBundles(collector.toArray(new Bundle[collector.size()]));
 
 	}
@@ -186,7 +190,7 @@ public class BundleManager {
 
 	private void addOutputFoldersToBundleClasspath(IProject project, Bundle bundle) throws CoreException {
 		List<String> outputFolders = getStringOutputFolders(JavaCore.create(project));
-		BaseData bundleData = (BaseData) ((AbstractBundle) bundle).getBundleData();
+//		BaseData bundleData = (BaseData) ((AbstractBundle) bundle).getBundleData();
 		StringBuilder classpath = new StringBuilder();
 		if (outputFolders.size() == 0) {
 			classpath.append("."); //$NON-NLS-1$
@@ -198,7 +202,7 @@ public class BundleManager {
 				classpath.append(it.next());
 			}
 		}
-		bundleData.setClassPathString(classpath.toString());
+//		bundleData.setClassPathString(classpath.toString());
 	}
 
 	private static List<String> getStringOutputFolders(IJavaProject project) throws CoreException {
