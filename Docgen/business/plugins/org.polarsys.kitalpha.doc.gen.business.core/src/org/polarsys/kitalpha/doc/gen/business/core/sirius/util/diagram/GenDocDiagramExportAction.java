@@ -38,7 +38,7 @@ import org.eclipse.sirius.ui.tools.api.actions.export.IAroundExport;
 import org.eclipse.sirius.ui.tools.api.actions.export.IBeforeExport;
 import org.eclipse.sirius.ui.tools.api.actions.export.IExportRepresentationsAsImagesExtension;
 import org.eclipse.sirius.ui.tools.api.actions.export.SizeTooLargeException;
-import org.eclipse.sirius.ext.swt.ImageFileFormat;
+import org.eclipse.sirius.common.tools.api.resource.ImageFileFormat ;
 import org.eclipse.core.runtime.Status;
 
 /**
