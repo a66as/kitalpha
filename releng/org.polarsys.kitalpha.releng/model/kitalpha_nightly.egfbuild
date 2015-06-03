@@ -253,7 +253,7 @@
     <steps xsi:type="buildstep:PublishStep" xmi:id="_Ky5S2lkcEeSo0vu-C-A3cw" component="_Ky5S1lkcEeSo0vu-C-A3cw"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_Ky5S3lkcEeSo0vu-C-A3cw" name="patterns feature" id="TP_mars" profile="SDKProfile" resultSteps="_Ky5S2lkcEeSo0vu-C-A3cw" installResultStepsSourceFeatures="true"/>
   </jobs>
-  <jobs xmi:id="_RgjhUQdREeSIYrPrCxORuQ" name="diagrams" description="" enabled="false">
+  <jobs xmi:id="_RgjhUQdREeSIYrPrCxORuQ" name="diagrams" description="">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_ZB5y4AdREeSIYrPrCxORuQ" name="diagrams">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_PQQe8BGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="diagrams/plugins"/>
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_PQQe8RGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="diagrams/features"/>
@@ -264,7 +264,7 @@
     <steps xsi:type="buildstep:PublishStep" xmi:id="_ZB5y5QdREeSIYrPrCxORuQ" component="_ZB5y5AdREeSIYrPrCxORuQ"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_ZB5y5gdREeSIYrPrCxORuQ" name="diagrams representation feature" id="TP_mars" profile="SDKProfile" resultSteps="_ZB5y5QdREeSIYrPrCxORuQ" installResultStepsSourceFeatures="true"/>
   </jobs>
-  <jobs xmi:id="_VoTqsCL5EeSSoPlV7ILP2g" name="docgen" enabled="false">
+  <jobs xmi:id="_VoTqsCL5EeSSoPlV7ILP2g" name="docgen">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_YByqkCL5EeSSoPlV7ILP2g" name="docgen">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_YByqkSL5EeSSoPlV7ILP2g" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="Docgen/business/features"/>
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_YByqkiL5EeSSoPlV7ILP2g" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="Docgen/business/plugins"/>
