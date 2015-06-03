@@ -327,7 +327,7 @@
     <steps xsi:type="buildstep:PublishStep" xmi:id="_9w00UJQCEeODqo9Nw0Mw6Q" component="_5Y3VkJQCEeODqo9Nw0Mw6Q"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_VjH-YI59EeORY9jpJq94Og" name="addsl feature" id="TP_mars" profile="SDKProfile" resultSteps="_oWQScH60EeOkCccPIIQ2Yw _9w00UJQCEeODqo9Nw0Mw6Q" installResultStepsSourceFeatures="true"/>
   </jobs>
-  <jobs xmi:id="_eJXnwQHGEeSWLIhgOb7dcQ" name="detach_attach" enabled="false">
+  <jobs xmi:id="_eJXnwQHGEeSWLIhgOb7dcQ" name="detach_attach">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_j6USsAHGEeSWLIhgOb7dcQ" name="detachment">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_fBRgoBGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="detachment/plugins"/>
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_fBRgoRGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="detachment/features"/>
