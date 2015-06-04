@@ -35,7 +35,7 @@ import org.osgi.framework.Bundle;
 public class SpecFileDecorator implements ILightweightLabelDecorator {
 	
 	Bundle bundle = Platform.getBundle("org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.desc.ui"); //$NON-NLS-1$
-	URL url = FileLocator.find(bundle, new Path("icons/spec_overlay.gif"), Collections.emptyMap()); //$NON-NLS-1$
+	URL url = FileLocator.find(bundle, new Path("icons/spec_overlay.gif"), null); //$NON-NLS-1$
 
 	private final ImageDescriptor IMG_OVERLAY = ImageDescriptor.createFromURL(url);
 
