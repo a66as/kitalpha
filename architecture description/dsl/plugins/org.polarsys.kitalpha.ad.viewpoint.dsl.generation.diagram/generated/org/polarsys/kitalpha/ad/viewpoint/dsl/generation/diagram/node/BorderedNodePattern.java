@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Thales Global Services S.A.S.
+ * Copyright (c) 2014-2015 Thales Global Services S.A.S.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,8 +8,8 @@
  * Contributors:
  *   Thales Global Services S.A.S - initial API and implementation
  ******************************************************************************/
+//Generated with EGF 1.3.0.v20150603-1508
 
-//Generated on Tue Jul 15 11:14:57 CEST 2014 with EGF 1.2.0.v20140710-0659
 package org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.node;
 
 import java.util.*;
@@ -64,12 +64,12 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.as.diagram.expression.helper.siriu
 import org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.util.VSMVariable;
 
 public class BorderedNodePattern
-		extends
-		org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.common.DiagramElementPattern {
+		extends org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.common.DiagramElementPattern {
 
 	public BorderedNodePattern() {
 		//Here is the constructor
 		// add initialisation of the pattern variables (declaration has been already done).
+
 	}
 
 	public void generate(Object argument) throws Exception {
@@ -91,8 +91,7 @@ public class BorderedNodePattern
 			}
 		}
 		if (ctx.useReporter()) {
-			ctx.getReporter().executionFinished(
-					OutputManager.computeExecutionOutput(ctx), ctx);
+			ctx.getReporter().executionFinished(OutputManager.computeExecutionOutput(ctx), ctx);
 		}
 	}
 
@@ -106,26 +105,22 @@ public class BorderedNodePattern
 			parameterValues.put("parameter", this.parameter);
 			String outputWithCallBack = OutputManager.computeLoopOutput(ictx);
 			String loop = OutputManager.computeLoopOutputWithoutCallback(ictx);
-			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx,
-					parameterValues);
+			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx, parameterValues);
 		}
 		return null;
 	}
 
-	protected void method_createDoremiElement(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_createDoremiElement(final StringBuffer out, final PatternContext ctx) throws Exception {
 		NodeMapping nm = DescriptionFactory.eINSTANCE.createNodeMapping();
 		nm.setName(parameter.getName() + "_BNM");
 		nm.setLabel(parameter.getName());
 		dNodeMapping = nm;
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "createDoremiElement",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "createDoremiElement", out.toString());
 	}
 
-	protected void method_setSemanticData(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_setSemanticData(final StringBuffer out, final PatternContext ctx) throws Exception {
 		// Gather semantic data from the vpspec model
 		String className = "";
 		String semanticCandidateExpression = "";
@@ -140,19 +135,15 @@ public class BorderedNodePattern
 			// Semantic candidate expression
 			AbstractAssociation association = domain.getChlidren_list();
 			if (association != null) {
-				semanticCandidateExpression = SiriusExpressionHelper
-						.getExpressoin(association.getName(),
-								ExpressionInterpreter.Feature);
+				semanticCandidateExpression = SiriusExpressionHelper.getExpressoin(association.getName(),
+						ExpressionInterpreter.Feature);
 			} else {
-				if (domain.getQuery() != null
-						&& domain.getQuery().trim().length() > 0) {
+				if (domain.getQuery() != null && domain.getQuery().trim().length() > 0) {
 					semanticCandidateExpression = domain.getQuery();
 				} else {
-					if (genDefaultSemanticCandidatesExpression == null
-							|| genDefaultSemanticCandidatesExpression) {
-						semanticCandidateExpression = SiriusExpressionHelper
-								.getExpressoin("eAllContents",
-										ExpressionInterpreter.Feature);
+					if (genDefaultSemanticCandidatesExpression == null || genDefaultSemanticCandidatesExpression) {
+						semanticCandidateExpression = SiriusExpressionHelper.getExpressoin("eAllContents",
+								ExpressionInterpreter.Feature);
 					}
 				}
 			}
@@ -168,22 +159,18 @@ public class BorderedNodePattern
 			cn.setSemanticCandidatesExpression(semanticCandidateExpression);
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "setSemanticData",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "setSemanticData", out.toString());
 	}
 
-	protected void method_setParentMapping(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_setParentMapping(final StringBuffer out, final PatternContext ctx) throws Exception {
 		dslvpElement = parameter;
 		doremiElement = dNodeMapping;
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "setParentMapping",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "setParentMapping", out.toString());
 	}
 
-	protected void method_addElementToODesign(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_addElementToODesign(final StringBuffer out, final PatternContext ctx) throws Exception {
 		EObject vpParent = parameter.eContainer().eContainer();
 		EObject currentParent = GenerationUtil.getDoremiElement(vpParent);
 
@@ -202,12 +189,10 @@ public class BorderedNodePattern
 		}
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "addElementToODesign",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "addElementToODesign", out.toString());
 	}
 
-	protected void method_setStyle(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_setStyle(final StringBuffer out, final PatternContext ctx) throws Exception {
 
 		NodeMapping nm = (NodeMapping) dNodeMapping;
 
@@ -222,23 +207,19 @@ public class BorderedNodePattern
 				String acceleoExpression = "";
 				if (fEE instanceof JavaElement) {
 					String javaMethodName = ((JavaElement) fEE).getMethod();
-					String mParameters = VSMVariable.view.getInnerVariable()
-							+ "," + VSMVariable.container.getInnerVariable();
-					javaMethodName = JavaElementHelper
-							.addDefaultParameterToJavaMethod(javaMethodName,
-									mParameters);
-					acceleoExpression = SiriusExpressionHelper.getExpressoin(
-							javaMethodName, ExpressionInterpreter.Service);
+					String mParameters = VSMVariable.view.getInnerVariable() + ","
+							+ VSMVariable.container.getInnerVariable();
+					javaMethodName = JavaElementHelper.addDefaultParameterToJavaMethod(javaMethodName, mParameters);
+					acceleoExpression = SiriusExpressionHelper.getExpressoin(javaMethodName,
+							ExpressionInterpreter.Service);
 					//acceleoExpression = SiriusExpressionHelper.getExpressoin(((JavaElement) fEE).getMethod());
 				}
 				if (fEE instanceof DomainElement) {
 					acceleoExpression = SiriusExpressionHelper
-							.getExpressoin(((DomainElement) fEE).getAttribute()
-									.getName());
+							.getExpressoin(((DomainElement) fEE).getAttribute().getName());
 				}
 
-				cnStyleDesc = DescriptionFactory.eINSTANCE
-						.createConditionalNodeStyleDescription();
+				cnStyleDesc = DescriptionFactory.eINSTANCE.createConditionalNodeStyleDescription();
 				cnStyleDesc.setPredicateExpression(acceleoExpression);
 
 				nm.getConditionnalStyles().add(cnStyleDesc);
@@ -253,75 +234,56 @@ public class BorderedNodePattern
 				/************************* Case of Basic Style ***************************/
 				if (vpStyle instanceof BasicStyle) {
 					BasicStyle basicStyle = (BasicStyle) vpStyle;
-					SystemColor backGroundColor = GenerationUtil
-							.getSystemColor(basicStyle.getBackgroundColor());
+					SystemColor backGroundColor = GenerationUtil.getSystemColor(basicStyle.getBackgroundColor());
 					//basicStyle.getBorderColor(basicStyle.getBorderColor());
 					switch (basicStyle.getForm()) {
 					case SQUARE:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createSquareDescription();
-						((SquareDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						nStyleDesc = StyleFactory.eINSTANCE.createSquareDescription();
+						((SquareDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 
 					case DOT:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createDotDescription();
-						((DotDescription) nStyleDesc)
-								.setBackgroundColor(backGroundColor);
+						nStyleDesc = StyleFactory.eINSTANCE.createDotDescription();
+						((DotDescription) nStyleDesc).setBackgroundColor(backGroundColor);
 						break;
 
 					case ECLIPSE:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createEllipseNodeDescription();
-						((EllipseNodeDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						nStyleDesc = StyleFactory.eINSTANCE.createEllipseNodeDescription();
+						((EllipseNodeDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 
 					case LOZENGE:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createLozengeNodeDescription();
-						((LozengeNodeDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						nStyleDesc = StyleFactory.eINSTANCE.createLozengeNodeDescription();
+						((LozengeNodeDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 
 					case NOTE:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createNoteDescription();
-						((NoteDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						nStyleDesc = StyleFactory.eINSTANCE.createNoteDescription();
+						((NoteDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 
 					case RING:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createBundledImageDescription();
+						nStyleDesc = StyleFactory.eINSTANCE.createBundledImageDescription();
 						BundledImageDescription bImageRing = (BundledImageDescription) nStyleDesc;
 						bImageRing.setShape(BundledImageShape.RING_LITERAL);
-						((BundledImageDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						((BundledImageDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 
 					case STROKE:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createBundledImageDescription();
+						nStyleDesc = StyleFactory.eINSTANCE.createBundledImageDescription();
 						BundledImageDescription bImageStroke = (BundledImageDescription) nStyleDesc;
 						bImageStroke.setShape(BundledImageShape.STROKE_LITERAL);
-						((BundledImageDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						((BundledImageDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 
 					case TRIANGLE:
-						nStyleDesc = StyleFactory.eINSTANCE
-								.createBundledImageDescription();
+						nStyleDesc = StyleFactory.eINSTANCE.createBundledImageDescription();
 						BundledImageDescription bImageTriangle = (BundledImageDescription) nStyleDesc;
-						bImageTriangle
-								.setShape(BundledImageShape.TRIANGLE_LITERAL);
-						((BundledImageDescription) nStyleDesc)
-								.setColor(backGroundColor);
+						bImageTriangle.setShape(BundledImageShape.TRIANGLE_LITERAL);
+						((BundledImageDescription) nStyleDesc).setColor(backGroundColor);
 						break;
 					}
-					nStyleDesc.setBorderColor(GenerationUtil
-							.getSystemColor(basicStyle.getBorderColor()));
+					nStyleDesc.setBorderColor(GenerationUtil.getSystemColor(basicStyle.getBorderColor()));
 				}
 
 				/******************** Case of Workspace Image Style **********************/
@@ -329,56 +291,40 @@ public class BorderedNodePattern
 					ImageStyle vpImageStyle = (ImageStyle) vpStyle;
 
 					// Creation of Doremi WorkspaceImageStyle for Container Mapping
-					nStyleDesc = StyleFactory.eINSTANCE
-							.createWorkspaceImageDescription();
+					nStyleDesc = StyleFactory.eINSTANCE.createWorkspaceImageDescription();
 					WorkspaceImageDescription doremiImageStyle = (WorkspaceImageDescription) nStyleDesc;
 
-					if (vpImageStyle.getImagePath() != null
-							&& vpImageStyle.getImagePath().trim().length() > 0) {
-						String icon_path = IconPathHelper.computeDslIconPath(
-								vpImageStyle.getImagePath(), parameter);
+					if (vpImageStyle.getImagePath() != null && vpImageStyle.getImagePath().trim().length() > 0) {
+						String icon_path = IconPathHelper.computeDslIconPath(vpImageStyle.getImagePath(), parameter);
 						if (icon_path != null && icon_path.trim().length() > 0) {
 							doremiImageStyle.setWorkspacePath(icon_path);
-							IconPathHelper.copyIconFile(
-									vpImageStyle.getImagePath(), parameter);
+							IconPathHelper.copyIconFile(vpImageStyle.getImagePath(), parameter);
 						}
 					}
 					//doremiImageStyle.setWorkspacePath(vpImageStyle.getImagePath());
 
-					doremiImageStyle.setBorderColor(GenerationUtil
-							.getSystemColor(vpImageStyle.getBorderColor()));
+					doremiImageStyle.setBorderColor(GenerationUtil.getSystemColor(vpImageStyle.getBorderColor()));
 				}
 
 				/************************ Case of Histogram Style ***********************/
 				if (vpStyle instanceof HistogramStyle) {
 					HistogramStyle vpHistogramStyle = (HistogramStyle) vpStyle;
 					// Creation of Doremi WorkspaceImageStyle for Container Mapping
-					nStyleDesc = StyleFactory.eINSTANCE
-							.createGaugeCompositeStyleDescription();
+					nStyleDesc = StyleFactory.eINSTANCE.createGaugeCompositeStyleDescription();
 					GaugeCompositeStyleDescription doremiGaugeStyle = (GaugeCompositeStyleDescription) nStyleDesc;
-					doremiGaugeStyle.setBorderColor(GenerationUtil
-							.getSystemColor(vpHistogramStyle.getBorderColor()));
-					for (HistogramSection iHistogramSection : vpHistogramStyle
-							.getSections()) {
-						GaugeSectionDescription one_section = StyleFactory.eINSTANCE
-								.createGaugeSectionDescription();
-						one_section.setBackgroundColor(GenerationUtil
-								.getSystemColor(iHistogramSection
-										.getBackgroundColor()));
-						one_section.setForegroundColor(GenerationUtil
-								.getSystemColor(iHistogramSection
-										.getForgroundColor()));
-						one_section
-								.setMaxValueExpression(SiriusExpressionHelper
-										.getExpressoin(iHistogramSection
-												.getMaxValue().toString()));
-						one_section
-								.setMinValueExpression(SiriusExpressionHelper
-										.getExpressoin(iHistogramSection
-												.getMinValue().toString()));
-						one_section.setValueExpression(SiriusExpressionHelper
-								.getExpressoin(iHistogramSection.getValue()
-										.toString()));
+					doremiGaugeStyle.setBorderColor(GenerationUtil.getSystemColor(vpHistogramStyle.getBorderColor()));
+					for (HistogramSection iHistogramSection : vpHistogramStyle.getSections()) {
+						GaugeSectionDescription one_section = StyleFactory.eINSTANCE.createGaugeSectionDescription();
+						one_section.setBackgroundColor(
+								GenerationUtil.getSystemColor(iHistogramSection.getBackgroundColor()));
+						one_section.setForegroundColor(
+								GenerationUtil.getSystemColor(iHistogramSection.getForgroundColor()));
+						one_section.setMaxValueExpression(
+								SiriusExpressionHelper.getExpressoin(iHistogramSection.getMaxValue().toString()));
+						one_section.setMinValueExpression(
+								SiriusExpressionHelper.getExpressoin(iHistogramSection.getMinValue().toString()));
+						one_section.setValueExpression(
+								SiriusExpressionHelper.getExpressoin(iHistogramSection.getValue().toString()));
 						doremiGaugeStyle.getSections().add(one_section);
 					}
 				}
@@ -387,15 +333,13 @@ public class BorderedNodePattern
 
 				/********************** Setting Label properties ************************/
 				Label label = iNodeDescription.getNode_Label();
-				String labelExpression = SiriusExpressionHelper.getExpressoin(
-						"name", ExpressionInterpreter.Feature);
+				String labelExpression = SiriusExpressionHelper.getExpressoin("name", ExpressionInterpreter.Feature);
 
 				if (label != null) {
 					//((ExpressionImpl) label.getValue()).adaptValue();
-					String mParameters = VSMVariable.diagram.getInnerVariable()
-							+ "," + VSMVariable.view.getInnerVariable();
-					((ExpressionImpl) label.getValue()).adaptValue(mParameters,
-							true);
+					String mParameters = VSMVariable.diagram.getInnerVariable() + ","
+							+ VSMVariable.view.getInnerVariable();
+					((ExpressionImpl) label.getValue()).adaptValue(mParameters, true);
 
 					if (label.getValue() != null)
 						labelExpression = label.getValue().getValue();
@@ -403,25 +347,16 @@ public class BorderedNodePattern
 					nStyleDesc.setLabelExpression(labelExpression);
 					nStyleDesc.setLabelSize(label.getSize());
 					nStyleDesc.setShowIcon(false);
-					nStyleDesc.setLabelAlignment(iNodeDescription
-							.getLabel_alignement());
-					nStyleDesc.setLabelPosition(iNodeDescription
-							.getLabel_position());
+					nStyleDesc.setLabelAlignment(iNodeDescription.getLabel_alignement());
+					nStyleDesc.setLabelPosition(iNodeDescription.getLabel_position());
 
-					nStyleDesc.setLabelColor(GenerationUtil
-							.getSystemColor(label.getColor()));
+					nStyleDesc.setLabelColor(GenerationUtil.getSystemColor(label.getColor()));
 
-					if (label.isBold() && label.isItalic()) {
-						nStyleDesc
-								.setLabelFormat(FontFormat.BOLD_ITALIC_LITERAL);
-					} else {
-						if (label.isBold())
-							nStyleDesc.setLabelFormat(FontFormat.BOLD_LITERAL);
+					if (label.isBold())
+						nStyleDesc.getLabelFormat().add(FontFormat.BOLD_LITERAL);
 
-						if (label.isItalic())
-							nStyleDesc
-									.setLabelFormat(FontFormat.ITALIC_LITERAL);
-					}
+					if (label.isItalic())
+						nStyleDesc.getLabelFormat().add(FontFormat.ITALIC_LITERAL);
 				}
 
 				// Add the created container style to it parent
@@ -433,8 +368,7 @@ public class BorderedNodePattern
 		}
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "setStyle",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "setStyle", out.toString());
 	}
 
 	public boolean preCondition(PatternContext ctx) throws Exception {
@@ -443,8 +377,7 @@ public class BorderedNodePattern
 
 	protected org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdiagram.BorderedNode parameter;
 
-	public void set_parameter(
-			org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdiagram.BorderedNode parameter) {
+	public void set_parameter(org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdiagram.BorderedNode parameter) {
 		this.parameter = parameter;
 	}
 
@@ -456,8 +389,7 @@ public class BorderedNodePattern
 
 	protected java.lang.Boolean genDefaultSemanticCandidatesExpression;
 
-	public void set_genDefaultSemanticCandidatesExpression(
-			java.lang.Boolean genDefaultSemanticCandidatesExpression) {
+	public void set_genDefaultSemanticCandidatesExpression(java.lang.Boolean genDefaultSemanticCandidatesExpression) {
 		this.genDefaultSemanticCandidatesExpression = genDefaultSemanticCandidatesExpression;
 	}
 

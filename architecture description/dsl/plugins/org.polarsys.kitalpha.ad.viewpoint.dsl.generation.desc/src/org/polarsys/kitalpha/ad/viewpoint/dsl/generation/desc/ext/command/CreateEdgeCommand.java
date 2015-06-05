@@ -28,6 +28,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
+import org.eclipse.sirius.common.tools.api.util.RefreshIdsHolder;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElementContainer;
 import org.eclipse.sirius.diagram.DNode;
@@ -110,6 +111,7 @@ public class CreateEdgeCommand extends RecordingCommand {
 			/* Get all possible target nodes from the diagram */
 			List<EdgeTarget> targetNodes = getTargetNodes();
 			/* Try to create edges between sources and targets */
+			RefreshIdsHolder refreshIdsHolder = new RefreshIdsHolder();
 			for (EdgeTarget sourceEdgeTarget : sourceNodes) 
 			{
 				for (EdgeTarget targetEdgeTarget : targetNodes) 
@@ -119,7 +121,7 @@ public class CreateEdgeCommand extends RecordingCommand {
 					boolean precondition = edgeMappingQuery.evaluatePrecondition((DSemanticDiagram)_diagram, _diagram, _session.getInterpreter(), _target, (DSemanticDecorator)sourceEdgeTarget, (DSemanticDecorator)targetEdgeTarget);
 					if (precondition)
 					{
-						DEdgeCandidate candidate = new DEdgeCandidate(_mapping,_target, sourceEdgeTarget, targetEdgeTarget);
+						DEdgeCandidate candidate = new DEdgeCandidate(_mapping,_target, sourceEdgeTarget, targetEdgeTarget, refreshIdsHolder);
 						elementSynchronizer.createNewEdge(diagramMappingsManager, candidate, mappingsToEdgeTargets, edgeToMappingBasedDecoration, edgeToSemanticBasedDecoration);
 					}
 				}

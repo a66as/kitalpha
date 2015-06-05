@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Thales Global Services S.A.S.
+ * Copyright (c) 2014-2015 Thales Global Services S.A.S.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,8 +8,8 @@
  * Contributors:
  *   Thales Global Services S.A.S - initial API and implementation
  ******************************************************************************/
+//Generated with EGF 1.3.0.v20150603-1508
 
-//Generated on Tue Jul 15 11:15:19 CEST 2014 with EGF 1.2.0.v20140710-0659
 package org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.node;
 
 import java.util.*;
@@ -53,8 +53,7 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.as.diagram.helper.conf.DiagramGene
 import org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.mappingimport.merge.ContainerStyleImportMerger;
 
 public class ContainerImportPattern
-		extends
-		org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.node.ContainerPattern {
+		extends org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram.node.ContainerPattern {
 
 	public ContainerImportPattern() {
 		//Here is the constructor
@@ -81,8 +80,7 @@ public class ContainerImportPattern
 			}
 		}
 		if (ctx.useReporter()) {
-			ctx.getReporter().executionFinished(
-					OutputManager.computeExecutionOutput(ctx), ctx);
+			ctx.getReporter().executionFinished(OutputManager.computeExecutionOutput(ctx), ctx);
 		}
 	}
 
@@ -98,10 +96,9 @@ public class ContainerImportPattern
 			parameters.put("original_m", this.mapping);
 			parameters.put("imported_m", this.icm);
 			ExecutionContext ctx_local = new ExecutionContext(ictx);
-			CallHelper
-					.executeWithParameterInjection(
-							"platform:/plugin/org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram/egf/VpdslSiriusDiagramGenerator.fcore#_MLHN4ISnEeKlgrb0i1zvPQ",
-							ctx_local, parameters);
+			CallHelper.executeWithParameterInjection(
+					"platform:/plugin/org.polarsys.kitalpha.ad.viewpoint.dsl.generation.diagram/egf/VpdslSiriusDiagramGenerator.fcore#_MLHN4ISnEeKlgrb0i1zvPQ",
+					ctx_local, parameters);
 		}
 		ictx.setNode(currentNode);
 		if (ictx.useReporter()) {
@@ -109,14 +106,12 @@ public class ContainerImportPattern
 			parameterValues.put("parameter", this.parameter);
 			String outputWithCallBack = OutputManager.computeLoopOutput(ictx);
 			String loop = OutputManager.computeLoopOutputWithoutCallback(ictx);
-			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx,
-					parameterValues);
+			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx, parameterValues);
 		}
 		return null;
 	}
 
-	protected void method_createDoremiElement(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_createDoremiElement(final StringBuffer out, final PatternContext ctx) throws Exception {
 		genDefaultSemanticCandidatesExpression = false;
 
 		icm = DescriptionFactory.eINSTANCE.createContainerMappingImport();
@@ -133,12 +128,10 @@ public class ContainerImportPattern
 		//MappingAutoImportManager.INSTANCE.registerUserMappingImport(mapping, icm);
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "createDoremiElement",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "createDoremiElement", out.toString());
 	}
 
-	protected void method_inheritLabelSpecification(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_inheritLabelSpecification(final StringBuffer out, final PatternContext ctx) throws Exception {
 		// Inherits label if not defined
 		boolean inheritsLabel = true;
 		if (parameter.getStyle() != null && parameter.getStyle().size() > 0) {
@@ -157,49 +150,42 @@ public class ContainerImportPattern
 			if (style != null) {
 				style.setLabelAlignment(mapping.getStyle().getLabelAlignment());
 				style.setLabelColor(mapping.getStyle().getLabelColor());
-				style.setLabelExpression(mapping.getStyle()
-						.getLabelExpression());
-				style.setLabelFormat(mapping.getStyle().getLabelFormat());
+				style.setLabelExpression(mapping.getStyle().getLabelExpression());
+				List<FontFormat> labelFormat = mapping.getStyle().getLabelFormat();
+				if (null != labelFormat && false == labelFormat.isEmpty()) {
+					style.getLabelFormat().addAll(labelFormat);
+				}
 				style.setLabelSize(mapping.getStyle().getLabelSize());
 			}
 		}
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(),
-				"inheritLabelSpecification", out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "inheritLabelSpecification", out.toString());
 	}
 
-	protected void method_inheritMappingReuse(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_inheritMappingReuse(final StringBuffer out, final PatternContext ctx) throws Exception {
 		// ContainerMapping mapping = parameter.getImports();
 
 		// reusing the reused mappings
-		if (mapping.getAllContainerMappings() != null
-				&& mapping.getAllContainerMappings().size() > 0)
-			icm.getReusedContainerMappings().addAll(
-					mapping.getAllContainerMappings());
+		if (mapping.getAllContainerMappings() != null && mapping.getAllContainerMappings().size() > 0)
+			icm.getReusedContainerMappings().addAll(mapping.getAllContainerMappings());
 
 		if (icm.getAllContainerMappings().contains(mapping)) {
 			icm.getReusedContainerMappings().remove(mapping);
 			icm.getReusedContainerMappings().add(icm);
 		}
 
-		if (mapping.getAllNodeMappings() != null
-				&& mapping.getAllNodeMappings().size() > 0)
+		if (mapping.getAllNodeMappings() != null && mapping.getAllNodeMappings().size() > 0)
 			icm.getReusedNodeMappings().addAll(mapping.getAllNodeMappings());
 
-		if (mapping.getAllBorderedNodeMappings() != null
-				&& mapping.getAllBorderedNodeMappings().size() > 0)
-			icm.getReusedBorderedNodeMappings().addAll(
-					mapping.getAllBorderedNodeMappings());
+		if (mapping.getAllBorderedNodeMappings() != null && mapping.getAllBorderedNodeMappings().size() > 0)
+			icm.getReusedBorderedNodeMappings().addAll(mapping.getAllBorderedNodeMappings());
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "inheritMappingReuse",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "inheritMappingReuse", out.toString());
 	}
 
-	protected void method_inheritSemanticData(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_inheritSemanticData(final StringBuffer out, final PatternContext ctx) throws Exception {
 		//ContainerMapping mapping = parameter.getImports();
 
 		boolean inheritSemanticCandidatesExpression = false;
@@ -213,17 +199,14 @@ public class ContainerImportPattern
 		}
 
 		if (inheritSemanticCandidatesExpression) {
-			icm.setSemanticCandidatesExpression(mapping
-					.getSemanticCandidatesExpression());
+			icm.setSemanticCandidatesExpression(mapping.getSemanticCandidatesExpression());
 		}
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "inheritSemanticData",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "inheritSemanticData", out.toString());
 	}
 
-	protected void method_setStyle(final StringBuffer out,
-			final PatternContext ctx) throws Exception {
+	protected void method_setStyle(final StringBuffer out, final PatternContext ctx) throws Exception {
 		ContainerMapping cm = (ContainerMapping) dContainerMapping;
 
 		for (ContainerDescription iContainerDescription : parameter.getStyle()) {
@@ -238,22 +221,18 @@ public class ContainerImportPattern
 				if (fEE instanceof JavaElement) {
 					// 
 					String javaMethodName = ((JavaElement) fEE).getMethod();
-					String mParameters = VSMVariable.view.getInnerVariable()
-							+ "," + VSMVariable.container.getInnerVariable();
-					javaMethodName = JavaElementHelper
-							.addDefaultParameterToJavaMethod(javaMethodName,
-									mParameters);
-					acceleoExpression = SiriusExpressionHelper.getExpressoin(
-							javaMethodName, ExpressionInterpreter.Service);
+					String mParameters = VSMVariable.view.getInnerVariable() + ","
+							+ VSMVariable.container.getInnerVariable();
+					javaMethodName = JavaElementHelper.addDefaultParameterToJavaMethod(javaMethodName, mParameters);
+					acceleoExpression = SiriusExpressionHelper.getExpressoin(javaMethodName,
+							ExpressionInterpreter.Service);
 				}
 				if (fEE instanceof DomainElement) {
 					acceleoExpression = SiriusExpressionHelper.getExpressoin(
-							((DomainElement) fEE).getAttribute().getName(),
-							ExpressionInterpreter.Feature);
+							((DomainElement) fEE).getAttribute().getName(), ExpressionInterpreter.Feature);
 				}
 
-				ccStyleDesc = DescriptionFactory.eINSTANCE
-						.createConditionalContainerStyleDescription();
+				ccStyleDesc = DescriptionFactory.eINSTANCE.createConditionalContainerStyleDescription();
 				ccStyleDesc.setPredicateExpression(acceleoExpression);
 
 				cm.getConditionnalStyles().add(ccStyleDesc);
@@ -268,39 +247,29 @@ public class ContainerImportPattern
 				if (vpStyle instanceof FlatStyle) {
 					FlatStyle vpFlatStyle = (FlatStyle) vpStyle;
 					// Creation of Doremi FlatStyle for Container Mapping 
-					cStyleDesc = StyleFactory.eINSTANCE
-							.createFlatContainerStyleDescription();
+					cStyleDesc = StyleFactory.eINSTANCE.createFlatContainerStyleDescription();
 					FlatContainerStyleDescription doremiFlatStyle = (FlatContainerStyleDescription) cStyleDesc;
-					doremiFlatStyle.setBackgroundStyle(vpFlatStyle
-							.getBackgroundStyle());
+					doremiFlatStyle.setBackgroundStyle(vpFlatStyle.getBackgroundStyle());
 
-					doremiFlatStyle.setBackgroundColor(GenerationUtil
-							.getSystemColor(vpFlatStyle.getBackgroundColor()));
-					doremiFlatStyle.setBorderColor(GenerationUtil
-							.getSystemColor(vpFlatStyle.getBorderColor()));
-					doremiFlatStyle.setForegroundColor(GenerationUtil
-							.getSystemColor(vpFlatStyle.getForgroundColor()));
+					doremiFlatStyle.setBackgroundColor(GenerationUtil.getSystemColor(vpFlatStyle.getBackgroundColor()));
+					doremiFlatStyle.setBorderColor(GenerationUtil.getSystemColor(vpFlatStyle.getBorderColor()));
+					doremiFlatStyle.setForegroundColor(GenerationUtil.getSystemColor(vpFlatStyle.getForgroundColor()));
 				}
 
 				/******************** Case of Workspace Image Style **********************/
 				if (vpStyle instanceof ImageStyle) {
 					ImageStyle vpImageStyle = (ImageStyle) vpStyle;
 					// Creation of Doremi WorkspaceImageStyle for Container Mapping
-					cStyleDesc = StyleFactory.eINSTANCE
-							.createWorkspaceImageDescription();
+					cStyleDesc = StyleFactory.eINSTANCE.createWorkspaceImageDescription();
 					WorkspaceImageDescription doremiImageStyle = (WorkspaceImageDescription) cStyleDesc;
 
-					doremiImageStyle.setBorderColor(GenerationUtil
-							.getSystemColor(vpImageStyle.getBorderColor()));
+					doremiImageStyle.setBorderColor(GenerationUtil.getSystemColor(vpImageStyle.getBorderColor()));
 
-					if (vpImageStyle.getImagePath() != null
-							&& vpImageStyle.getImagePath().trim().length() > 0) {
-						String icon_path = IconPathHelper.computeDslIconPath(
-								vpImageStyle.getImagePath(), parameter);
+					if (vpImageStyle.getImagePath() != null && vpImageStyle.getImagePath().trim().length() > 0) {
+						String icon_path = IconPathHelper.computeDslIconPath(vpImageStyle.getImagePath(), parameter);
 						if (icon_path != null && icon_path.trim().length() > 0) {
 							doremiImageStyle.setWorkspacePath(icon_path);
-							IconPathHelper.copyIconFile(
-									vpImageStyle.getImagePath(), parameter);
+							IconPathHelper.copyIconFile(vpImageStyle.getImagePath(), parameter);
 						}
 					}
 					//doremiImageStyle.setWorkspacePath(vpImageStyle.getImagePath());
@@ -308,42 +277,32 @@ public class ContainerImportPattern
 
 				/********************** Setting Label properties ************************/
 				Label label = iContainerDescription.getNode_Label();
-				String labelExpression = SiriusExpressionHelper.getExpressoin(
-						"name", ExpressionInterpreter.Feature);
+				String labelExpression = SiriusExpressionHelper.getExpressoin("name", ExpressionInterpreter.Feature);
 
 				if (label != null) {
-					String mParameters = VSMVariable.diagram.getInnerVariable()
-							+ "," + VSMVariable.view.getInnerVariable();
-					((ExpressionImpl) label.getValue()).adaptValue(mParameters,
-							true);
+					String mParameters = VSMVariable.diagram.getInnerVariable() + ","
+							+ VSMVariable.view.getInnerVariable();
+					((ExpressionImpl) label.getValue()).adaptValue(mParameters, true);
 
 					if (label.getValue() != null)
 						labelExpression = label.getValue().getValue();
 
 					cStyleDesc.setLabelExpression(labelExpression);
 					cStyleDesc.setLabelSize(label.getSize());
-					cStyleDesc.setLabelColor(GenerationUtil
-							.getSystemColor(label.getColor()));
+					cStyleDesc.setLabelColor(GenerationUtil.getSystemColor(label.getColor()));
 
-					if (label.isBold() && label.isItalic()) {
-						cStyleDesc
-								.setLabelFormat(FontFormat.BOLD_ITALIC_LITERAL);
-					} else {
-						if (label.isBold())
-							cStyleDesc.setLabelFormat(FontFormat.BOLD_LITERAL);
+					if (label.isBold())
+						cStyleDesc.getLabelFormat().add(FontFormat.BOLD_LITERAL);
 
-						if (label.isItalic())
-							cStyleDesc
-									.setLabelFormat(FontFormat.ITALIC_LITERAL);
-					}
+					if (label.isItalic())
+						cStyleDesc.getLabelFormat().add(FontFormat.ITALIC_LITERAL);
 				}
 
 				/************************************************************************************************/
 				ContainerStyleDescription cStyleDesc_merged = null;
 				try {
-					cStyleDesc_merged = ContainerStyleImportMerger.mergeStyles(
-							parameter.getImports().getStyle(), cStyleDesc,
-							iContainerDescription);
+					cStyleDesc_merged = ContainerStyleImportMerger.mergeStyles(parameter.getImports().getStyle(),
+							cStyleDesc, iContainerDescription);
 				} catch (Exception e) {
 				}
 
@@ -360,26 +319,22 @@ public class ContainerImportPattern
 		}
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "setStyle",
-				out.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "setStyle", out.toString());
 	}
 
 	public boolean preCondition(PatternContext ctx) throws Exception {
-		return DiagramGenerationConfigurationHelper.generateVSM(parameter)
-				&& parameter.getImports() != null;
+		return DiagramGenerationConfigurationHelper.generateVSM(parameter) && parameter.getImports() != null;
 	}
 
 	protected org.eclipse.sirius.diagram.description.ContainerMappingImport icm;
 
-	public void set_icm(
-			org.eclipse.sirius.diagram.description.ContainerMappingImport icm) {
+	public void set_icm(org.eclipse.sirius.diagram.description.ContainerMappingImport icm) {
 		this.icm = icm;
 	}
 
 	protected org.eclipse.sirius.diagram.description.ContainerMapping mapping;
 
-	public void set_mapping(
-			org.eclipse.sirius.diagram.description.ContainerMapping mapping) {
+	public void set_mapping(org.eclipse.sirius.diagram.description.ContainerMapping mapping) {
 		this.mapping = mapping;
 	}
 
