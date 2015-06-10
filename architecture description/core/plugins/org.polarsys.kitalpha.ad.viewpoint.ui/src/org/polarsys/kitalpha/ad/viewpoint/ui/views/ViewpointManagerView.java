@@ -18,6 +18,8 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -197,7 +199,16 @@ public class ViewpointManagerView extends ViewPart {
 			}
 
 			private void setSelection(EObject ctx) {
-				label.setText("Context: " + ctx);
+				String labelTxt = null;
+				EObject rootContainer = EcoreUtil.getRootContainer(ctx);
+				EStructuralFeature eStructuralFeature = rootContainer.eClass().getEStructuralFeature("name");
+				if (eStructuralFeature != null) {
+					Object value = rootContainer.eGet(eStructuralFeature);
+					if (value != null)
+						labelTxt = "Context: Project '" + value + "'";
+				}
+
+				label.setText(labelTxt == null ? "Context: " + ctx : labelTxt);
 				labelProvider.setContext(ctx);
 				context = ctx;
 				viewer.refresh();
