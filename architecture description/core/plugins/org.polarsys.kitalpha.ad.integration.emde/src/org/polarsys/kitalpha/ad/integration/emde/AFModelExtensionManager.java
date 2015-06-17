@@ -139,6 +139,9 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 		if (getTarget() == null)
 			throw new UnsupportedOperationException();
 		String nsURI = extended.getName();
+
+		// TODO
+
 		// if (extension2state.containsKey(nsURI)) {
 		// return !extension2state.get(nsURI);
 		// }
@@ -154,9 +157,12 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 							// no.
 							// In other case let the super implementation answer
 							if (pack.getNsURI() != null && pack.getNsURI().equals(nsURI)) {
-								boolean vpActive = ViewpointManager.getInstance(getTarget()).isActive(res.getId());
-								extension2state.put(nsURI, vpActive);
-								return !vpActive;
+								ViewpointManager instance = ViewpointManager.getInstance(getTarget());
+								boolean used = instance.isUsed(res.getId());
+								boolean filtered = instance.isFiltered(res.getId());
+								boolean active = used && !filtered;
+								extension2state.put(nsURI, active);
+								return !active;
 							}
 						}
 					}

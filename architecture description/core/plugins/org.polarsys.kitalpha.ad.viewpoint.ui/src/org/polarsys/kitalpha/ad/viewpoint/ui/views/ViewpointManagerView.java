@@ -125,8 +125,10 @@ public class ViewpointManagerView extends ViewPart {
 
 	private EObject context;
 	private TableViewer viewer;
-	private Action startAction;
-	private Action stopAction;
+	private Action filterAction;
+	private Action unFilterAction;
+	private Action useAction;
+	private Action unUseAction;
 	private Action refreshAction;
 	private OpenViewAction openViewAction;
 	private ViewpointManager.Listener vpListener = new ViewpointManager.Listener() {
@@ -299,7 +301,7 @@ public class ViewpointManagerView extends ViewPart {
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				startAction.run();
+				useAction.run();
 			}
 		});
 	}
@@ -324,16 +326,23 @@ public class ViewpointManagerView extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(startAction);
+		manager.add(useAction);
 		manager.add(new Separator());
-		manager.add(stopAction);
+		manager.add(unUseAction);
+		manager.add(new Separator());
+		manager.add(filterAction);
+		manager.add(new Separator());
+		manager.add(unFilterAction);
 		manager.add(new Separator());
 		manager.add(openViewAction);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(startAction);
-		manager.add(stopAction);
+		manager.add(useAction);
+		manager.add(unUseAction);
+		manager.add(new Separator());
+		manager.add(filterAction);
+		manager.add(unFilterAction);
 		manager.add(new Separator());
 		manager.add(openViewAction);
 		// Other plug-ins can contribute there actions here
@@ -343,8 +352,11 @@ public class ViewpointManagerView extends ViewPart {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(refreshAction);
 		manager.add(new Separator());
-		manager.add(startAction);
-		manager.add(stopAction);
+		manager.add(useAction);
+		manager.add(unUseAction);
+		manager.add(new Separator());
+		manager.add(filterAction);
+		manager.add(unFilterAction);
 		manager.add(new Separator());
 		manager.add(openViewAction);
 	}
@@ -353,21 +365,31 @@ public class ViewpointManagerView extends ViewPart {
 		int size = selection == null ? 0 : selection.size();
 		if (size == 1 && context != null) {
 			Resource res = (Resource) selection.getFirstElement();
-			boolean active = ViewpointManager.getInstance(context).isActive(res.getId());
-			startAction.setEnabled(!active);
-			stopAction.setEnabled(active);
-			openViewAction.setEnabled(active);
+			boolean used = ViewpointManager.getInstance(context).isUsed(res.getId());
+			useAction.setEnabled(!used);
+			unUseAction.setEnabled(used);
+			if (used) {
+				boolean filtered = ViewpointManager.getInstance(context).isFiltered(res.getId());
+				filterAction.setEnabled(filtered);
+				unFilterAction.setEnabled(!filtered);
+			} else {
+				filterAction.setEnabled(false);
+				unFilterAction.setEnabled(false);
+			}
+			openViewAction.setEnabled(used);
 			openViewAction.setResource(res);
 		} else {
-			startAction.setEnabled(false);
-			stopAction.setEnabled(false);
+			useAction.setEnabled(false);
+			unUseAction.setEnabled(false);
+			filterAction.setEnabled(false);
+			unFilterAction.setEnabled(false);
 			openViewAction.setEnabled(false);
 			openViewAction.setResource(null);
 		}
 	}
 
 	private void makeActions() {
-		startAction = new Action() {
+		useAction = new Action() {
 			public void run() {
 				IStructuredSelection ss = (IStructuredSelection) viewer.getSelection();
 				int size = ss.size();
@@ -375,7 +397,7 @@ public class ViewpointManagerView extends ViewPart {
 					return;
 				final Resource res = (Resource) ss.getFirstElement();
 				ViewpointManager vpMgr = ViewpointManager.getInstance(context);
-				if (vpMgr.isActive(res.getId()))
+				if (vpMgr.isUsed(res.getId()))
 					return;
 				try {
 					vpMgr.activate(res.getId());
@@ -385,11 +407,11 @@ public class ViewpointManagerView extends ViewPart {
 				}
 			}
 		};
-		startAction.setText("Start");
-		startAction.setToolTipText("Start the viewpoint");
-		startAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.START));
+		useAction.setText("Start use");
+		useAction.setToolTipText("Start using this viewpoint");
+		useAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.START));
 
-		stopAction = new Action() {
+		unUseAction = new Action() {
 			public void run() {
 				IStructuredSelection ss = (IStructuredSelection) viewer.getSelection();
 				int size = ss.size();
@@ -397,7 +419,7 @@ public class ViewpointManagerView extends ViewPart {
 					return;
 				Resource res = (Resource) ss.getFirstElement();
 				ViewpointManager vpMgr = ViewpointManager.getInstance(context);
-				if (!vpMgr.isActive(res.getId()))
+				if (!vpMgr.isUsed(res.getId()))
 					return;
 				try {
 					vpMgr.desactivate(res.getId());
@@ -407,9 +429,53 @@ public class ViewpointManagerView extends ViewPart {
 				}
 			}
 		};
-		stopAction.setText("Stop");
-		stopAction.setToolTipText("Stop the viewpoint");
-		stopAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.STOP));
+		unUseAction.setText("Stop use");
+		unUseAction.setToolTipText("Stop using the viewpoint");
+		unUseAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.STOP));
+
+		filterAction = new Action() {
+			public void run() {
+				IStructuredSelection ss = (IStructuredSelection) viewer.getSelection();
+				int size = ss.size();
+				if (size != 1 || context == null)
+					return;
+				Resource res = (Resource) ss.getFirstElement();
+				ViewpointManager vpMgr = ViewpointManager.getInstance(context);
+				if (!vpMgr.isUsed(res.getId()))
+					return;
+				try {
+					vpMgr.filter(res.getId(), false);
+				} catch (ViewpointActivationException e) {
+					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
+					Activator.getDefault().logError(e);
+				}
+			}
+		};
+		filterAction.setText("Show");
+		filterAction.setToolTipText("Display the viewpoint elements");
+		filterAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.EYE));
+
+		unFilterAction = new Action() {
+			public void run() {
+				IStructuredSelection ss = (IStructuredSelection) viewer.getSelection();
+				int size = ss.size();
+				if (size != 1 || context == null)
+					return;
+				Resource res = (Resource) ss.getFirstElement();
+				ViewpointManager vpMgr = ViewpointManager.getInstance(context);
+				if (!vpMgr.isUsed(res.getId()))
+					return;
+				try {
+					vpMgr.filter(res.getId(), true);
+				} catch (ViewpointActivationException e) {
+					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
+					Activator.getDefault().logError(e);
+				}
+			}
+		};
+		unFilterAction.setText("Hide");
+		unFilterAction.setToolTipText("Hide the viewpoint elements");
+		unFilterAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.EYE_DISABLED));
 
 		refreshAction = new Action() {
 			public void run() {

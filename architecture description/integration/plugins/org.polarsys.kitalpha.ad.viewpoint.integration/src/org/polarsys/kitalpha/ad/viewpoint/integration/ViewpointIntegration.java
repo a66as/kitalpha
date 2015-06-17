@@ -36,7 +36,7 @@ public class ViewpointIntegration {
 		ResourceSet resourceSet = context.eResource().getResourceSet();
 		TransactionalEditingDomain transactionalEditingDomain = TransactionUtil.getEditingDomain(context);
 		if (transactionalEditingDomain != null) {
-			transactionalEditingDomain.getCommandStack().execute(new SetViewpointUsage(transactionalEditingDomain, integ, id, usage));
+			transactionalEditingDomain.getCommandStack().execute(new SetViewpointUsageCommand(transactionalEditingDomain, integ, id, usage));
 		} else if (resourceSet instanceof IEditingDomainProvider) {
 			EditingDomain editingDomain = ((IEditingDomainProvider) resourceSet).getEditingDomain();
 			System.out.println("TODO");
@@ -47,7 +47,6 @@ public class ViewpointIntegration {
 						return; // object is already there, nothing to do
 					integ.getUsedViewpoints().remove(uv);
 				}
-
 			}
 			if (usage) {
 				UsedViewpoint uv = IntegrationFactory.eINSTANCE.createUsedViewpoint();
@@ -59,12 +58,43 @@ public class ViewpointIntegration {
 		}
 	}
 
+	public void setFilter(EObject context, String id, boolean filter) {
+		Integration integ = getIntegrationStorage(context);
+		if (integ == null)
+			throw new UnsupportedOperationException("cannot find integration resource");
+		ResourceSet resourceSet = context.eResource().getResourceSet();
+		TransactionalEditingDomain transactionalEditingDomain = TransactionUtil.getEditingDomain(context);
+		if (transactionalEditingDomain != null) {
+			transactionalEditingDomain.getCommandStack().execute(new SetViewpointFilterCommand(transactionalEditingDomain, integ, id, filter));
+		} else if (resourceSet instanceof IEditingDomainProvider) {
+			EditingDomain editingDomain = ((IEditingDomainProvider) resourceSet).getEditingDomain();
+			System.out.println("TODO");
+			Thread.dumpStack();
+			for (UsedViewpoint uv : new ArrayList<UsedViewpoint>(integ.getUsedViewpoints())) {
+				if (id.equals(uv.getVpId())) {
+					uv.setFiltered(filter);
+				}
+			}
+		}
+	}
+
 	public boolean isInUse(EObject context, String id) {
 		Integration integ = getIntegrationStorage(context);
 		if (integ != null) {
 			for (UsedViewpoint uv : integ.getUsedViewpoints()) {
 				if (id.equals(uv.getVpId()))
 					return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isFiltered(EObject context, String id) {
+		Integration integ = getIntegrationStorage(context);
+		if (integ != null) {
+			for (UsedViewpoint uv : integ.getUsedViewpoints()) {
+				if (id.equals(uv.getVpId()))
+					return uv.isFiltered();
 			}
 		}
 		return false;

@@ -110,6 +110,24 @@ public class ViewpointManager {
 		return IntegrationHelper.getInstance().isInUse(target, id);
 	}
 
+	public boolean isUsed(String id) {
+		return IntegrationHelper.getInstance().isInUse(target, id);
+	}
+
+	public boolean isFiltered(String id) {
+		return IntegrationHelper.getInstance().isFiltered(target, id);
+	}
+
+	public void filter(String id, boolean state) throws ViewpointActivationException {
+		Resource vpResource = getViewpoint(id);
+		if (vpResource == null)
+			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_3, id));
+		if (!isActive(id))
+			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_4, id));
+		IntegrationHelper.getInstance().setFilter(target, id, state);
+		fireEvent(vpResource, state ? ACTIVATED : DEACTIVATED);
+	}
+
 	public void activate(String id) throws ViewpointActivationException {
 		Resource vpResource = getViewpoint(id);
 		if (vpResource == null)

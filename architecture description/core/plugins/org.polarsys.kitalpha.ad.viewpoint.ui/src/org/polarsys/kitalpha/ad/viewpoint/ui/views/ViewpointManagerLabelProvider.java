@@ -32,7 +32,7 @@ public class ViewpointManagerLabelProvider extends LabelProvider implements ITab
 		if (columnIndex != 0)
 			return null;
 		Resource vp = (Resource) element;
-		if (context != null && ViewpointManager.getInstance(context).isActive(vp.getId()))
+		if (context != null && ViewpointManager.getInstance(context).isUsed(vp.getId()))
 			return Activator.getDefault().getImage(AFImages.RUNNING_VP);
 		return Activator.getDefault().getImage(AFImages.VP);
 	}
@@ -45,7 +45,11 @@ public class ViewpointManagerLabelProvider extends LabelProvider implements ITab
 		case 1:
 			if (context == null)
 				return "N/A";
-			return ViewpointManager.getInstance(context).isActive(vp.getId()) ? "Used" : "Unused";
+			ViewpointManager instance = ViewpointManager.getInstance(context);
+			if (instance.isUsed(vp.getId())) {
+				return "Used" + (instance.isFiltered(vp.getId()) ? " & filtered" : "");
+			}
+			return "Unused";
 		case 2:
 			return vp.getProviderLocation().toString();
 		case 3:

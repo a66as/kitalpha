@@ -16,6 +16,8 @@ package org.polarsys.kitalpha.ad.viewpoint.ui;
  * 
  */
 public interface AFImages {
+	String EYE = "icons/eye.png";
+	String EYE_DISABLED = "icons/eye_disabled.png";
 	String NEW_RULE = "icons/NewRule.gif";
 	String NEW_SERVICE = "icons/NewService.gif";
 	String ADD = "icons/add.gif";
