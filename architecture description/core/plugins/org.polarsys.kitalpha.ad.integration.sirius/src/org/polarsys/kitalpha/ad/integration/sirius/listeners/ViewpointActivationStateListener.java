@@ -52,7 +52,7 @@ public class ViewpointActivationStateListener extends Stub {
 
 	// walk through AF VP to list Sirius vp who must be activated and those who
 	// must be desactivated
-	private void collectionSiriusViewpoint(Set<String> toActivate, Set<String> toDesactivate) {
+	private void collectionSiriusViewpoint(ViewpointManager mgr, Set<String> toActivate, Set<String> toDesactivate) {
 		// TODO que faire des dépendences entre VP Sirius ?
 		ResourceSet set = new ResourceSetImpl();
 		// // Add AF Sirius viewpoint, used to filtering in diagrams
@@ -73,7 +73,7 @@ public class ViewpointActivationStateListener extends Stub {
 					}
 					if (siriusVps.isEmpty())
 						continue;
-					if (ViewpointManager.INSTANCE.isActive(res.getId()))
+					if (mgr.isUsed(res.getId()) && !mgr.isFiltered(res.getId()))
 						toActivate.addAll(siriusVps);
 					else
 						toDesactivate.addAll(siriusVps);
@@ -108,7 +108,8 @@ public class ViewpointActivationStateListener extends Stub {
 
 					final Set<String> toActivate = new HashSet<String>();
 					final Set<String> toDesactivate = new HashSet<String>();
-					collectionSiriusViewpoint(toActivate, toDesactivate);
+					ViewpointManager mgr = SiriusHelper.getViewpointManager(session);
+					collectionSiriusViewpoint(mgr, toActivate, toDesactivate);
 					final Map<String, org.eclipse.sirius.viewpoint.description.Viewpoint> allDoremiViewpoints = getAllDoremiViewpoints();
 
 					for (org.eclipse.sirius.viewpoint.description.Viewpoint vp : session.getSelectedViewpoints(false)) {
