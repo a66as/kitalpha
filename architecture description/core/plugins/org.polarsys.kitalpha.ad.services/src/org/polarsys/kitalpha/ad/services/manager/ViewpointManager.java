@@ -45,7 +45,8 @@ import org.polarsys.kitalpha.resourcereuse.model.SearchCriteria;
 public class ViewpointManager {
 
 	private final static Set<String> discarded = new HashSet<String>();
-	private final static List<Listener> listeners = new ArrayList<Listener>();
+	private final static List<OverallListener> overallListeners = new ArrayList<OverallListener>();
+	private final List<Listener> listeners = new ArrayList<Listener>();
 	private static final int ACTIVATED = 1;
 	private static final int DEACTIVATED = 2;
 	private final static Map<EObject, ViewpointManager> instances = new HashMap<EObject, ViewpointManager>();
@@ -68,27 +69,8 @@ public class ViewpointManager {
 		return null;
 	}
 
-	public static void addListener(Listener l) {
-		if (listeners.contains(l))
-			return;
-		if (l instanceof EarlyListener) {
-			for (int i = 0; i < listeners.size(); i++) {
-				if (!(listeners.get(i) instanceof EarlyListener)) {
-					listeners.add(i, l);
-					return;
-				}
-			}
-		}
-		listeners.add(l);
-	}
-
-	public static void removeListener(Listener l) {
-		listeners.remove(l);
-	}
-
 	public static void pinError(Resource vp) {
 		discarded.add(vp.getId());
-
 	}
 
 	public static Resource[] getAvailableViewpoints() {
@@ -223,6 +205,26 @@ public class ViewpointManager {
 		// stateManager.saveState();
 	}
 
+	public static void addOverallListener(OverallListener l) {
+		if (overallListeners.contains(l))
+			return;
+		overallListeners.add(l);
+	}
+
+	public static void removeOverallListener(OverallListener l) {
+		overallListeners.remove(l);
+	}
+
+	public void addListener(Listener l) {
+		if (listeners.contains(l))
+			return;
+		listeners.add(l);
+	}
+
+	public void removeListener(Listener l) {
+		listeners.remove(l);
+	}
+
 	protected void fireEvent(Resource vpResource, int event) {
 		for (Listener l : listeners.toArray(new Listener[listeners.size()])) {
 			if (event == ACTIVATED)
@@ -230,15 +232,24 @@ public class ViewpointManager {
 			else if (event == DEACTIVATED)
 				l.hasBeenDeactivated(vpResource);
 		}
+		for (OverallListener l : overallListeners.toArray(new OverallListener[overallListeners.size()])) {
+			if (event == ACTIVATED)
+				l.hasBeenActivated(target, vpResource);
+			else if (event == DEACTIVATED)
+				l.hasBeenDeactivated(target, vpResource);
+		}
+	}
+
+	public static interface OverallListener {
+		void hasBeenActivated(Object ctx, Resource vp);
+
+		void hasBeenDeactivated(Object ctx, Resource vp);
 	}
 
 	public static interface Listener {
 		void hasBeenActivated(Resource vp);
 
 		void hasBeenDeactivated(Resource vp);
-	}
-
-	public static interface EarlyListener extends Listener {
 
 	}
 

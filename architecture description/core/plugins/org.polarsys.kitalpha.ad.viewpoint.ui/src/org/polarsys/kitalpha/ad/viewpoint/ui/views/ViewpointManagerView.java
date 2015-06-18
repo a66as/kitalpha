@@ -131,13 +131,13 @@ public class ViewpointManagerView extends ViewPart {
 	private Action unUseAction;
 	private Action refreshAction;
 	private OpenViewAction openViewAction;
-	private ViewpointManager.Listener vpListener = new ViewpointManager.Listener() {
+	private ViewpointManager.OverallListener vpListener = new ViewpointManager.OverallListener() {
 
-		public void hasBeenDeactivated(Resource vp) {
+		public void hasBeenDeactivated(Object ctx, Resource vp) {
 			performInit();
 		}
 
-		public void hasBeenActivated(Resource vp) {
+		public void hasBeenActivated(Object ctx, Resource vp) {
 			performInit();
 		}
 	};
@@ -175,7 +175,7 @@ public class ViewpointManagerView extends ViewPart {
 		label.setLayoutData(layoutData);
 		createViewer(composite);
 		init();
-		ViewpointManager.addListener(vpListener);
+		ViewpointManager.addOverallListener(vpListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(wsListener);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().addSelectionListener(new ISelectionListener() {
 
@@ -501,7 +501,7 @@ public class ViewpointManagerView extends ViewPart {
 	@Override
 	public void dispose() {
 		super.dispose();
-		ViewpointManager.removeListener(vpListener);
+		ViewpointManager.removeOverallListener(vpListener);
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(wsListener);
 	}
 

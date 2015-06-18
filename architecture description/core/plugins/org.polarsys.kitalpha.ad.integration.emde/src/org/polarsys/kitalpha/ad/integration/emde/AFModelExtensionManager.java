@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -22,7 +23,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.polarsys.kitalpha.ad.common.AD_Log;
 import org.polarsys.kitalpha.ad.common.utils.URIHelper;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointManager;
-import org.polarsys.kitalpha.ad.services.manager.ViewpointManager.EarlyListener;
+import org.polarsys.kitalpha.ad.services.manager.ViewpointManager.Listener;
 import org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint;
 import org.polarsys.kitalpha.emde.extension.ExtendedModel;
 import org.polarsys.kitalpha.emde.extension.ExtensibleModel;
@@ -35,12 +36,15 @@ import org.polarsys.kitalpha.emde.extension.preferences.PreferenceModelExtension
  */
 public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 
-	static {
-	}
-
 	public AFModelExtensionManager() {
 		super();
-		ViewpointManager.addListener(new EarlyListener() {
+	}
+
+	@Override
+	public void setTarget(EObject target) {
+		super.setTarget(target);
+		ViewpointManager mgr = ViewpointManager.getInstance(getTarget());
+		mgr.addListener(new Listener() {
 
 			private final ResourceSet set = new ResourceSetImpl();
 
@@ -72,7 +76,7 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 		});
 
 		// TODO: quick solution clear all data
-		ViewpointManager.addListener(new EarlyListener() {
+		mgr.addListener(new Listener() {
 
 			@Override
 			public void hasBeenActivated(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {

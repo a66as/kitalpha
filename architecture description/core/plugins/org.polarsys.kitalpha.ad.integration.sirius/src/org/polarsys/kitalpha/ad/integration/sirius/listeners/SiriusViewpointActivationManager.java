@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.session.Session;
@@ -31,18 +32,18 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.progress.IProgressService;
 import org.polarsys.kitalpha.ad.integration.sirius.Activator;
-import org.polarsys.kitalpha.ad.services.manager.ViewpointManager.Listener;
+import org.polarsys.kitalpha.ad.services.manager.ViewpointManager.OverallListener;
 import org.polarsys.kitalpha.resourcereuse.model.Location;
 import org.polarsys.kitalpha.resourcereuse.model.Resource;
 
-public final class SiriusViewpointActivationManager implements Listener {
+public final class SiriusViewpointActivationManager implements OverallListener {
 
-	public void hasBeenDeactivated(Resource vp) {
-		updateActiveViewpoint(getURI(vp), false);
+	public void hasBeenDeactivated(Object ctx, Resource vp) {
+		updateActiveViewpoint(ctx, getURI(vp), false);
 	}
 
-	public void hasBeenActivated(Resource vp) {
-		updateActiveViewpoint(getURI(vp), true);
+	public void hasBeenActivated(Object ctx, Resource vp) {
+		updateActiveViewpoint(ctx, getURI(vp), true);
 	}
 
 	private URI getURI(Resource res) {
@@ -51,28 +52,26 @@ public final class SiriusViewpointActivationManager implements Listener {
 		return URI.createPlatformPluginURI(res.getPath(), false);
 	}
 
-	private void updateActiveViewpoint(URI vpURI, boolean activate) {
+	private void updateActiveViewpoint(Object ctx, URI vpURI, boolean activate) {
 		ViewpointSelectionCallback callback = new ViewpointSelectionCallback();
+		Session session = SessionManager.INSTANCE.getSession((EObject) ctx);
+		final TransactionalEditingDomain domain = session.getTransactionalEditingDomain();
+		org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint vp = (org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint) domain.getResourceSet().getEObject(vpURI, true);
+		Viewpoint genericVp = (Viewpoint) domain.getResourceSet().getEObject(Activator.GENERIC_VP_URI, true);
 
-		for (Session session : SessionManager.INSTANCE.getSessions()) {
-			final TransactionalEditingDomain domain = session.getTransactionalEditingDomain();
-			org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint vp = (org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint) domain.getResourceSet().getEObject(vpURI, true);
-			Viewpoint genericVp = (Viewpoint) domain.getResourceSet().getEObject(Activator.GENERIC_VP_URI, true);
+		Set<Viewpoint> viewpoints = SiriusHelper.getViewpoints(vp);
+		if (viewpoints.isEmpty())
+			return;
+		Set<Viewpoint> newSelectedViewpoints = new HashSet<Viewpoint>();
+		Set<Viewpoint> newDeselectedViewpoints = SiriusHelper.EMPTY_SET;
+		newSelectedViewpoints.add(genericVp);
+		if (activate)
+			newSelectedViewpoints.addAll(viewpoints);
+		else
+			newDeselectedViewpoints = viewpoints;
+		final RecordingCommand command = new ChangeViewpointSelectionCommand(session, callback, newSelectedViewpoints, newDeselectedViewpoints, new NullProgressMonitor());
+		execute(domain, command);
 
-			Set<Viewpoint> viewpoints = SiriusHelper.getViewpoints(vp);
-			if (viewpoints.isEmpty())
-				continue;
-			Set<Viewpoint> newSelectedViewpoints = new HashSet<Viewpoint>();
-			Set<Viewpoint> newDeselectedViewpoints = SiriusHelper.EMPTY_SET;
-			newSelectedViewpoints.add(genericVp);
-			if (activate)
-				newSelectedViewpoints.addAll(viewpoints);
-			else
-				newDeselectedViewpoints = viewpoints;
-			final RecordingCommand command = new ChangeViewpointSelectionCommand(session, callback, newSelectedViewpoints, newDeselectedViewpoints, new NullProgressMonitor());
-			execute(domain, command);
-
-		}
 	}
 
 	public void execute(final TransactionalEditingDomain domain, final RecordingCommand command) {
