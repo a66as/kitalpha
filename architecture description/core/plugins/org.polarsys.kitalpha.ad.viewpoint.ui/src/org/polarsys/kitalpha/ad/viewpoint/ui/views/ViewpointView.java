@@ -100,14 +100,6 @@ public class ViewpointView extends ViewPart implements ISelectionProvider {
 		try {
 			initResource();
 
-			// activate the VP if the user open its registered view
-			if (!ViewpointManager.INSTANCE.isActive(resourceId))
-				ViewpointManager.INSTANCE.activate(resourceId);
-			// if the VP is desactivated we need to close the related view. This
-			// is not automatic if the VP is living into the platform/target
-			// if
-			// (!viewpointResource.getProviderLocation().equals(Location.WORSPACE))
-			// {
 			viewpointListener = new HiddingListener(site);
 			ViewpointManager.addOverallListener(viewpointListener);
 			// }
@@ -177,7 +169,7 @@ public class ViewpointView extends ViewPart implements ISelectionProvider {
 			selectionProvider.dispose();
 		}
 		if (viewpointListener != null)
-			ViewpointManager.INSTANCE.removeOverallListener(viewpointListener);
+			ViewpointManager.removeOverallListener(viewpointListener);
 		viewpointListener = null;
 		viewpointResource = null;
 		super.dispose();
@@ -206,8 +198,6 @@ public class ViewpointView extends ViewPart implements ISelectionProvider {
 			tab.setSelectionProvider(selectionProvider);
 			tab.init();
 		}
-		// projectListener.selectionChanged(null, new
-		// StructuredSelection(selectionProvider.getSelection()));
 	}
 
 	public void updatePartName() {
@@ -295,10 +285,8 @@ public class ViewpointView extends ViewPart implements ISelectionProvider {
 					long modelTimeStamp = modelManager.getResourceManager().getModelTimeStamp();
 					// no need to refresh if changes come from this view
 					if (timeStamp == modelTimeStamp) {
-						// System.out.println("Reload discarded");
 						return Status.OK_STATUS;
 					}
-					// System.out.println("Reload ...");
 					disposeModel();
 					try {
 						initResource();

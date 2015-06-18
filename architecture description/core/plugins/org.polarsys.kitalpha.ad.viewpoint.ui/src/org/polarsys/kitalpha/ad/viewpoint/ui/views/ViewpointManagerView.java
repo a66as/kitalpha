@@ -363,20 +363,22 @@ public class ViewpointManagerView extends ViewPart {
 
 	protected void updateButtons(IStructuredSelection selection) {
 		int size = selection == null ? 0 : selection.size();
-		if (size == 1 && context != null) {
+		if (size == 1) {
 			Resource res = (Resource) selection.getFirstElement();
-			boolean used = ViewpointManager.getInstance(context).isUsed(res.getId());
-			useAction.setEnabled(!used);
-			unUseAction.setEnabled(used);
-			if (used) {
-				boolean filtered = ViewpointManager.getInstance(context).isFiltered(res.getId());
-				filterAction.setEnabled(filtered);
-				unFilterAction.setEnabled(!filtered);
-			} else {
-				filterAction.setEnabled(false);
-				unFilterAction.setEnabled(false);
+			if (context != null) {
+				boolean used = ViewpointManager.getInstance(context).isUsed(res.getId());
+				useAction.setEnabled(!used);
+				unUseAction.setEnabled(used);
+				if (used) {
+					boolean filtered = ViewpointManager.getInstance(context).isFiltered(res.getId());
+					filterAction.setEnabled(filtered);
+					unFilterAction.setEnabled(!filtered);
+				} else {
+					filterAction.setEnabled(false);
+					unFilterAction.setEnabled(false);
+				}
 			}
-			openViewAction.setEnabled(used);
+			openViewAction.setEnabled(true);
 			openViewAction.setResource(res);
 		} else {
 			useAction.setEnabled(false);
