@@ -189,7 +189,7 @@ public class DynamicMenuAction implements IMenuCreator, IObjectActionDelegate {
 
 	private void computeActiveServices(Map<Viewpoint, ModelManager> vp2mgr, Map<Viewpoint, List<ViewpointElement>> vp2elt) {
 		for (Viewpoint vp : sort(getAvailableViewpoints())) {
-			if (vp.isAbstract() || !ViewpointManager.INSTANCE.isActive(vp.getId())) {
+			if (vp.isAbstract() || !ViewpointManager.INSTANCE.isUsed(vp.getId())) {
 				continue;
 			}
 			ModelManager vpMgr = ModelManager.createWorkspaceManager(vp);

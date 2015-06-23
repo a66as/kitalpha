@@ -104,32 +104,35 @@ public class ViewpointManager {
 		Resource vpResource = getViewpoint(id);
 		if (vpResource == null)
 			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_3, id));
-		if (!isActive(id))
+		if (!isUsed(id))
 			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_4, id));
 		IntegrationHelper.getInstance().setFilter(target, id, state);
 		fireEvent(vpResource, state ? ACTIVATED : DEACTIVATED);
 	}
 
 	public void activate(String id) throws ViewpointActivationException {
+		startUse(id);
+	}
+
+	public void startUse(String id) throws ViewpointActivationException {
 		Resource vpResource = getViewpoint(id);
 		if (vpResource == null)
 			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_3, id));
-		if (isActive(id))
+		if (isUsed(id))
 			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_4, id));
 
 		ResourceSet set = new ResourceSetImpl();
 		try {
-			doActivate(set, vpResource);
+			doStartUse(set, vpResource);
 		} finally {
 			for (org.eclipse.emf.ecore.resource.Resource r : set.getResources()) {
 				r.unload();
 			}
 			set.getResources().clear();
-			// stateManager.saveState();
 		}
 	}
 
-	protected void doActivate(ResourceSet set, Resource vpResource) throws ViewpointActivationException {
+	protected void doStartUse(ResourceSet set, Resource vpResource) throws ViewpointActivationException {
 		startBundle(vpResource);
 		manageDependencies(set, vpResource);
 		IntegrationHelper.getInstance().setUsage(target, vpResource.getId(), true);
@@ -150,8 +153,8 @@ public class ViewpointManager {
 		for (Viewpoint dep : dependencies) {
 			String id = dep.getId();
 			vpDependencies.add(id);
-			if (!isActive(id))
-				doActivate(set, getViewpoint(id));
+			if (!isUsed(id))
+				doStartUse(set, getViewpoint(id));
 		}
 
 	}
@@ -185,10 +188,14 @@ public class ViewpointManager {
 	}
 
 	public void desactivate(String id) throws ViewpointActivationException {
+		stopUse(id);
+	}
+
+	public void stopUse(String id) throws ViewpointActivationException {
 		Resource vpResource = getViewpoint(id);
 		if (vpResource == null)
 			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_3, id));
-		if (!isActive(id))
+		if (!isUsed(id))
 			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_6, id));
 		for (Entry<String, List<String>> entry : dependencies.entrySet()) {
 			if (entry.getValue().contains(id))

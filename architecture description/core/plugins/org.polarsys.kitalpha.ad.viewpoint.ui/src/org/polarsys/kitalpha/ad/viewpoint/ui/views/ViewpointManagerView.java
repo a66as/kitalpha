@@ -402,7 +402,7 @@ public class ViewpointManagerView extends ViewPart {
 				if (vpMgr.isUsed(res.getId()))
 					return;
 				try {
-					vpMgr.activate(res.getId());
+					vpMgr.startUse(res.getId());
 				} catch (ViewpointActivationException e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					AD_Log.getDefault().logError(e);
@@ -424,7 +424,7 @@ public class ViewpointManagerView extends ViewPart {
 				if (!vpMgr.isUsed(res.getId()))
 					return;
 				try {
-					vpMgr.desactivate(res.getId());
+					vpMgr.stopUse(res.getId());
 				} catch (ViewpointActivationException e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					Activator.getDefault().logError(e);
