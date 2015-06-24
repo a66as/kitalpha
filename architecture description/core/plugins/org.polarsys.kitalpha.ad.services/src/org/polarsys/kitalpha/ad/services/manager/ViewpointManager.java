@@ -22,11 +22,12 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.util.NLS;
 import org.osgi.framework.Bundle;
 import org.polarsys.kitalpha.ad.common.AD_Log;
@@ -49,15 +50,15 @@ public class ViewpointManager {
 	private final List<Listener> listeners = new ArrayList<Listener>();
 	private static final int ACTIVATED = 1;
 	private static final int DEACTIVATED = 2;
-	private final static Map<EObject, ViewpointManager> instances = new HashMap<EObject, ViewpointManager>();
+	private final static Map<ResourceSet, ViewpointManager> instances = new HashMap<ResourceSet, ViewpointManager>();
 
 	public static ViewpointManager INSTANCE = new ViewpointManager();
 
 	private final Map<String, List<String>> dependencies = new HashMap<String, List<String>>();
 
-	private EObject target;
+	private ResourceSet target;
 
-	public void setTarget(EObject target) {
+	public void setTarget(ResourceSet target) {
 		this.target = target;
 	}
 
@@ -261,11 +262,23 @@ public class ViewpointManager {
 	}
 
 	public static ViewpointManager getInstance(EObject ctx1) {
-		EObject ctx = EcoreUtil.getRootContainer(ctx1);
+		ResourceSet ctx = ctx1.eResource().getResourceSet();
+		return getInstance(ctx);
+	}
+
+	public static ViewpointManager getInstance(final ResourceSet ctx) {
 		ViewpointManager instance = instances.get(ctx);
 		if (instance == null) {
 			instances.put(ctx, instance = createInstance());
-			// if (!ctx.equals(OBJ))
+			ctx.eAdapters().add(new AdapterImpl() {
+
+				@Override
+				public void notifyChanged(Notification msg) {
+					if (msg.getEventType() == Notification.REMOVE && ctx.getResources().isEmpty())
+						instances.remove(ctx);
+				}
+
+			});
 			instance.setTarget(ctx);
 		}
 		return instance;

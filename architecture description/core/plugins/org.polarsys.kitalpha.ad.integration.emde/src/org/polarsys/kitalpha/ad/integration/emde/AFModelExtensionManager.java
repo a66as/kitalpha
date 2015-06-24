@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -41,7 +40,7 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 	}
 
 	@Override
-	public void setTarget(EObject target) {
+	public void setTarget(ResourceSet target) {
 		super.setTarget(target);
 		ViewpointManager mgr = ViewpointManager.getInstance(getTarget());
 		mgr.addListener(new Listener() {

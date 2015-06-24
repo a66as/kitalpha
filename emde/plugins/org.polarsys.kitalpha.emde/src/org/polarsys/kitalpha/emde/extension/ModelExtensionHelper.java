@@ -16,9 +16,11 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.polarsys.kitalpha.emde.extension.preferences.PreferenceModelExtensionManager;
 import org.polarsys.kitalpha.emde.extension.utils.Log;
 
@@ -28,7 +30,7 @@ import org.polarsys.kitalpha.emde.extension.utils.Log;
  */
 public class ModelExtensionHelper {
 
-	private static final Map<EObject, ModelExtensionManager> instances = new HashMap<EObject, ModelExtensionManager>();
+	private static final Map<Object, ModelExtensionManager> instances = new HashMap<Object, ModelExtensionManager>();
 	private static final EObject OBJ = new EObjectImpl() {
 	};
 
@@ -41,12 +43,23 @@ public class ModelExtensionHelper {
 	}
 
 	public static ModelExtensionManager getInstance(EObject ctx1) {
-		EObject ctx = EcoreUtil.getRootContainer(ctx1);
+		final ResourceSet ctx = ctx1.eResource().getResourceSet();
 		ModelExtensionManager instance = instances.get(ctx);
 		if (instance == null) {
 			instances.put(ctx, instance = createInstance());
-			if (!ctx.equals(OBJ))
+			if (!OBJ.equals(ctx)) {
 				((DefaultModelExtensionManager) instance).setTarget(ctx);
+				ctx.eAdapters().add(new AdapterImpl() {
+
+					@Override
+					public void notifyChanged(Notification msg) {
+						if (msg.getEventType() == Notification.REMOVE && ctx.getResources().isEmpty())
+							instances.remove(ctx);
+					}
+
+				});
+
+			}
 		}
 		return instance;
 	}

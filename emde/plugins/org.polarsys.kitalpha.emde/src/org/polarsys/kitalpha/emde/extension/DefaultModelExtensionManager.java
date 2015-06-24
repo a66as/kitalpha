@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.polarsys.kitalpha.emde.extension.i18n.Messages;
 import org.polarsys.kitalpha.emde.extension.utils.Log;
 
@@ -25,7 +26,7 @@ import org.polarsys.kitalpha.emde.extension.utils.Log;
 
 public abstract class DefaultModelExtensionManager implements ModelExtensionManager {
 
-	private EObject target;
+	private ResourceSet target;
 
 	private List<ExtensionManagerDelegate> delegates = new ArrayList<ExtensionManagerDelegate>();
 
@@ -108,11 +109,11 @@ public abstract class DefaultModelExtensionManager implements ModelExtensionMana
 		return delegates;
 	}
 
-	public EObject getTarget() {
+	public ResourceSet getTarget() {
 		return target;
 	}
 
-	public void setTarget(EObject target) {
+	public void setTarget(ResourceSet target) {
 		this.target = target;
 	}
 

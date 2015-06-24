@@ -12,12 +12,8 @@ package org.polarsys.kitalpha.ad.viewpoint.integration;
 
 import java.util.ArrayList;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.Integration;
@@ -29,18 +25,14 @@ import org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.UsedView
  * 
  */
 public class ViewpointIntegration {
-	public void setUsage(EObject context, String id, boolean usage) {
+	public void setUsage(ResourceSet context, String id, boolean usage) {
 		Integration integ = getIntegrationStorage(context);
 		if (integ == null)
 			throw new UnsupportedOperationException("cannot find integration resource");
-		ResourceSet resourceSet = context.eResource().getResourceSet();
 		TransactionalEditingDomain transactionalEditingDomain = TransactionUtil.getEditingDomain(context);
 		if (transactionalEditingDomain != null) {
 			transactionalEditingDomain.getCommandStack().execute(new SetViewpointUsageCommand(transactionalEditingDomain, integ, id, usage));
-		} else if (resourceSet instanceof IEditingDomainProvider) {
-			EditingDomain editingDomain = ((IEditingDomainProvider) resourceSet).getEditingDomain();
-			System.out.println("TODO");
-			Thread.dumpStack();
+		} else {
 			for (UsedViewpoint uv : new ArrayList<UsedViewpoint>(integ.getUsedViewpoints())) {
 				if (id.equals(uv.getVpId())) {
 					if (usage)
@@ -58,18 +50,14 @@ public class ViewpointIntegration {
 		}
 	}
 
-	public void setFilter(EObject context, String id, boolean filter) {
+	public void setFilter(ResourceSet context, String id, boolean filter) {
 		Integration integ = getIntegrationStorage(context);
 		if (integ == null)
 			throw new UnsupportedOperationException("cannot find integration resource");
-		ResourceSet resourceSet = context.eResource().getResourceSet();
 		TransactionalEditingDomain transactionalEditingDomain = TransactionUtil.getEditingDomain(context);
 		if (transactionalEditingDomain != null) {
 			transactionalEditingDomain.getCommandStack().execute(new SetViewpointFilterCommand(transactionalEditingDomain, integ, id, filter));
-		} else if (resourceSet instanceof IEditingDomainProvider) {
-			EditingDomain editingDomain = ((IEditingDomainProvider) resourceSet).getEditingDomain();
-			System.out.println("TODO");
-			Thread.dumpStack();
+		} else {
 			for (UsedViewpoint uv : new ArrayList<UsedViewpoint>(integ.getUsedViewpoints())) {
 				if (id.equals(uv.getVpId())) {
 					uv.setFiltered(filter);
@@ -78,7 +66,7 @@ public class ViewpointIntegration {
 		}
 	}
 
-	public boolean isInUse(EObject context, String id) {
+	public boolean isInUse(ResourceSet context, String id) {
 		Integration integ = getIntegrationStorage(context);
 		if (integ != null) {
 			for (UsedViewpoint uv : integ.getUsedViewpoints()) {
@@ -89,7 +77,7 @@ public class ViewpointIntegration {
 		return false;
 	}
 
-	public boolean isFiltered(EObject context, String id) {
+	public boolean isFiltered(ResourceSet context, String id) {
 		Integration integ = getIntegrationStorage(context);
 		if (integ != null) {
 			for (UsedViewpoint uv : integ.getUsedViewpoints()) {
@@ -100,28 +88,30 @@ public class ViewpointIntegration {
 		return false;
 	}
 
-	protected Integration getIntegrationStorage(EObject context) {
+	protected Integration getIntegrationStorage(ResourceSet context) {
 		// quick & dirty implementation: need a better way to store these
 		// information
-		Resource eResource = context.eResource();
-		ResourceSet resourceSet = eResource.getResourceSet();
+		ResourceSet resourceSet = context;
 		for (Resource res : resourceSet.getResources()) {
 			if (res.getURI().toString().endsWith("integration")) {
 				Integration integ = (Integration) res.getContents().get(0);
 				return integ;
 			}
 		}
-		URI uri = eResource.getURI();
-		String path = uri.toPlatformString(true);
-		if (path.contains(".")) {
-			int index = path.lastIndexOf('.');
-			path = path.substring(0, index) + ".integration";
-		}
-		Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(path, true), true);
-		if (!resource.getContents().isEmpty()) {
-			resourceSet.getResources().add(resource);
-			return (Integration) resource.getContents().get(0);
-		}
-		return null;
+		// URI uri = eResource.getURI();
+		// String path = uri.toPlatformString(true);
+		// if (path.contains(".")) {
+		// int index = path.lastIndexOf('.');
+		// path = path.substring(0, index) + ".integration";
+		// }
+		// Resource resource =
+		// resourceSet.getResource(URI.createPlatformResourceURI(path, true),
+		// true);
+		// if (!resource.getContents().isEmpty()) {
+		// resourceSet.getResources().add(resource);
+		// return (Integration) resource.getContents().get(0);
+		// }
+		// return null;
+		throw new IllegalStateException("can't find integration resource");
 	}
 }
