@@ -48,6 +48,7 @@ import org.polarsys.kitalpha.resourcereuse.model.SearchCriteria;
 /**
  * 
  * @author Amine Lajmi
+ * 		   Faycal Abka
  *
  */
 public class ResourceHelper {
@@ -216,21 +217,20 @@ public class ResourceHelper {
 		return computeURI(projectName, shortName, extension, null);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static URI computeURI(String projectName, String shortName, String extension, String fragment) {
 		String stringURI = projectName + "/" + MODELS_FOLDER + "/"+ shortName + "." + extension;
 		if (fragment!=null)
 			stringURI = stringURI + fragment;
-		return URI.createPlatformResourceURI(stringURI);
+		return URIFix.createPlatformResourceURI(stringURI, false);
 	}
 
 	public static URI computeURI(IFile file) {
 		IPath emfResourcePath = file.getFullPath();
-		return URI.createPlatformResourceURI(emfResourcePath.toString(), true);
+		return URIFix.createPlatformResourceURI(emfResourcePath.toString(), true);
 	}
 	
 	public static URI computeURI(IFile file, String extension) {
-		URI specResourceURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
+		URI specResourceURI = URIFix.createPlatformResourceURI(file.getFullPath().toString(), true);
 		if (getFileExtension(specResourceURI).equals(extension))
 			return specResourceURI;
 		List<URI> secondaryResourceURIsByExtension = getSecondaryResourceURIsByExtension(extension, file.getProject().getName());
@@ -242,9 +242,9 @@ public class ResourceHelper {
 	public static URI computeURI(org.polarsys.kitalpha.resourcereuse.model.Resource r) {
 		URI uri = null;
 		if (r.getProviderLocation().equals(Location.WORSPACE)) {
-			uri = URI.createPlatformResourceURI(r.getPath(), false);
+			uri = URIFix.createPlatformResourceURI(r.getPath(), false);
 		} else {
-			uri = URI.createPlatformPluginURI(r.getPath(), false);
+			uri = URIFix.createPlatformPluginURI(r.getPath(), false);
 		}
 		return uri;
 	}
@@ -289,7 +289,7 @@ public class ResourceHelper {
 		if (standaloneResourceURI!=null) {
 			IPath trimmed = file.getFullPath().removeFileExtension().removeFileExtension();
 			IPath standalonePath = trimmed.addFileExtension(FileExtension.VPDESC_EXTENSION);
-			URI createPlatformResourceURI = URI.createPlatformResourceURI(standalonePath.toString(), false);
+			URI createPlatformResourceURI = URIFix.createPlatformResourceURI(standalonePath.toString(), false);
 			if (createPlatformResourceURI.equals(standaloneResourceURI)) {
 				IFile standaloneFile = ResourcesPlugin.getWorkspace().getRoot().getFile(standalonePath);
 				if (standaloneFile.exists()) 
@@ -336,9 +336,15 @@ public class ResourceHelper {
 	@SuppressWarnings("unchecked")
 	public static IResourceServiceProvider getServiceProvider(URI uri, Map<String, Object> extensionToFactoryMap, String extension) {
 		Object object = getFactory(uri, extensionToFactoryMap, extension);
+		
+		if (object instanceof IResourceServiceProvider.Provider){
+			return ((IResourceServiceProvider.Provider) object).get(uri, null);
+		}
+		
 		if (object instanceof Provider<?>) {
 			return ((Provider<IResourceServiceProvider>) object).get();
 		}
+		
 		return (IResourceServiceProvider) object;
 	}
 	
@@ -513,7 +519,7 @@ public class ResourceHelper {
 	 * @return
 	 */
 	public static List<EObject> loadModel(IFile file, ResourceSet resourceSet) {
-		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);			
+		URI uri = URIFix.createPlatformResourceURI(file.getFullPath().toString(), true);			
 		Resource resource = loadResource(uri, resourceSet);
 		EObject modelRoot = resource.getContents().get(0);
 		if (modelRoot!=null) {
@@ -882,5 +888,29 @@ public class ResourceHelper {
 			throw new RuntimeException("Could not find the project where is defined the EObject: " + object);	
 
 		return projectName; 	
+	}
+	
+	
+	/**
+	 * Copied from {@link org.polarsys.kitalpha.ad.common.utils.URIFix}
+	 */
+	public static class URIFix {
+
+		public static URI createPlatformPluginURI(String path, boolean encode) {
+			return createURI("platform:/plugin/", path);
+		}
+
+		public static URI createPlatformResourceURI(String path, boolean encode) {
+			return createURI("platform:/resource/", path);
+		}
+
+		private static URI createURI(String prefix, String path) {
+			String uri = prefix;
+			if (path.startsWith("/"))
+				uri += path.substring(1);
+			else
+				uri += path;
+			return URI.createURI(uri);
+		}
 	}
 }

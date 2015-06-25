@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2014 Thales Global Services S.A.S.
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  which accompanies this distribution, and is available at
- *  http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *  Thales Global Services S.A.S - initial API and implementation
- ******************************************************************************/
 package org.polarsys.kitalpha.ad.af.dsl.cs.text.ui.contentassist.antlr.internal; 
 
 import java.io.InputStream;
@@ -35,13 +25,8 @@ public class InternalAfdescParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'ArchitectureFramework'", "'{'", "'}'", "'description:'", "'shortName:'", "'Configuration'", "','", "'rootProjectName:'", "'Viewpoints'", "'.'"
     };
-    public static final int RULE_ID=4;
-    public static final int RULE_ANY_OTHER=10;
-    public static final int T__20=20;
-    public static final int EOF=-1;
-    public static final int RULE_SL_COMMENT=8;
-    public static final int RULE_ML_COMMENT=7;
     public static final int T__19=19;
+    public static final int RULE_ID=4;
     public static final int RULE_STRING=5;
     public static final int T__16=16;
     public static final int T__15=15;
@@ -51,8 +36,13 @@ public class InternalAfdescParser extends AbstractInternalContentAssistParser {
     public static final int T__11=11;
     public static final int T__14=14;
     public static final int T__13=13;
+    public static final int RULE_ANY_OTHER=10;
+    public static final int T__20=20;
     public static final int RULE_INT=6;
     public static final int RULE_WS=9;
+    public static final int RULE_SL_COMMENT=8;
+    public static final int EOF=-1;
+    public static final int RULE_ML_COMMENT=7;
 
     // delegates
     // delegators

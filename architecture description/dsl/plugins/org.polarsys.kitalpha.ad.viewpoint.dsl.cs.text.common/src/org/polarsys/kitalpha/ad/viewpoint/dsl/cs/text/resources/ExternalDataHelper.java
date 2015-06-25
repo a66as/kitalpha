@@ -197,7 +197,7 @@ public class ExternalDataHelper {
 		} catch (RuntimeException ex) {
 			if (uri.isPlatformResource()) {
 				String platformString = uri.toPlatformString(true);
-				URI platformPluginURI = URI.createPlatformPluginURI(platformString, true);
+				URI platformPluginURI = ResourceHelper.URIFix.createPlatformPluginURI(platformString, true);
 				return loadEPackage(platformPluginURI.toString(), resourceSet);
 			}
 			return null;

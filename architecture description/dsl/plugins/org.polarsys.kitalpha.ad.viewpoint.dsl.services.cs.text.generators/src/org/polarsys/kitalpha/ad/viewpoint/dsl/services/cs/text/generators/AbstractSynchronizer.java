@@ -412,7 +412,7 @@ public abstract class AbstractSynchronizer implements IViewpointBackwardSynchron
 
 	protected EObject loadInputModel(IFile file , ResourceSet resourceSet) {
 		IPath emfResourcePath = file.getFullPath();
-		URI emfUri = URI.createPlatformResourceURI(emfResourcePath.toString(), true);
+		URI emfUri = ResourceHelper.URIFix.createPlatformResourceURI(emfResourcePath.toString(), true);
 		return loadInputModel(emfUri, resourceSet);
 	}
 

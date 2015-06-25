@@ -97,12 +97,12 @@ Workflow {
 	
 			//Vpservices
 			uriMap = {
-				from = "platform:/plugin/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/src-gen/org/polarsys/kitalpha/ad/viewpoint/dsl/cs/text/Vpservices.ecore"
-				to = "platform:/resource/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/src-gen/org/polarsys/kitalpha/ad/viewpoint/dsl/cs/text/Vpservices.ecore"
+				from = "platform:/plugin/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/model/generated/Vpservices.ecore"
+				to = "platform:/resource/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/model/generated/Vpservices.ecore"
 				}	
 			uriMap = {	
-				from = "platform:/plugin/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/src-gen/org/polarsys/kitalpha/ad/viewpoint/dsl/cs/text/Vpservices.genmodel"
-				to = "platform:/resource/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/src-gen/org/polarsys/kitalpha/ad/viewpoint/dsl/cs/text/Vpservices.genmodel"
+				from = "platform:/plugin/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/model/generated/Vpservices.genmodel"
+				to = "platform:/resource/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/model/generated/Vpservices.genmodel"
 				}
 				
 			//emde
@@ -130,7 +130,7 @@ Workflow {
 			
 			//services [aggregated]
 			registerGeneratedEPackage = "org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services.ServicesPackage"
-			registerGenModelFile = "platform:/resource/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/src-gen/org/polarsys/kitalpha/ad/viewpoint/dsl/cs/text/Vpservices.genmodel"
+			registerGenModelFile = "platform:/resource/org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services/model/generated/Vpservices.genmodel"
 			
 			//vpdiagram
 			registerGeneratedEPackage = "org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdiagram.VpdiagramPackage"
@@ -148,7 +148,6 @@ Workflow {
         component = Generator {
             pathRtProject = runtimeProject
             pathUiProject = "${runtimeProject}.ui"
-           // pathTestProject = "${runtimeProject}.tests"
             projectNameRt = projectName
             projectNameUi = "${projectName}.ui"
             language = {
@@ -159,12 +158,7 @@ Workflow {
                 fragment = grammarAccess.GrammarAccessFragment {}
     
                 // generates Java API for the generated EPackages
-                fragment = ecore.EcoreGeneratorFragment {
-                // referencedGenModels = "
-                //  platform:/resource/org.eclipse.xtext.xbase/model/Xbase.genmodel,
-                //  platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.genmodel
-                // "
-                }
+                fragment = ecore.EMFGeneratorFragment {}
     
                 // Serializer 2.0
                 fragment = serializer.SerializerFragment {
@@ -226,14 +220,6 @@ Workflow {
                 // generates a more lightweight Antlr parser and lexer tailored for content assist
                 fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
     
-                // generates junit test support classes into Generator#pathTestProject
-            //    fragment = junit.Junit4Fragment {}
-    
-                // project wizard (optional)
-                // fragment = projectWizard.SimpleProjectWizardFragment {
-                //      generatorProjectName = "${projectName}"
-                //      modelFileExtension = file.extensions
-                // }
     
                 // rename refactoring
                 fragment = refactoring.RefactorElementNameFragment {}

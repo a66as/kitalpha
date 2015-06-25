@@ -36,7 +36,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -45,9 +44,7 @@ import org.eclipse.xtext.builder.nature.NatureAddingEditorCallback;
 import org.eclipse.xtext.builder.nature.ToggleXtextNatureAction;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.eclipse.xtext.ui.editor.DirtyStateEditorSupport;
 import org.eclipse.xtext.ui.editor.XtextEditor;
-import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.IConcreteSyntaxValidator;
@@ -75,9 +72,6 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	
 	@Inject
 	private ToggleXtextNatureAction toggleNature;
-	
-	@Inject
-	private DirtyStateEditorSupport editorSupport;
 	
 	@Inject
 	private Injector injector;
@@ -111,12 +105,6 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	public void afterCreatePartControl(XtextEditor editor) {
 		if (this.currentEditor != editor)
 			throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-		/**
-		 * FIXME This commented due to migration to mars. Ensure that the
-		 * modification work finely at the end of migration on initializrDirtyStateSupport(currentEditor)
-		 */
-//		editorSupport.initializeDirtyStateSupport(this);	
-		editorSupport.initializeDirtyStateSupport(currentEditor);
 		
 		IResource resource = editor.getResource();
 		if (resource!=null && !toggleNature.hasNature(resource.getProject()) && resource.getProject().isAccessible() && !resource.getProject().isHidden()) {
@@ -129,12 +117,6 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 		if (this.currentEditor != editor)
 			throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
 		
-		/**
-		 * FIXME This commented due to migration to mars. Ensure that the
-		 * modification work finely at the end of migration on removeDirtyStateSupport(currentEditor)
-		 */
-//		editorSupport.removeDirtyStateSupport(this);
-		editorSupport.removeDirtyStateSupport(currentEditor);
 		this.currentEditor = null;
 	}
 
@@ -142,93 +124,21 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	public boolean onValidateEditorInputState(XtextEditor editor) {
 		if (this.currentEditor != editor)
 			throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-		/**
-		 * FIXME This commented due to migration to mars. Ensure that the
-		 * modification work finely at the end of migration on isEditingPossible(currentEditor)
-		 */
-//		return editorSupport.isEditingPossible(this);
-		return editorSupport.isEditingPossible(currentEditor);
+		return currentEditor.getDirtyStateEditorSupport().isEditingPossible(currentEditor);
 	}
 
-	/**
-	 * FIXME This commented due to migration to mars. Ensure that the
-	 * modification work finely at the end of migration on getShell() is not 
-	 * defined in superclass, (modification: remove @Override annotation
-	 */
-//	@Override
+	@Override
 	public void beforeSetInput(XtextEditor editor) {
-		if (this.currentEditor != null) {
-			/**
-			 * FIXME This commented due to migration to mars. Ensure that the
-			 * modification work finely at the end of migration on removeDirtyStateSupport(currentEditor)
-			 */
-//			editorSupport.removeDirtyStateSupport(this);
-			editorSupport.removeDirtyStateSupport(currentEditor);
-		}
 	}
 
-	/**
-	 * FIXME This commented due to migration to mars. Ensure that the
-	 * modification work finely at the end of migration on getShell() is not 
-	 * defined in superclass, (modification: remove @Override annotation
-	 */
-//	@Override
+	@Override
 	public void afterSetInput(XtextEditor editor) {
 		if (this.currentEditor != null) {
 			if (this.currentEditor != editor)
 				throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-			
-			/**
-			 * FIXME This commented due to migration to mars. Ensure that the
-			 * modification work finely at the end of migration on initializrDirtyStateSupport(currentEditor)
-			 */
-//			editorSupport.initializeDirtyStateSupport(this);
-			editorSupport.initializeDirtyStateSupport(currentEditor);
 		} else {
 			this.currentEditor = editor;
 		}
-	}
-
-	/**
-	 * FIXME This commented due to migration to mars. Ensure that the
-	 * modification work finely at the end of migration on isDirty() is not 
-	 * defined in superclass, (modification: remove @Override annotation
-	 */
-//	@Override
-	public boolean isDirty() {
-		return currentEditor.isDirty();
-	}
-
-	/**
-	 * FIXME This commented due to migration to mars. Ensure that the
-	 * modification work finely at the end of migration on getDocument() is not 
-	 * defined in superclass, (modification: remove @Override annotation
-	 */
-//	@Override
-	public IXtextDocument getDocument() {
-		return currentEditor.getDocument();
-	}
-
-	/**
-	 * FIXME This commented due to migration to mars. Ensure that the
-	 * modification work finely at the end of migration on addVerifyListener() is not 
-	 * defined in superclass, (modification: remove @Override annotation
-	 */
-//	@Override
-	public void addVerifyListener(VerifyListener listener) {
-		ISourceViewer sourceViewer = currentEditor.getInternalSourceViewer();
-		StyledText widget = sourceViewer.getTextWidget();
-		widget.addVerifyListener(listener);
-	}
-
-	/**
-	 * FIXME This commented due to migration to mars. Ensure that the
-	 * modification work finely at the end of migration on getShell() is not 
-	 * defined in superclass, (modification: remove @Override annotation
-	 */
-//	@Override
-	public Shell getShell() {
-		return currentEditor.getEditorSite().getShell();
 	}
 
 	public void removeVerifyListener(VerifyListener listener) {
@@ -251,24 +161,7 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 				public void run() {			
 					if (!synchronizing) {
 						IFile file = (IFile) current.getEditorInput().getAdapter(IFile.class);						
-
 						synchronizing = doSynchronize(file);
-
-						/**
-						 * FIXME: Show label only on the vpdesc resournce (see the associated decorator)
-						 */
-//						IResource standaloneIResource = ResourceHelper.getStandaloneIResource(projectName);
-//						if (standaloneIResource != null){
-
-//							VpdslModelResourcesManager.addResource(file);
-
-
-//							if (synchronizing){
-//								VpdslModelResourcesManager.addPersistentProperty(file, "");
-//							} else {
-//								VpdslModelResourcesManager.addPersistentProperty(file, "Unsynchronized");
-//							}
-//						}
 					}	
 				}
 			};
@@ -277,13 +170,6 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 		} else {
 			synchronizing = false;
 		}
-		
-		/**
-		 * FIXME This commented due to migration to mars. Ensure that the
-		 * modification work finely at the end of migration on markEditorClean(currentEditor)
-		 */
-//		editorSupport.markEditorClean(this);
-		editorSupport.markEditorClean(currentEditor);
 	}
 	
 	protected boolean doSynchronize(IFile file) {
@@ -435,16 +321,18 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 		
 		EList<EObject> content = resource.getContents();
 
-		org.eclipse.emf.common.util.Diagnostic result = 
-				Diagnostician.INSTANCE.validate(EcoreUtil.getRootContainer(content.get(0)));
+		if (content != null && !content.isEmpty())
+		{
+			org.eclipse.emf.common.util.Diagnostic result = 
+					Diagnostician.INSTANCE.validate(EcoreUtil.getRootContainer(content.get(0)));
 
 
-		if (result.getSeverity() == IStatus.ERROR){
-			String wsResourceName = resource.getURI().lastSegment();
-			assembleValidationMessages(result, wsResourceName);
-			return false;
+			if (result.getSeverity() == IStatus.ERROR){
+				String wsResourceName = resource.getURI().lastSegment();
+				assembleValidationMessages(result, wsResourceName);
+				return false;
+			}
 		}
-
 
 		return true;
 	}

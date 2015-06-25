@@ -150,12 +150,12 @@ public class UseLinksContentassistHelper {
 			if (representationElement instanceof SiriusRepresentation){	
 				Group group = ((SiriusRepresentation)representationElement).getOdesign();	
 				if (group.eResource().getURI().isPlatformResource()){	
-					String ptf_uri = URI.createPlatformResourceURI(group.eResource().getURI().toPlatformString(true), true).toString();	
+					String ptf_uri = ResourceHelper.URIFix.createPlatformResourceURI(group.eResource().getURI().toPlatformString(true), true).toString();	
 							imports.put(DIAGRAM_KEY, ptf_uri);	
 				}	
 				
 				if (group.eResource().getURI().isPlatformPlugin()){	
-					String plg_uri = URI.createPlatformPluginURI(group.eResource
+					String plg_uri = ResourceHelper.URIFix.createPlatformPluginURI(group.eResource
 							().getURI().toPlatformString(true), true).toString();	
 							imports.put(DIAGRAM_KEY, plg_uri);	
 				}	
