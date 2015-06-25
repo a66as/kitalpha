@@ -50,6 +50,8 @@ public class ViewpointManager {
 	private final List<Listener> listeners = new ArrayList<Listener>();
 	private static final int ACTIVATED = 1;
 	private static final int DEACTIVATED = 2;
+	private static final int DISPLAYED = 4;
+	private static final int FILTERED = 8;
 	private final static Map<ResourceSet, ViewpointManager> instances = new HashMap<ResourceSet, ViewpointManager>();
 
 	public static ViewpointManager INSTANCE = new ViewpointManager();
@@ -108,7 +110,7 @@ public class ViewpointManager {
 		if (!isUsed(id))
 			throw new AlreadyInStateException(NLS.bind(Messages.Viewpoint_Manager_error_4, id));
 		IntegrationHelper.getInstance().setFilter(target, id, state);
-		fireEvent(vpResource, state ? ACTIVATED : DEACTIVATED);
+		fireEvent(vpResource, state ? FILTERED : DISPLAYED);
 	}
 
 	public void activate(String id) throws ViewpointActivationException {
@@ -235,16 +237,36 @@ public class ViewpointManager {
 
 	protected void fireEvent(Resource vpResource, int event) {
 		for (Listener l : listeners.toArray(new Listener[listeners.size()])) {
-			if (event == ACTIVATED)
+			switch (event) {
+			case ACTIVATED:
 				l.hasBeenActivated(vpResource);
-			else if (event == DEACTIVATED)
+				break;
+			case DEACTIVATED:
 				l.hasBeenDeactivated(vpResource);
+				break;
+			case FILTERED:
+				l.hasBeenFiltered(vpResource);
+				break;
+			case DISPLAYED:
+				l.hasBeenDisplayed(vpResource);
+				break;
+			}
 		}
 		for (OverallListener l : overallListeners.toArray(new OverallListener[overallListeners.size()])) {
-			if (event == ACTIVATED)
+			switch (event) {
+			case ACTIVATED:
 				l.hasBeenActivated(target, vpResource);
-			else if (event == DEACTIVATED)
+				break;
+			case DEACTIVATED:
 				l.hasBeenDeactivated(target, vpResource);
+				break;
+			case FILTERED:
+				l.hasBeenFiltered(target, vpResource);
+				break;
+			case DISPLAYED:
+				l.hasBeenDisplayed(target, vpResource);
+				break;
+			}
 		}
 	}
 
@@ -252,12 +274,20 @@ public class ViewpointManager {
 		void hasBeenActivated(Object ctx, Resource vp);
 
 		void hasBeenDeactivated(Object ctx, Resource vp);
+
+		void hasBeenFiltered(Object ctx, Resource vp);
+
+		void hasBeenDisplayed(Object ctx, Resource vp);
 	}
 
 	public static interface Listener {
 		void hasBeenActivated(Resource vp);
 
 		void hasBeenDeactivated(Resource vp);
+
+		void hasBeenFiltered(Resource vp);
+
+		void hasBeenDisplayed(Resource vp);
 
 	}
 

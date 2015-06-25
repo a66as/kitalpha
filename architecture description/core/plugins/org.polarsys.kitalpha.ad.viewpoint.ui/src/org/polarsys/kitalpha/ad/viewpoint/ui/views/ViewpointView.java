@@ -271,6 +271,18 @@ public class ViewpointView extends ViewPart implements ISelectionProvider {
 
 		public void hasBeenActivated(Object ctx, org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
 		}
+
+		@Override
+		public void hasBeenFiltered(Object ctx, org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void hasBeenDisplayed(Object ctx, org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	private class ModelLoader implements IResourceChangeListener {

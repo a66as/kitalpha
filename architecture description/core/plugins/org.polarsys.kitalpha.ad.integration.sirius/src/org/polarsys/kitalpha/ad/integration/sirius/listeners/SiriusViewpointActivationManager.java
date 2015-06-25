@@ -92,4 +92,16 @@ public final class SiriusViewpointActivationManager implements OverallListener {
 			Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.getSymbolicName(), "Error while starting bundle", e));
 		}
 	}
+
+	@Override
+	public void hasBeenFiltered(Object ctx, Resource vp) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void hasBeenDisplayed(Object ctx, Resource vp) {
+		// TODO Auto-generated method stub
+
+	}
 }

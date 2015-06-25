@@ -51,6 +51,20 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 				sendEvent(res, false);
 			}
 
+			public void hasBeenActivated(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+				sendEvent(vp, true);
+			}
+
+			@Override
+			public void hasBeenFiltered(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+				sendEvent(vp, false);
+			}
+
+			@Override
+			public void hasBeenDisplayed(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+				sendEvent(vp, true);
+			}
+
 			private void sendEvent(org.polarsys.kitalpha.resourcereuse.model.Resource res, boolean enable) {
 				URI uri = URIHelper.createURI(res);
 				Viewpoint vp = (Viewpoint) set.getEObject(uri, true);
@@ -69,9 +83,6 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 				set.getResources().clear();
 			}
 
-			public void hasBeenActivated(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
-				sendEvent(vp, true);
-			}
 		});
 
 		// TODO: quick solution clear all data
@@ -86,6 +97,18 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 				extension2state.clear();
 				managedByAF2state.clear();
 				ModelExtensionDescriptor.INSTANCE.loadExtensibleModels();
+			}
+
+			@Override
+			public void hasBeenFiltered(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void hasBeenDisplayed(org.polarsys.kitalpha.resourcereuse.model.Resource vp) {
+				// TODO Auto-generated method stub
+
 			}
 
 		});
