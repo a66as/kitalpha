@@ -177,15 +177,14 @@ public class UseLinksContentassistHelper {
 		
 		if (text != null && !text.isEmpty() && resource != null)	
 		try {	
-			resource.reparse(text);	
+			resource.reparse(text);
+			Viewpoint viewpoint = getCurrentViewpoint(resource);	
+			return viewpoint;
 		} catch (IOException e) {	
 			e.printStackTrace();	
-		}	
-		//TODO log 	
+		}
 		
-		Viewpoint viewpoint = getCurrentViewpoint(resource);	
-		
-		return viewpoint;	
+		return null;
 	}	
 
 	

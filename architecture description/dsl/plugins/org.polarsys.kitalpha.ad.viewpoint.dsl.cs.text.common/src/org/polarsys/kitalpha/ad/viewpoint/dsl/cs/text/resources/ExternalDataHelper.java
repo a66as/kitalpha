@@ -87,7 +87,7 @@ public class ExternalDataHelper {
 			//Delegate finding packages to contributed loaders
 			Map<String, URI> packagesFound = findPackagesInScopeURIs(patternList);
 			for (Map.Entry<String, URI> candidate : packagesFound.entrySet()) {
-				if (!packagesInScopeURIs.containsKey(candidate)){
+				if (!packagesInScopeURIs.containsKey(candidate.getKey())){
 					packagesInScopeURIs.put(candidate.getKey(), candidate.getValue());
 				}
 			}

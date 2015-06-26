@@ -339,9 +339,10 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 
 	private void assembleValidationMessages(
 			org.eclipse.emf.common.util.Diagnostic result, String resourceName) {
-		List<org.eclipse.emf.common.util.Diagnostic> children = result.getChildren();
+		
+		List<org.eclipse.emf.common.util.Diagnostic> children = result != null? result.getChildren(): null;
 
-		if (result != null && !result.getChildren().isEmpty()){
+		if (children != null && !children.isEmpty()){
 			for (org.eclipse.emf.common.util.Diagnostic diagnostic : children) {
 				if (diagnostic.getSeverity() == IStatus.ERROR){
 					if (!messages.containsKey(resourceName)){

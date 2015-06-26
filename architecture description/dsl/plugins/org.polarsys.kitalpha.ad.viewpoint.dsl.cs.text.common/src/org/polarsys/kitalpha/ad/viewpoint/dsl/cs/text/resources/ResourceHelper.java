@@ -723,7 +723,7 @@ public class ResourceHelper {
 			EPackage ecoreModel = resourceSet.getPackageRegistry().getEPackage(nsURI.toString());
 			if (ecoreModel !=null){
 				EPackage loadedEPackage = ExternalDataHelper.loadEPackage(nsURI.toString(), resourceSet);
-				Resource packageResource = loadedEPackage.eResource();
+				Resource packageResource = loadedEPackage != null? loadedEPackage.eResource(): null;
 				// [BZE] : modification of the condition, this avoid an exception raise
 				if (packageResource != null && ! resourceSet.getResources().contains(packageResource))
 				{
@@ -753,7 +753,7 @@ public class ResourceHelper {
 	 */
 	public static void loadExternalLibrary(String nsUri, ResourceSet resourceSet){
 		EPackage loadedPackage = ExternalDataHelper.loadEPackage(nsUri, resourceSet);
-		Resource resource = loadedPackage.eResource();
+		Resource resource = loadedPackage != null? loadedPackage.eResource(): null;
 		if (resource != null){
 			resourceSet.getResources().add(resource);
 		}
@@ -782,7 +782,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadUIResource(URI uiResourceURI, ResourceSet resourceSet) {
 		Resource uiResource = loadResource(uiResourceURI, resourceSet);
-		if (!uiResource.getContents().isEmpty()) {
+		if (uiResource != null && !uiResource.getContents().isEmpty()) {
 			EObject uiRoot = uiResource.getContents().get(0);
 			return uiRoot.eContents();
 		}
@@ -812,7 +812,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadDiagramResource(URI diagramResourceURI, ResourceSet resourceSet) {
 		Resource diagramResource = loadResource(diagramResourceURI, resourceSet);
-		if (!diagramResource.getContents().isEmpty()) {
+		if (diagramResource != null && !diagramResource.getContents().isEmpty()) {
 			EObject diagramRoot = diagramResource.getContents().get(0);
 			return diagramRoot.eContents();
 		}
@@ -842,7 +842,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadConfigurationResource(URI configurationResourceURI, ResourceSet resourceSet) {
 		Resource configurationResource = loadResource(configurationResourceURI, resourceSet);
-		if (!configurationResource.getContents().isEmpty()) {
+		if (configurationResource != null && !configurationResource.getContents().isEmpty()) {
 			EObject configurationRoot = configurationResource.getContents().get(0);
 			return Lists.newArrayList(configurationRoot);
 		}
@@ -872,7 +872,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadServicesResource(URI servicesResourceURI, ResourceSet resourceSet) {
 		Resource servicesResource = loadResource(servicesResourceURI, resourceSet);
-		if (!servicesResource.getContents().isEmpty()) {
+		if (servicesResource != null && !servicesResource.getContents().isEmpty()) {
 			EObject servicesResourceRoot = servicesResource.getContents().get(0);
 			List<EObject> contents = servicesResourceRoot.eContents();
 			return contents;

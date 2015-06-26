@@ -336,7 +336,7 @@ public class DiagramTextAcceleration {
 			String tmp = prefix + "Container." + prefix + "." + ref.trim(); //FIXME: underscores are not good practice
 			
 			result.append(tmp);
-			if (ref != refrences[size - 1])
+			if (!ref.equals(refrences[size - 1]))
 				result.append(", ");
 		}
 		
