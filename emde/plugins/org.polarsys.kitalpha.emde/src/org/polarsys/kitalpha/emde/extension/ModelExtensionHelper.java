@@ -20,6 +20,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.polarsys.kitalpha.emde.extension.preferences.PreferenceModelExtensionManager;
 import org.polarsys.kitalpha.emde.extension.utils.Log;
@@ -31,37 +32,27 @@ import org.polarsys.kitalpha.emde.extension.utils.Log;
 public class ModelExtensionHelper {
 
 	private static final Map<Object, ModelExtensionManager> instances = new HashMap<Object, ModelExtensionManager>();
-	private static final EObject OBJ = new EObjectImpl() {
-	};
 
-	public static ModelExtensionManager getInstance() {
-		throw new UnsupportedOperationException();
-	}
-
-	public static ModelExtensionManager getInstanceSpecial() {
-		return getInstance(OBJ);
-	}
-
-	public static ModelExtensionManager getInstance(EObject ctx1) {
-		final ResourceSet ctx = ctx1.eResource().getResourceSet();
+	public static ModelExtensionManager getInstance(Resource resource) {
+		final ResourceSet ctx = resource.getResourceSet();
 		ModelExtensionManager instance = instances.get(ctx);
 		if (instance == null) {
 			instances.put(ctx, instance = createInstance());
-			if (!OBJ.equals(ctx)) {
-				((DefaultModelExtensionManager) instance).setTarget(ctx);
-				ctx.eAdapters().add(new AdapterImpl() {
-
-					@Override
-					public void notifyChanged(Notification msg) {
-						if (msg.getEventType() == Notification.REMOVE && ctx.getResources().isEmpty())
-							instances.remove(ctx);
-					}
-
-				});
-
-			}
+			((DefaultModelExtensionManager) instance).setTarget(ctx);
+			ctx.eAdapters().add(new AdapterImpl() {
+				
+				@Override
+				public void notifyChanged(Notification msg) {
+					if (msg.getEventType() == Notification.REMOVE && ctx.getResources().isEmpty())
+						instances.remove(ctx);
+				}
+				
+			});
 		}
 		return instance;
+	}
+	public static ModelExtensionManager getInstance(EObject ctx) {
+		return getInstance(ctx.eResource());
 	}
 
 	private static ModelExtensionManager createInstance() {
