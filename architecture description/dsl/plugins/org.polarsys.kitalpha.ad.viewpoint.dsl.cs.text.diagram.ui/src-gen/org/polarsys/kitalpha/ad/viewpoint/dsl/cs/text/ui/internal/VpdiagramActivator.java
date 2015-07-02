@@ -91,10 +91,5 @@ public class VpdiagramActivator extends AbstractUIPlugin {
 	protected Module getSharedStateModule() {
 		return new SharedStateModule();
 	}
-
-	public static long getAndIncrementDiagram_suffix() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 }

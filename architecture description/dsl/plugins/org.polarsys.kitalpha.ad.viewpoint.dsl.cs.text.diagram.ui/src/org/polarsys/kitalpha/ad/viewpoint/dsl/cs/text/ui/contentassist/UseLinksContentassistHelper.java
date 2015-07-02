@@ -11,6 +11,9 @@
 package org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.ui.contentassist;
 
 import java.io.IOException;
+import java.util.Collections;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -20,11 +23,15 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.sirius.viewpoint.description.Group;
-import org.eclipse.xtext.resource.IExternalContentSupport.IExternalContentProvider;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.polarsys.kitalpha.ad.integration.sirius.model.SiriusRepresentation;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.desc.helper.desc.CoreDomainViewpointHelper;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.helper.URIConverterHelper;
+import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.identifiers.EditorIDs;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.resources.ResourceHelper;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.vpspec.Viewpoint;
 import org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.RepresentationElement;
@@ -41,13 +48,13 @@ public class UseLinksContentassistHelper {
 	
 	
 	
-	public static DiagramUseLinks getViewpointRepresentation(EObject model, IExternalContentProvider externalProvider){	
+	public static DiagramUseLinks getViewpointRepresentation(EObject model){	
 		
 		imports.clear();	
 		
 		String projectName = ResourceHelper.getProjectName(model);	
 		
-		Viewpoint vp = getRootViewpoint(model, projectName, externalProvider);	
+		Viewpoint vp = getRootViewpoint(model, projectName);	
 		
 		initImportsWithUsedViewpoints(vp);	
 		initImportsWithModelsAndDiagrams(vp);	
@@ -164,31 +171,88 @@ public class UseLinksContentassistHelper {
 	}        	
 	
 	
-	private static Viewpoint getRootViewpoint(EObject model, String projectName, IExternalContentProvider externalProvider){	
+	private static Viewpoint getRootViewpoint(EObject model, String projectName){
 		
 		ResourceSet fakeResourceSet = new ResourceSetImpl();	
-		XtextResource resource;	
+		XtextResource resource;
+		Viewpoint viewpoint = null; //result
 		
 		ResourceHelper.loadPrimaryResource(projectName, fakeResourceSet);	
-		URI uri = ResourceHelper.getPrimaryResourceURI(projectName);	
+		URI uri = ResourceHelper.getPrimaryResourceURI(projectName);
 		
 		resource = (XtextResource) fakeResourceSet.getResource(uri, false);	
-		String text = externalProvider.getActualContentProvider().getContent(uri);	
+		String text = null;
 		
-		if (text != null && !text.isEmpty() && resource != null)	
-		try {	
-			resource.reparse(text);
-			Viewpoint viewpoint = getCurrentViewpoint(resource);	
-			return viewpoint;
-		} catch (IOException e) {	
-			e.printStackTrace();	
+		IEditorReference vpspecEditor = getOpenedEditor(uri);
+		
+		try {
+			if (vpspecEditor != null)
+			{
+				XtextEditor editor = (XtextEditor) vpspecEditor.getEditor(false);
+				text = editor.getDirtyStateEditorSupport().getDirtyStateManager().getActualContentProvider().getContent(uri);
+
+				if (text != null && !text.isEmpty() && resource != null)
+				{
+					resource.reparse(text);
+				}
+				else
+				{
+					if (resource != null)
+						resource.load(Collections.emptyMap());
+				}
+			}
+			else
+			{
+				if (resource != null)
+				{
+					resource.load(Collections.emptyMap());
+				}
+				
+			}
+			
+			viewpoint = getCurrentViewpoint(resource); 
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-		return null;
+		return viewpoint;
 	}	
 
 	
+	private static IEditorReference getOpenedEditor(URI uri) {
+		
+		IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+		
+		for (IEditorReference iEditorReference : editors) {
+			String id = iEditorReference.getId();
+			
+			if (id.equals(EditorIDs.VPSPEC_EDITOR_ID))
+			{
+				try {
+					IFile file = iEditorReference.getEditorInput().getAdapter(IFile.class);
+					
+					if (file != null)
+					{
+						String project = file.getProject().getName().toString();
+						String segment = uri.segment(1);
+
+						if (project.equalsIgnoreCase(segment))
+							return iEditorReference;
+					}
+				
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		return null;
+	}
+
 	private static Viewpoint getCurrentViewpoint(Resource resource) {	
+		
+		if (resource == null) return null;
 		
 		TreeIterator<EObject> it = resource.getAllContents();	
 		
