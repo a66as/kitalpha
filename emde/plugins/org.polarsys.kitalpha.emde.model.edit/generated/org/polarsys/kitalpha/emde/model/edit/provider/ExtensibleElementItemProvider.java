@@ -40,7 +40,7 @@ import org.polarsys.kitalpha.emde.model.ExtensibleElement;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ExtensibleElementItemProvider extends ElementItemProvider implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource, ITableItemLabelProvider, ITableItemColorProvider, ITableItemFontProvider, IItemColorProvider, IItemFontProvider {
+public class ExtensibleElementItemProvider extends ElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -63,9 +63,6 @@ public class ExtensibleElementItemProvider extends ElementItemProvider implement
 			super.getPropertyDescriptors(object);
 
 		}
-		// begin-extension-code
-		checkChildCreationExtender(object);
-		// end-extension-code
 		return itemPropertyDescriptors;
 	}
 
@@ -108,9 +105,8 @@ public class ExtensibleElementItemProvider extends ElementItemProvider implement
 	@Override
 	public String getText(Object object) {
 
-		// begin-extension-code
-		return "[" + getString("_UI_ExtensibleElement_type") + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		// end-extension-code
+		return getString("_UI_ExtensibleElement_type"); //$NON-NLS-1$
+
 	}
 
 	/**
