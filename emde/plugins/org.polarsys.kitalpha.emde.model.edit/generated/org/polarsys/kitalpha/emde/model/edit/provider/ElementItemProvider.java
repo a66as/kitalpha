@@ -74,9 +74,8 @@ public class ElementItemProvider extends ExtensionItemProviderAdapter implements
 	@Override
 	public String getText(Object object) {
 
-		// begin-extension-code
-		return "[" + getString("_UI_Element_type") + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		// end-extension-code
+		return getString("_UI_Element_type"); //$NON-NLS-1$
+
 	}
 
 	/**
