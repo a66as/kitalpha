@@ -1,4 +1,4 @@
-//Generated with EGF 1.2.0.v20140805-0858
+//Generated with EGF 1.2.0.v20150211-1405
 package org.polarsys.kitalpha.emde.genchain.extension;
 
 import java.util.HashMap;
@@ -36,6 +36,7 @@ public class EmdeGenerationPattern {
 		this.editorActivity = "platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.editor.fcore#_AItvUFjkEd-5FJ833LkcRA";
 		this.testActivity = "platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.tests.fcore#_79dGwDYdEeGWF-mrFIsVzA";
 		this.javadocActivity = "platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/javadoc.fcore#_CycMIDYfEeGWF-mrFIsVzA";
+
 	}
 
 	public void generate(Object argument) throws Exception {
@@ -57,7 +58,8 @@ public class EmdeGenerationPattern {
 			}
 		}
 		if (ctx.useReporter()) {
-			ctx.getReporter().executionFinished(OutputManager.computeExecutionOutput(ctx), ctx);
+			ctx.getReporter().executionFinished(
+					OutputManager.computeExecutionOutput(ctx), ctx);
 		}
 	}
 
@@ -71,21 +73,28 @@ public class EmdeGenerationPattern {
 			parameterValues.put("parameter", this.parameter);
 			String outputWithCallBack = OutputManager.computeLoopOutput(ictx);
 			String loop = OutputManager.computeLoopOutputWithoutCallback(ictx);
-			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx, parameterValues);
+			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx,
+					parameterValues);
 		}
 		return null;
 	}
 
-	protected void method_body(final StringBuffer out, final PatternContext ctx) throws Exception {
-		Map<GenerationElement, FactoryComponent> fcs = (Map<GenerationElement, FactoryComponent>) ctx.getValue(FcoreBuilderConstants.CURRENT_FCORE);
+	protected void method_body(final StringBuffer out, final PatternContext ctx)
+			throws Exception {
+		Map<GenerationElement, FactoryComponent> fcs = (Map<GenerationElement, FactoryComponent>) ctx
+				.getValue(FcoreBuilderConstants.CURRENT_FCORE);
 
-		FactoryComponent fc = fcs.get((GenerationElement) (parameter.eContainer()));
+		FactoryComponent fc = fcs.get((GenerationElement) (parameter
+				.eContainer()));
 
 		ProductionPlan pp = (ProductionPlan) fc.getOrchestration();
-		DomainViewpoint dvp = (DomainViewpoint) fc.getViewpointContainer().getViewpoint(DomainViewpoint.class);
+		DomainViewpoint dvp = (DomainViewpoint) fc.getViewpointContainer()
+				.getViewpoint(DomainViewpoint.class);
 
 		EMFDomain genModelDomain = null;
-		URI uri = ((HashMap<String, URI>) ctx.getValue(FcoreBuilderConstants.GENMODEL_URIS)).get(parameter.getModelPath());
+		URI uri = ((HashMap<String, URI>) ctx
+				.getValue(FcoreBuilderConstants.GENMODEL_URIS)).get(parameter
+				.getModelPath());
 		genModelDomain = ActivityInvocationHelper.getDomain(dvp, uri);
 		if (genModelDomain == null) {
 			genModelDomain = DomainFactory.eINSTANCE.createEMFDomain();
@@ -97,7 +106,8 @@ public class EmdeGenerationPattern {
 		Map<String, OrchestrationParameter> parameters = new HashMap<String, OrchestrationParameter>();
 
 		for (OrchestrationParameter param : pp.getOrchestrationParameters()) {
-			if (ActivityInvocationHelper.GENERATION_EXTENSION_PARAMETER_NAME.equals(param.getName())) {
+			if (ActivityInvocationHelper.GENERATION_EXTENSION_PARAMETER_NAME
+					.equals(param.getName())) {
 				parameters.put("pattern.substitutions", param);
 			}
 		}
@@ -107,31 +117,53 @@ public class EmdeGenerationPattern {
 			TypeDomain typeDomain = DomainFactory.eINSTANCE.createTypeDomain();
 			typeDomain.setDomain(genModelDomain);
 			contracts.put("genModelURI", typeDomain);
-			ActivityInvocationHelper.addInvocation(pp, (Activity) resourceSet.getEObject(URI.createURI(this.modelActivity, false), true), contracts, parameters);
+			ActivityInvocationHelper.addInvocation(
+					pp,
+					(Activity) resourceSet.getEObject(
+							URI.createURI(this.modelActivity, false), true),
+					contracts, parameters);
 		}
 		if (parameter.isGenerateEdit()) {
 			TypeDomain typeDomain = DomainFactory.eINSTANCE.createTypeDomain();
 			typeDomain.setDomain(genModelDomain);
 			contracts.put("genModelURI", typeDomain);
-			ActivityInvocationHelper.addInvocation(pp, (Activity) resourceSet.getEObject(URI.createURI(this.editActivity, false), true), contracts, parameters);
+			ActivityInvocationHelper.addInvocation(
+					pp,
+					(Activity) resourceSet.getEObject(
+							URI.createURI(this.editActivity, false), true),
+					contracts, parameters);
 		}
 		if (parameter.isGenerateEditor()) {
 			TypeDomain typeDomain = DomainFactory.eINSTANCE.createTypeDomain();
 			typeDomain.setDomain(genModelDomain);
 			contracts.put("genModelURI", typeDomain);
-			ActivityInvocationHelper.addInvocation(pp, (Activity) resourceSet.getEObject(URI.createURI(this.editorActivity, false), true), contracts, parameters);
+			ActivityInvocationHelper.addInvocation(
+					pp,
+					(Activity) resourceSet.getEObject(
+							URI.createURI(this.editorActivity, false), true),
+					contracts, parameters);
 		}
 		if (parameter.isGenerateTest()) {
-			TypeDomain typeEMFDomain = DomainFactory.eINSTANCE.createTypeDomain();
+			TypeDomain typeEMFDomain = DomainFactory.eINSTANCE
+					.createTypeDomain();
 			typeEMFDomain.setDomain(genModelDomain);
 			contracts.put("genModelURI", typeEMFDomain);
-			ActivityInvocationHelper.addInvocation(pp, (Activity) resourceSet.getEObject(URI.createURI(this.testActivity, false), true), contracts, parameters);
+			ActivityInvocationHelper.addInvocation(
+					pp,
+					(Activity) resourceSet.getEObject(
+							URI.createURI(this.testActivity, false), true),
+					contracts, parameters);
 		}
 		if (parameter.isGenerateJavadoc()) {
-			TypeDomain typeEMFDomain = DomainFactory.eINSTANCE.createTypeDomain();
+			TypeDomain typeEMFDomain = DomainFactory.eINSTANCE
+					.createTypeDomain();
 			typeEMFDomain.setDomain(genModelDomain);
 			contracts.put("genModelURI", typeEMFDomain);
-			ActivityInvocationHelper.addInvocation(pp, (Activity) resourceSet.getEObject(URI.createURI(this.javadocActivity, false), true), contracts, parameters);
+			ActivityInvocationHelper.addInvocation(
+					pp,
+					(Activity) resourceSet.getEObject(
+							URI.createURI(this.javadocActivity, false), true),
+					contracts, parameters);
 		}
 
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
@@ -144,7 +176,8 @@ public class EmdeGenerationPattern {
 
 	protected org.polarsys.kitalpha.emde.genchain.extension.model.EmdeGeneration parameter;
 
-	public void set_parameter(org.polarsys.kitalpha.emde.genchain.extension.model.EmdeGeneration parameter) {
+	public void set_parameter(
+			org.polarsys.kitalpha.emde.genchain.extension.model.EmdeGeneration parameter) {
 		this.parameter = parameter;
 	}
 
