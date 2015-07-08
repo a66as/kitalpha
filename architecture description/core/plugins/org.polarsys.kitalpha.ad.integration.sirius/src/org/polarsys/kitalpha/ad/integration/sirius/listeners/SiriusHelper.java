@@ -14,7 +14,11 @@ package org.polarsys.kitalpha.ad.integration.sirius.listeners;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.sirius.business.api.session.Session;
+import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.polarsys.kitalpha.ad.integration.sirius.model.SiriusRepresentation;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointManager;
@@ -31,6 +35,16 @@ public class SiriusHelper {
 		// be associated to the resourceset or editingdomain so the case with
 		// many semantic resource will work
 		return ViewpointManager.getInstance(session.getTransactionalEditingDomain().getResourceSet());
+	}
+
+	public static Session getSession(ResourceSet set) {
+		for (Resource r : set.getResources())
+		{
+			Session session = SessionManager.INSTANCE.getSession(r);
+			if (session != null)
+				return session;
+		}
+		throw new IllegalStateException("Cannot find session");
 	}
 
 	public static Set<Viewpoint> getViewpoints(org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint vp) {
