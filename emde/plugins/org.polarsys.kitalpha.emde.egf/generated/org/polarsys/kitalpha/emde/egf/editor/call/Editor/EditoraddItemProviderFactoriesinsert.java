@@ -1,4 +1,4 @@
-//Generated on Wed Jun 18 09:37:17 CEST 2014 with EGF 1.1.0.v20140528-0645
+//Generated with EGF 1.2.0.v20150211-1405
 package org.polarsys.kitalpha.emde.egf.editor.call.Editor;
 
 import org.polarsys.kitalpha.emde.egf.utils.*;
@@ -16,21 +16,28 @@ import org.eclipse.egf.model.pattern.*;
 import org.eclipse.egf.pattern.execution.*;
 import org.eclipse.egf.pattern.query.*;
 
-public class EditoraddItemProviderFactoriesinsert extends org.eclipse.egf.emf.pattern.editor.call.Editor.EditoraddItemProviderFactoriesinsert {
+public class EditoraddItemProviderFactoriesinsert
+		extends
+		org.eclipse.egf.emf.pattern.editor.call.Editor.EditoraddItemProviderFactoriesinsert {
 	protected static String nl;
 
-	public static synchronized EditoraddItemProviderFactoriesinsert create(String lineSeparator) {
+	public static synchronized EditoraddItemProviderFactoriesinsert create(
+			String lineSeparator) {
 		nl = lineSeparator;
 		EditoraddItemProviderFactoriesinsert result = new EditoraddItemProviderFactoriesinsert();
 		nl = null;
 		return result;
 	}
 
-	public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
+	public final String NL = nl == null ? (System.getProperties()
+			.getProperty("line.separator")) : nl;
 	protected final String TEXT_1 = "\t\tfor (AdapterFactory extendedAdapterFactory : ";
-	protected final String TEXT_2 = ".getInstance().getExtendedModelAdapterFactories(";
-	protected final String TEXT_3 = ".class.getName())) {" + NL + "\t\t\tadapterFactory.addAdapterFactory(extendedAdapterFactory);" + NL + "\t\t}";
-	protected final String TEXT_4 = NL + "\t\tadapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());";
+	protected final String TEXT_2 = ".INSTANCE.getExtendedModelAdapterFactories(";
+	protected final String TEXT_3 = ".class.getName())) {" + NL
+			+ "\t\t\tadapterFactory.addAdapterFactory(extendedAdapterFactory);"
+			+ NL + "\t\t}";
+	protected final String TEXT_4 = NL
+			+ "\t\tadapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());";
 	protected final String TEXT_5 = NL;
 	protected final String TEXT_6 = NL;
 
@@ -134,7 +141,9 @@ public class EditoraddItemProviderFactoriesinsert extends org.eclipse.egf.emf.pa
 																						this._ListOfString = (java.lang.String) _ListOfStringParameter;
 
 																						if (preCondition(ctx)) {
-																							ctx.setNode(new Node.Container(currentNode, getClass()));
+																							ctx.setNode(new Node.Container(
+																									currentNode,
+																									getClass()));
 																							orchestration(ctx);
 																						}
 
@@ -160,7 +169,8 @@ public class EditoraddItemProviderFactoriesinsert extends org.eclipse.egf.emf.pa
 		}
 		ctx.setNode(currentNode);
 		if (ctx.useReporter()) {
-			ctx.getReporter().executionFinished(OutputManager.computeExecutionOutput(ctx), ctx);
+			ctx.getReporter().executionFinished(
+					OutputManager.computeExecutionOutput(ctx), ctx);
 		}
 
 		stringBuffer.append(TEXT_5);
@@ -177,27 +187,42 @@ public class EditoraddItemProviderFactoriesinsert extends org.eclipse.egf.emf.pa
 			Map<String, Object> parameterValues = new HashMap<String, Object>();
 			parameterValues.put("genPackage", this.genPackage);
 			parameterValues.put("genModel", this.genModel);
-			parameterValues.put("importedOperationClassName", this.importedOperationClassName);
-			parameterValues.put("operationMethodName", this.operationMethodName);
+			parameterValues.put("importedOperationClassName",
+					this.importedOperationClassName);
+			parameterValues
+					.put("operationMethodName", this.operationMethodName);
 			parameterValues.put("_ArrayListOfObject", this._ArrayListOfObject);
-			parameterValues.put("_ArrayListOfSelectionChangedListener", this._ArrayListOfSelectionChangedListener);
-			parameterValues.put("_CollectionOfSelectionChangedListener", this._CollectionOfSelectionChangedListener);
-			parameterValues.put("_ArrayListOfResource", this._ArrayListOfResource);
-			parameterValues.put("_CollectionOfResource", this._CollectionOfResource);
-			parameterValues.put("_MapOfResourceToDiagnostic", this._MapOfResourceToDiagnostic);
-			parameterValues.put("_HashMapOfResourceToBoolean", this._HashMapOfResourceToBoolean);
-			parameterValues.put("_MapOfObjectToObject", this._MapOfObjectToObject);
-			parameterValues.put("_HashMapOfObjectToObject", this._HashMapOfObjectToObject);
-			parameterValues.put("_LinkedHashMapOfResourceToDiagnostic", this._LinkedHashMapOfResourceToDiagnostic);
-			parameterValues.put("_CollectionOfAnything", this._CollectionOfAnything);
+			parameterValues.put("_ArrayListOfSelectionChangedListener",
+					this._ArrayListOfSelectionChangedListener);
+			parameterValues.put("_CollectionOfSelectionChangedListener",
+					this._CollectionOfSelectionChangedListener);
+			parameterValues.put("_ArrayListOfResource",
+					this._ArrayListOfResource);
+			parameterValues.put("_CollectionOfResource",
+					this._CollectionOfResource);
+			parameterValues.put("_MapOfResourceToDiagnostic",
+					this._MapOfResourceToDiagnostic);
+			parameterValues.put("_HashMapOfResourceToBoolean",
+					this._HashMapOfResourceToBoolean);
+			parameterValues.put("_MapOfObjectToObject",
+					this._MapOfObjectToObject);
+			parameterValues.put("_HashMapOfObjectToObject",
+					this._HashMapOfObjectToObject);
+			parameterValues.put("_LinkedHashMapOfResourceToDiagnostic",
+					this._LinkedHashMapOfResourceToDiagnostic);
+			parameterValues.put("_CollectionOfAnything",
+					this._CollectionOfAnything);
 			parameterValues.put("_ListOfAnything", this._ListOfAnything);
-			parameterValues.put("useExtendedLabelProvider", this.useExtendedLabelProvider);
-			parameterValues.put("_AdapterFactoryLabelProvider", this._AdapterFactoryLabelProvider);
+			parameterValues.put("useExtendedLabelProvider",
+					this.useExtendedLabelProvider);
+			parameterValues.put("_AdapterFactoryLabelProvider",
+					this._AdapterFactoryLabelProvider);
 			parameterValues.put("_ArrayListOfString", this._ArrayListOfString);
 			parameterValues.put("_ListOfString", this._ListOfString);
 			String outputWithCallBack = OutputManager.computeLoopOutput(ictx);
 			String loop = OutputManager.computeLoopOutputWithoutCallback(ictx);
-			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx, parameterValues);
+			ictx.getReporter().loopFinished(loop, outputWithCallBack, ictx,
+					parameterValues);
 		}
 		return null;
 	}
@@ -206,38 +231,52 @@ public class EditoraddItemProviderFactoriesinsert extends org.eclipse.egf.emf.pa
 		final Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("genPackage", this.genPackage);
 		parameters.put("genModel", this.genModel);
-		parameters.put("importedOperationClassName", this.importedOperationClassName);
+		parameters.put("importedOperationClassName",
+				this.importedOperationClassName);
 		parameters.put("operationMethodName", this.operationMethodName);
 		parameters.put("_ArrayListOfObject", this._ArrayListOfObject);
-		parameters.put("_ArrayListOfSelectionChangedListener", this._ArrayListOfSelectionChangedListener);
-		parameters.put("_CollectionOfSelectionChangedListener", this._CollectionOfSelectionChangedListener);
+		parameters.put("_ArrayListOfSelectionChangedListener",
+				this._ArrayListOfSelectionChangedListener);
+		parameters.put("_CollectionOfSelectionChangedListener",
+				this._CollectionOfSelectionChangedListener);
 		parameters.put("_ArrayListOfResource", this._ArrayListOfResource);
 		parameters.put("_CollectionOfResource", this._CollectionOfResource);
-		parameters.put("_MapOfResourceToDiagnostic", this._MapOfResourceToDiagnostic);
-		parameters.put("_HashMapOfResourceToBoolean", this._HashMapOfResourceToBoolean);
+		parameters.put("_MapOfResourceToDiagnostic",
+				this._MapOfResourceToDiagnostic);
+		parameters.put("_HashMapOfResourceToBoolean",
+				this._HashMapOfResourceToBoolean);
 		parameters.put("_MapOfObjectToObject", this._MapOfObjectToObject);
-		parameters.put("_HashMapOfObjectToObject", this._HashMapOfObjectToObject);
-		parameters.put("_LinkedHashMapOfResourceToDiagnostic", this._LinkedHashMapOfResourceToDiagnostic);
+		parameters.put("_HashMapOfObjectToObject",
+				this._HashMapOfObjectToObject);
+		parameters.put("_LinkedHashMapOfResourceToDiagnostic",
+				this._LinkedHashMapOfResourceToDiagnostic);
 		parameters.put("_CollectionOfAnything", this._CollectionOfAnything);
 		parameters.put("_ListOfAnything", this._ListOfAnything);
-		parameters.put("useExtendedLabelProvider", this.useExtendedLabelProvider);
-		parameters.put("_AdapterFactoryLabelProvider", this._AdapterFactoryLabelProvider);
+		parameters.put("useExtendedLabelProvider",
+				this.useExtendedLabelProvider);
+		parameters.put("_AdapterFactoryLabelProvider",
+				this._AdapterFactoryLabelProvider);
 		parameters.put("_ArrayListOfString", this._ArrayListOfString);
 		parameters.put("_ListOfString", this._ListOfString);
 		return parameters;
 	}
 
-	protected void method_doGenerate(final StringBuffer stringBuffer, final PatternContext ctx) throws Exception {
+	protected void method_doGenerate(final StringBuffer stringBuffer,
+			final PatternContext ctx) throws Exception {
 
 		if (genPackage.isExtensibleProviderFactory()) {
 			stringBuffer.append(TEXT_1);
-			stringBuffer.append(genModel.getImportedName("org.polarsys.kitalpha.emde.extension.ModelExtensionHelper"));
+			stringBuffer
+					.append(genModel
+							.getImportedName("org.polarsys.kitalpha.emde.extension.ModelExtensionDescriptor"));
 			stringBuffer.append(TEXT_2);
-			stringBuffer.append(genPackage.getImportedItemProviderAdapterFactoryClassName());
+			stringBuffer.append(genPackage
+					.getImportedItemProviderAdapterFactoryClassName());
 			stringBuffer.append(TEXT_3);
 		}
 		stringBuffer.append(TEXT_4);
 		InternalPatternContext ictx = (InternalPatternContext) ctx;
-		new Node.DataLeaf(ictx.getNode(), getClass(), "doGenerate", stringBuffer.toString());
+		new Node.DataLeaf(ictx.getNode(), getClass(), "doGenerate",
+				stringBuffer.toString());
 	}
 }

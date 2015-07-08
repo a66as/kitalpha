@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.polarsys.kitalpha.emde.extension.preferences.PreferenceModelExtensionManager;
 import org.polarsys.kitalpha.emde.extension.utils.Log;
 
@@ -88,5 +89,9 @@ public class ModelExtensionHelper {
 
 	public static void removeOverallListener(ModelExtensionOverallListener l) {
 		DefaultModelExtensionManager.removeOverallListener(l);
+	}
+	public static ModelExtensionManager getInstance(ResourceSet resourceSet) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
