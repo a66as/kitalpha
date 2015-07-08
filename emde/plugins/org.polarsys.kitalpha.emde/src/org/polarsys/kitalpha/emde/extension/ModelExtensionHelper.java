@@ -34,7 +34,9 @@ public class ModelExtensionHelper {
 	private static final Map<Object, ModelExtensionManager> instances = new HashMap<Object, ModelExtensionManager>();
 
 	public static ModelExtensionManager getInstance(Resource resource) {
-		final ResourceSet ctx = resource.getResourceSet();
+		return getInstance(resource.getResourceSet());
+	}
+	public static ModelExtensionManager getInstance(final ResourceSet ctx) {
 		ModelExtensionManager instance = instances.get(ctx);
 		if (instance == null) {
 			instances.put(ctx, instance = createInstance());
