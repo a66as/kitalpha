@@ -92,8 +92,4 @@ public class ModelExtensionHelper {
 	public static void removeOverallListener(ModelExtensionOverallListener l) {
 		DefaultModelExtensionManager.removeOverallListener(l);
 	}
-	public static ModelExtensionManager getInstance(ResourceSet resourceSet) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
