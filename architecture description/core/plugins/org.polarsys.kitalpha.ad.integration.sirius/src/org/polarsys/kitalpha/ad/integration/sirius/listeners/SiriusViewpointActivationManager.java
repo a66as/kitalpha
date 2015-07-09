@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.session.Session;
@@ -54,7 +55,7 @@ public final class SiriusViewpointActivationManager implements OverallListener {
 
 	private void updateActiveViewpoint(Object ctx, URI vpURI, boolean activate) {
 		ViewpointSelectionCallback callback = new ViewpointSelectionCallback();
-		Session session = SessionManager.INSTANCE.getSession((EObject) ctx);
+		Session session = SiriusHelper.getSession((ResourceSet) ctx);
 		final TransactionalEditingDomain domain = session.getTransactionalEditingDomain();
 		org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint vp = (org.polarsys.kitalpha.ad.viewpoint.coredomain.viewpoint.model.Viewpoint) domain.getResourceSet().getEObject(vpURI, true);
 		Viewpoint genericVp = (Viewpoint) domain.getResourceSet().getEObject(Activator.GENERIC_VP_URI, true);
