@@ -40,6 +40,7 @@ import org.polarsys.kitalpha.model.common.scrutiny.analyzer.Scrutineer;
 import org.polarsys.kitalpha.model.common.share.resource.loading.LoadResource;
 import org.polarsys.kitalpha.model.detachment.ui.constants.Constants;
 import org.polarsys.kitalpha.model.detachment.ui.editor.DetachmentEditorInput;
+import org.polarsys.kitalpha.model.detachment.ui.editor.DetachmentHelper;
 import org.polarsys.kitalpha.model.detachment.ui.editor.ModelDetachment;
 
 /**
@@ -79,31 +80,10 @@ public class ModelDetachmentAction implements IObjectActionDelegate {
 							public void run(IProgressMonitor monitor)
 									throws InvocationTargetException,
 									InterruptedException {
-								
-								exec_preconditions();
-	
-								monitor.beginTask("Analyzing of resource: " + airdIResource.getProjectRelativePath(), 2);
-								monitor.subTask("Loading : " + airdIResource.getProjectRelativePath());
-								Resource resource = (new LoadResource(airdIResource)).getResource();
-								monitor.worked(1);
-	
-								monitor.subTask("Scrutinizing : " + resource.getURI());
-								Scrutineer.startScrutiny(resource);
-								monitor.worked(1);
-								monitor.done();
-	
-	
 								try {
-	
-									IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-									IEditorPart editor;
-									editor = IDE.openEditor(page, detachmentInput, Constants.EDITOR_ID);
-									if (editor != null && editor instanceof ModelDetachment){
-										ModelDetachment modelDetachmentEditor = (ModelDetachment) editor;
-										modelDetachmentEditor.initAndLaunchDetachmentAction(resource);
-									}
+									DetachmentHelper.openEditor(airdIResource, monitor);
 								} catch (PartInitException e) {
-									e.printStackTrace();
+									LOGGER.error(e.getMessage(), e);
 								}
 							}
 						});
@@ -149,13 +129,5 @@ public class ModelDetachmentAction implements IObjectActionDelegate {
 		
 	}
 	
-	//TODO create Exception for Precondition and throw RuntimeException after catch
-	@SuppressWarnings("unchecked")
-	private void exec_preconditions(){
-		//Execute preconditions
-		@SuppressWarnings("rawtypes")
-		IPreconditionRunner preconditionRunner = new PreconditionRunner();
-		preconditionRunner.run(airdIResource, new NullProgressMonitor());
-	}
 
 }
