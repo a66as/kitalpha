@@ -63,5 +63,7 @@
   <steps xsi:type="buildstep:InstallStep" xmi:id="_esU1ACO3EeWTOe3dES9kkg" name="install amalgam features" id="${TP_name}" profile="${TP_profile}" p2_os="${TP_os}" p2_ws="${TP_ws}" p2_arch="${TP_arch}">
     <updateSiteUrls>${amalgam.repo.url}</updateSiteUrls>
     <featureNames>org.eclipse.amalgam.explorer.activity</featureNames>
+    <featureNames>org.eclipse.amalgam.explorer.contextual</featureNames>
+    <featureNames>org.eclipse.amalgam.explorer.contextual.sirius</featureNames>
   </steps>
 </buildcore:StepContainer>
