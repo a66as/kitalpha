@@ -11,6 +11,7 @@
 
 package org.polarsys.kitalpha.ad.viewpoint.ui.views;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -19,6 +20,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -61,7 +63,10 @@ import org.polarsys.kitalpha.ad.services.manager.ViewpointActivationException;
 import org.polarsys.kitalpha.ad.services.manager.ViewpointManager;
 import org.polarsys.kitalpha.ad.viewpoint.ui.AFImages;
 import org.polarsys.kitalpha.ad.viewpoint.ui.Activator;
+import org.polarsys.kitalpha.model.detachment.ui.editor.DetachmentHelper;
 import org.polarsys.kitalpha.resourcereuse.model.Resource;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 
 /**
  * @author Thomas Guiu
@@ -436,8 +441,18 @@ public class ViewpointManagerView extends ViewPart {
 				if (!vpMgr.isUsed(res.getId()))
 					return;
 				try {
-					vpMgr.stopUse(res.getId());
-				} catch (ViewpointActivationException e) {
+					if (!MessageDialog.openQuestion(getSite().getShell(), "Stop using viewpoint "+res.getName(), "Viewpoint Detachment is required. Close model and Proceed ?"))
+						return ;
+					// Launch detach editor
+					ResourceSet resourceSet = context.eResource().getResourceSet();
+					org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResources().get(0);
+					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(resource.getURI().toPlatformString(true)));
+					DetachmentHelper.openEditor(file, new NullProgressMonitor());
+					
+					//check detachement has been done.
+					//TODO check detachement has been done.
+//					vpMgr.stopUse(res.getId());
+				} catch (Exception e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					Activator.getDefault().logError(e);
 				}
