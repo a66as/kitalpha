@@ -322,35 +322,6 @@
     <steps xsi:type="buildstep:PublishStep" xmi:id="_x7ip5Z7uEeOjCb9D2yIVHQ" name="" component="_x7ip5J7uEeOjCb9D2yIVHQ"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_x7ip5p7uEeOjCb9D2yIVHQ" name="transposer feature" id="TP_juno" profile="SDKProfile" resultSteps="_x7ip5Z7uEeOjCb9D2yIVHQ" installResultStepsSourceFeatures="true"/>
   </jobs>
-  <jobs xmi:id="_1i8EwUVREeOxuMV9a71i9w" name="ad">
-    <steps xsi:type="buildstep:BuildStep" xmi:id="_8az7gEVREeOxuMV9a71i9w" name="ad">
-      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_NmgvYBGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/core/plugins"/>
-      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_NmgvYRGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/core/features"/>
-      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_1l7rAN9QEeSXy-5Ru7rFPA" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/integration/plugins"/>
-      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_-JSnoI5wEeORY9jpJq94Og" path="${publish}/TP_juno"/>
-      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_s9Xn0BcgEeSiX7noNBdBeQ" path="${publish}/TP_build"/>
-      <components xsi:type="buildstep:Feature" xmi:id="_ITgn0EVSEeOxuMV9a71i9w" id="org.polarsys.kitalpha.ad.sdk.feature"/>
-      <components xsi:type="buildstep:Feature" xmi:id="_GvpjgH6ZEeOkCccPIIQ2Yw" id="org.polarsys.kitalpha.ad.runtime.feature"/>
-      <components xsi:type="buildstep:Feature" xmi:id="_R-WHEJPCEeO0ku-9ufRlrA" id="org.polarsys.kitalpha.ad.integration.sirius.feature"/>
-    </steps>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_T8jukEVSEeOxuMV9a71i9w" component="_GvpjgH6ZEeOkCccPIIQ2Yw"/>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_UtSA4EVSEeOxuMV9a71i9w" description="" component="_ITgn0EVSEeOxuMV9a71i9w"/>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_T7yrMJPCEeO0ku-9ufRlrA" component="_R-WHEJPCEeO0ku-9ufRlrA"/>
-    <steps xsi:type="buildstep:InstallStep" xmi:id="_DR0AoI5xEeORY9jpJq94Og" name="ad feature" id="TP_juno" profile="SDKProfile" resultSteps="_T8jukEVSEeOxuMV9a71i9w _UtSA4EVSEeOxuMV9a71i9w _T7yrMJPCEeO0ku-9ufRlrA" installResultStepsSourceFeatures="true"/>
-  </jobs>
-  <jobs xmi:id="_AtCFgH60EeOkCccPIIQ2Yw" name="ad dsl">
-    <steps xsi:type="buildstep:BuildStep" xmi:id="_Ef56MH60EeOkCccPIIQ2Yw" name="ad dsl">
-      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_TXYh0BGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/dsl/plugins"/>
-      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_TXYh0RGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/dsl/features"/>
-      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_Td_d4I59EeORY9jpJq94Og" path="${publish}/TP_juno"/>
-      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_toclIBcgEeSiX7noNBdBeQ" path="${publish}/TP_build"/>
-      <components xsi:type="buildstep:Feature" xmi:id="_Ef56On60EeOkCccPIIQ2Yw" id="org.polarsys.kitalpha.ad.ta.feature"/>
-      <components xsi:type="buildstep:Feature" xmi:id="_5Y3VkJQCEeODqo9Nw0Mw6Q" id="org.polarsys.kitalpha.ad.dsl.feature"/>
-    </steps>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_oWQScH60EeOkCccPIIQ2Yw" component="_Ef56On60EeOkCccPIIQ2Yw"/>
-    <steps xsi:type="buildstep:PublishStep" xmi:id="_9w00UJQCEeODqo9Nw0Mw6Q" component="_5Y3VkJQCEeODqo9Nw0Mw6Q"/>
-    <steps xsi:type="buildstep:InstallStep" xmi:id="_VjH-YI59EeORY9jpJq94Og" name="addsl feature" id="TP_juno" profile="SDKProfile" resultSteps="_oWQScH60EeOkCccPIIQ2Yw _9w00UJQCEeODqo9Nw0Mw6Q" installResultStepsSourceFeatures="true"/>
-  </jobs>
   <jobs xmi:id="_eJXnwQHGEeSWLIhgOb7dcQ" name="detach_attach">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_j6USsAHGEeSWLIhgOb7dcQ" name="detachment">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_fBRgoBGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="detachment/plugins"/>
@@ -373,6 +344,48 @@
     <steps xsi:type="buildstep:InstallStep" xmi:id="_xC4EYAHGEeSWLIhgOb7dcQ" name="common 1 feature" id="TP_juno" profile="SDKProfile" resultSteps="_7StIMFOFEeS0CZx9NVRo1A _-y7GoFOFEeS0CZx9NVRo1A __SUYYFOFEeS0CZx9NVRo1A" installResultStepsSourceFeatures="true"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_GiG_4FOGEeS0CZx9NVRo1A" name="detachment feature" id="TP_juno" profile="SDKProfile" resultSteps="_tZFTMAHGEeSWLIhgOb7dcQ" installResultStepsSourceFeatures="true"/>
     <steps xsi:type="buildstep:InstallStep" xmi:id="_bFHvoF64EeSHbaZAI7j8zw" name="attachment feature" id="TP_juno" profile="SDKProfile" resultSteps="_YGNHcF64EeSHbaZAI7j8zw" installResultStepsSourceFeatures="true"/>
+  </jobs>
+  <jobs xmi:id="_1i8EwUVREeOxuMV9a71i9w" name="ad">
+    <steps xsi:type="buildstep:BuildStep" xmi:id="_8az7gEVREeOxuMV9a71i9w" name="ad">
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_NmgvYBGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/core/plugins"/>
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_NmgvYRGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/core/features"/>
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_1l7rAN9QEeSXy-5Ru7rFPA" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/integration/plugins"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_-JSnoI5wEeORY9jpJq94Og" path="${publish}/TP_juno"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_s9Xn0BcgEeSiX7noNBdBeQ" path="${publish}/TP_build"/>
+      <components xsi:type="buildstep:Feature" xmi:id="_ITgn0EVSEeOxuMV9a71i9w" id="org.polarsys.kitalpha.ad.sdk.feature"/>
+      <components xsi:type="buildstep:Feature" xmi:id="_GvpjgH6ZEeOkCccPIIQ2Yw" id="org.polarsys.kitalpha.ad.runtime.feature"/>
+      <components xsi:type="buildstep:Feature" xmi:id="_R-WHEJPCEeO0ku-9ufRlrA" id="org.polarsys.kitalpha.ad.integration.sirius.feature"/>
+    </steps>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_T8jukEVSEeOxuMV9a71i9w" component="_GvpjgH6ZEeOkCccPIIQ2Yw"/>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_UtSA4EVSEeOxuMV9a71i9w" description="" component="_ITgn0EVSEeOxuMV9a71i9w"/>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_T7yrMJPCEeO0ku-9ufRlrA" component="_R-WHEJPCEeO0ku-9ufRlrA"/>
+    <steps xsi:type="buildstep:InstallStep" xmi:id="_DR0AoI5xEeORY9jpJq94Og" name="ad feature" id="TP_juno" profile="SDKProfile" resultSteps="_T8jukEVSEeOxuMV9a71i9w _UtSA4EVSEeOxuMV9a71i9w _T7yrMJPCEeO0ku-9ufRlrA" installResultStepsSourceFeatures="true"/>
+  </jobs>
+  <jobs xmi:id="_SWRBoC_IEeWgzaFRAlpLXA" name="detach_attach_contrib">
+    <steps xsi:type="buildstep:BuildStep" xmi:id="_SWRBoS_IEeWgzaFRAlpLXA" name="detachment_contrib">
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_SWRBoi_IEeWgzaFRAlpLXA" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="detachment/plugins"/>
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_SWRBoy_IEeWgzaFRAlpLXA" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="detachment/features"/>
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_SWRBpC_IEeWgzaFRAlpLXA" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="attachment/plugins"/>
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_SWRBpS_IEeWgzaFRAlpLXA" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="attachment/features"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_SWRBpi_IEeWgzaFRAlpLXA" path="${publish}/TP_juno"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_SWRBpy_IEeWgzaFRAlpLXA" path="${publish}/TP_build"/>
+      <components xsi:type="buildstep:Feature" xmi:id="_SWRBqC_IEeWgzaFRAlpLXA" id="org.polarsys.kitalpha.model.detachment.contrib.viewpoints"/>
+    </steps>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_SWRBrS_IEeWgzaFRAlpLXA" component="_SWRBqC_IEeWgzaFRAlpLXA"/>
+    <steps xsi:type="buildstep:InstallStep" xmi:id="_SWRBsi_IEeWgzaFRAlpLXA" name="contrib feature" id="TP_juno" profile="SDKProfile" resultSteps="_SWRBrS_IEeWgzaFRAlpLXA" installResultStepsSourceFeatures="true"/>
+  </jobs>
+  <jobs xmi:id="_AtCFgH60EeOkCccPIIQ2Yw" name="ad dsl">
+    <steps xsi:type="buildstep:BuildStep" xmi:id="_Ef56MH60EeOkCccPIIQ2Yw" name="ad dsl">
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_TXYh0BGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/dsl/plugins"/>
+      <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_TXYh0RGeEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="architecture description/dsl/features"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_Td_d4I59EeORY9jpJq94Og" path="${publish}/TP_juno"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_toclIBcgEeSiX7noNBdBeQ" path="${publish}/TP_build"/>
+      <components xsi:type="buildstep:Feature" xmi:id="_Ef56On60EeOkCccPIIQ2Yw" id="org.polarsys.kitalpha.ad.ta.feature"/>
+      <components xsi:type="buildstep:Feature" xmi:id="_5Y3VkJQCEeODqo9Nw0Mw6Q" id="org.polarsys.kitalpha.ad.dsl.feature"/>
+    </steps>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_oWQScH60EeOkCccPIIQ2Yw" component="_Ef56On60EeOkCccPIIQ2Yw"/>
+    <steps xsi:type="buildstep:PublishStep" xmi:id="_9w00UJQCEeODqo9Nw0Mw6Q" component="_5Y3VkJQCEeODqo9Nw0Mw6Q"/>
+    <steps xsi:type="buildstep:InstallStep" xmi:id="_VjH-YI59EeORY9jpJq94Og" name="addsl feature" id="TP_juno" profile="SDKProfile" resultSteps="_oWQScH60EeOkCccPIIQ2Yw _9w00UJQCEeODqo9Nw0Mw6Q" installResultStepsSourceFeatures="true"/>
   </jobs>
   <jobs xmi:id="_iWVjgK3VEeSJ-MyosVUkEw" name="examples">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_iWVjga3VEeSJ-MyosVUkEw" name="examples">
