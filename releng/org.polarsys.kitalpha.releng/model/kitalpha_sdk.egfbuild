@@ -183,12 +183,12 @@
     <steps xsi:type="buildstep:BuildStep" xmi:id="_ZB5y4AdREeSIYrPrCxORuQ" name="diagrams">
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_PQQe8BGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="diagrams/plugins"/>
       <buildLocations xsi:type="buildscm:GITBuildLocation" xmi:id="_PQQe8RGfEeS7tbIPWaBUAQ" gitLocation="_L0O-wPx8EeO7zY3f-pIrjg" folderName="diagrams/features"/>
-      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_ZB5y4wdREeSIYrPrCxORuQ" path="${publish}/TP_juno"/>
+      <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_ZB5y4wdREeSIYrPrCxORuQ" path="${publish}/TP_mars"/>
       <buildLocations xsi:type="buildstep:TargetPlatformBuildLocation" xmi:id="_qroOsBcgEeSiX7noNBdBeQ" path="${publish}/TP_build"/>
       <components xsi:type="buildstep:Feature" xmi:id="_ZB5y5AdREeSIYrPrCxORuQ" id="org.polarsys.kitalpha.representation.feature"/>
     </steps>
     <steps xsi:type="buildstep:PublishStep" xmi:id="_ZB5y5QdREeSIYrPrCxORuQ" component="_ZB5y5AdREeSIYrPrCxORuQ"/>
-    <steps xsi:type="buildstep:InstallStep" xmi:id="_ZB5y5gdREeSIYrPrCxORuQ" name="diagrams representation feature" id="TP_juno" profile="SDKProfile" resultSteps="_ZB5y5QdREeSIYrPrCxORuQ" installResultStepsSourceFeatures="true"/>
+    <steps xsi:type="buildstep:InstallStep" xmi:id="_ZB5y5gdREeSIYrPrCxORuQ" name="diagrams representation feature" id="TP_mars" profile="SDKProfile" resultSteps="_ZB5y5QdREeSIYrPrCxORuQ" installResultStepsSourceFeatures="true"/>
   </jobs>
   <jobs xmi:id="_VoTqsCL5EeSSoPlV7ILP2g" name="docgen">
     <steps xsi:type="buildstep:BuildStep" xmi:id="_YByqkCL5EeSSoPlV7ILP2g" name="docgen">
