@@ -148,14 +148,12 @@ public class ViewpointManagerView extends ViewPart {
 
 		@Override
 		public void hasBeenFiltered(Object ctx, Resource vp) {
-			// TODO Auto-generated method stub
-
+			performInit();
 		}
 
 		@Override
 		public void hasBeenDisplayed(Object ctx, Resource vp) {
-			// TODO Auto-generated method stub
-
+			performInit();
 		}
 	};
 	private final IResourceChangeListener wsListener = new IResourceChangeListener() {

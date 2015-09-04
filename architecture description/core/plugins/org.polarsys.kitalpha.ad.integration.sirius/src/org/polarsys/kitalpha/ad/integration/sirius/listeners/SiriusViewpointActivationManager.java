@@ -53,6 +53,16 @@ public final class SiriusViewpointActivationManager implements OverallListener {
 		return URI.createPlatformPluginURI(res.getPath(), false);
 	}
 
+	@Override
+	public void hasBeenFiltered(Object ctx, Resource vp) {
+		updateActiveViewpoint(ctx, getURI(vp), false);
+	}
+
+	@Override
+	public void hasBeenDisplayed(Object ctx, Resource vp) {
+		updateActiveViewpoint(ctx, getURI(vp), true);
+	}
+	
 	private void updateActiveViewpoint(Object ctx, URI vpURI, boolean activate) {
 		ViewpointSelectionCallback callback = new ViewpointSelectionCallback();
 		Session session = SiriusHelper.getSession((ResourceSet) ctx);
@@ -92,17 +102,5 @@ public final class SiriusViewpointActivationManager implements OverallListener {
 			// "See details in error log ");
 			Activator.getDefault().getLog().log(new Status(IStatus.ERROR, Activator.getSymbolicName(), "Error while starting bundle", e));
 		}
-	}
-
-	@Override
-	public void hasBeenFiltered(Object ctx, Resource vp) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void hasBeenDisplayed(Object ctx, Resource vp) {
-		// TODO Auto-generated method stub
-
 	}
 }
