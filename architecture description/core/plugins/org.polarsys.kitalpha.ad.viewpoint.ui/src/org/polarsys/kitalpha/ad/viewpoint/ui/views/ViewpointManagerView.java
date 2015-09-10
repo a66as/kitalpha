@@ -417,7 +417,7 @@ public class ViewpointManagerView extends ViewPart {
 				if (vpMgr.isUsed(res.getId()))
 					return;
 				try {
-					vpMgr.startUse(res.getId());
+					vpMgr.activate(res.getId());
 				} catch (ViewpointActivationException e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					AD_Log.getDefault().logError(e);
@@ -439,17 +439,17 @@ public class ViewpointManagerView extends ViewPart {
 				if (!vpMgr.isUsed(res.getId()))
 					return;
 				try {
-					if (!MessageDialog.openQuestion(getSite().getShell(), "Stop using viewpoint "+res.getName(), "Viewpoint Detachment is required. Close model and Proceed ?"))
-						return ;
+					if (!MessageDialog.openQuestion(getSite().getShell(), "Stop using viewpoint " + res.getName(), "Viewpoint Detachment is required. Close model and Proceed ?"))
+						return;
 					// Launch detach editor
 					ResourceSet resourceSet = context.eResource().getResourceSet();
 					org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResources().get(0);
 					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(resource.getURI().toPlatformString(true)));
 					DetachmentHelper.openEditor(file, new NullProgressMonitor());
-					
-					//check detachement has been done.
-					//TODO check detachement has been done.
-//					vpMgr.stopUse(res.getId());
+
+					// check detachement has been done.
+					// TODO check detachement has been done.
+					// vpMgr.stopUse(res.getId());
 				} catch (Exception e) {
 					MessageDialog.openError(getSite().getShell(), "Error", e.getMessage());
 					Activator.getDefault().logError(e);

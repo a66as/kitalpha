@@ -16,8 +16,7 @@ import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.polarsys.kitalpha.emde.extension.ModelExtensionHelper;
 
 /**
- * This service is used dynamically by MDK Viewpoints. So don't move/rename it
- * unless MDK is updated accordingly.
+ * This service is used dynamically by MDK Viewpoints. So don't move/rename it unless MDK is updated accordingly.
  * 
  * @author Thomas Guiu
  */

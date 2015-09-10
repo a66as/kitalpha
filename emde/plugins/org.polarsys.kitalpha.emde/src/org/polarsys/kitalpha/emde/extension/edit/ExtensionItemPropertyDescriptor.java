@@ -48,11 +48,7 @@ public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 	}
 
 	/**
-	 * This does the delegated job of getting the property value from the given
-	 * object; and it sets object, which is necessary if
-	 * {@link #getComboBoxObjects getComboBoxObjects} is called. It is
-	 * implemented in a generic way using the structural feature or parent
-	 * references.
+	 * This does the delegated job of getting the property value from the given object; and it sets object, which is necessary if {@link #getComboBoxObjects getComboBoxObjects} is called. It is implemented in a generic way using the structural feature or parent references.
 	 */
 	@Override
 	public Object getPropertyValue(Object object) {
@@ -87,8 +83,6 @@ public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 		Object result = getValue(eObject, feature);
 		if (result != null && feature instanceof EReference && isMany(feature)) {
 			if (result instanceof List<?>) {
-				// ModelExtensionManager instance =
-				// ModelExtensionHelper.getInstance(eObject);
 				List<EObject> eObjects = new BasicEList<EObject>();
 				for (Iterator<?> i = ((List<?>) result).iterator(); i.hasNext();) {
 					Object object = i.next();
@@ -106,8 +100,7 @@ public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 	}
 
 	/**
-	 * This determines whether this descriptor's property for the object
-	 * supports set (and reset).
+	 * This determines whether this descriptor's property for the object supports set (and reset).
 	 */
 	@Override
 	public boolean canSetProperty(Object object) {
@@ -118,10 +111,7 @@ public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 	}
 
 	/**
-	 * This will be called to populate a list of choices. The label provider
-	 * will be used to determine the labels for the objects this returns. This
-	 * default implementation uses {@link #getReachableObjectsOfType
-	 * getReachableObjectsOfType}.
+	 * This will be called to populate a list of choices. The label provider will be used to determine the labels for the objects this returns. This default implementation uses {@link #getReachableObjectsOfType getReachableObjectsOfType}.
 	 */
 	@Override
 	protected Collection<?> getComboBoxObjects(Object object) {
@@ -163,8 +153,7 @@ public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 	}
 
 	/**
-	 * This yields all reachable references from object with a meta object which
-	 * indicates that it is a subtype of type.
+	 * This yields all reachable references from object with a meta object which indicates that it is a subtype of type.
 	 */
 	static public Collection<EObject> getReachableObjectsOfType(EObject object, EClassifier type) {
 
@@ -204,11 +193,7 @@ public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 	}
 
 	/**
-	 * This will visit all reachable references from object except those in
-	 * visited and add them to the queue. The queue is processed outside this
-	 * recursive traversal to avoid stack overflows. It updates visited and adds
-	 * to result any object with a meta object that indicates that it is a
-	 * subtype of type.
+	 * This will visit all reachable references from object except those in visited and add them to the queue. The queue is processed outside this recursive traversal to avoid stack overflows. It updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
 	 */
 	static private void collectReachableObjectsOfType(Collection<EObject> visited, LinkedList<EObject> itemQueue, Collection<EObject> result, EObject object, EClassifier type, String extensibleModelURI) {
 		if (visited.add(object)) {
