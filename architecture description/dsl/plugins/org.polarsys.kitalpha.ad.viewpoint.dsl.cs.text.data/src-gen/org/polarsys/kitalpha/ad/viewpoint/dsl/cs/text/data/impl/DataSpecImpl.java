@@ -30,11 +30,11 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.Import;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.impl.DataSpecImpl#getImports <em>Imports</em>}</li>
  *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.impl.DataSpecImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -13,8 +13,6 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.Import;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Import</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

@@ -12,8 +12,15 @@
 package org.polarsys.kitalpha.emde.extension;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.polarsys.kitalpha.emde.extension.i18n.Messages;

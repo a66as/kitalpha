@@ -19,8 +19,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.Integration;
 import org.polarsys.kitalpha.ad.viewpoint.integrationdomain.integration.UsedViewpoint;
-import org.polarsys.kitalpha.model.common.scrutiny.contrib.viewpoints.helpers.ViewpointRelationshipHelper;
-import org.polarsys.kitalpha.model.common.scrutiny.contrib.viewpoints.helpers.ViewpointTreeBuilder;
 import org.polarsys.kitalpha.model.common.scrutiny.interfaces.IScrutinize;
 import org.polarsys.kitalpha.model.common.share.ui.utilities.vp.tree.ViewpointTreeContainer;
 import org.polarsys.kitalpha.model.common.share.ui.utilities.vp.tree.helpers.FinderAFViewpointHelper;

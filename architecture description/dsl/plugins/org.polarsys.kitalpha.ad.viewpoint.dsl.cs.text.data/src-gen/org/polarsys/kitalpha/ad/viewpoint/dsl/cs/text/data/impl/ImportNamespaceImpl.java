@@ -17,10 +17,10 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.ImportNamespace;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.impl.ImportNamespaceImpl#getImportedNamespace <em>Imported Namespace</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

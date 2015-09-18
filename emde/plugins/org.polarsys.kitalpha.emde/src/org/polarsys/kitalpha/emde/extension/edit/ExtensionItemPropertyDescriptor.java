@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.polarsys.kitalpha.emde.extension.ModelExtensionHelper;
+import org.polarsys.kitalpha.emde.extension.ModelExtensionManager;
 
 public class ExtensionItemPropertyDescriptor extends ItemPropertyDescriptor {
 

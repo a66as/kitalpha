@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.util.NLS;
 import org.osgi.framework.Bundle;
 import org.polarsys.kitalpha.ad.common.AD_Log;
@@ -57,7 +58,7 @@ public class ViewpointManager {
 	public static ViewpointManager INSTANCE = new ViewpointManager();
 
 	private final Map<String, List<String>> dependencies = new HashMap<String, List<String>>();
-
+    private final Set<String> managed = new HashSet<String>();
 	private ResourceSet target;
 
 	public void setTarget(ResourceSet target) {
@@ -139,6 +140,7 @@ public class ViewpointManager {
 		startBundle(vpResource);
 		manageDependencies(set, vpResource);
 		IntegrationHelper.getInstance().setUsage(target, vpResource.getId(), true);
+		managed.add(vpResource.getProviderSymbolicName());
 		fireEvent(vpResource, ACTIVATED);
 	}
 
@@ -165,15 +167,14 @@ public class ViewpointManager {
 	protected void startBundle(Resource vpResource) throws ViewpointActivationException {
 		String providerSymbolicName = vpResource.getProviderSymbolicName();
 		Bundle bundle = Platform.getBundle(providerSymbolicName);
-		if (bundle == null) {
+		if (bundle == null || managed.contains(providerSymbolicName)) {
 			activateBundle(providerSymbolicName);
 			bundle = Platform.getBundle(providerSymbolicName);
 		}
 		if (bundle == null)
 			throw new ViewpointActivationException(NLS.bind(Messages.Viewpoint_Manager_error_7, providerSymbolicName));
-		// TODO peut etre qu'il faudrait utiliser un job pour eviter le sleep
+
 		try {
-			// bundle.update();
 			bundle.start(Bundle.START_TRANSIENT);
 			// wait for event dispatch
 			Thread.sleep(100);
@@ -212,7 +213,6 @@ public class ViewpointManager {
 		desactivateBundle(providerSymbolicName);
 		IntegrationHelper.getInstance().setUsage(target, id, false);
 		fireEvent(vpResource, DEACTIVATED);
-		// stateManager.saveState();
 	}
 
 	public static void addOverallListener(OverallListener l) {

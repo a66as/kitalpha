@@ -17,10 +17,10 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.ImportURI;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.impl.ImportURIImpl#getImportURI <em>Import URI</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

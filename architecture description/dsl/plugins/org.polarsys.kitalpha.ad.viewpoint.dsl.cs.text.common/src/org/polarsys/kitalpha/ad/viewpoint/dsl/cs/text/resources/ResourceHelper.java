@@ -40,6 +40,8 @@ import org.eclipse.xtext.resource.IResourceServiceProvider;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Provider;
+
+import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.helpers.vpspec.CoreModelHelper;
 import org.polarsys.kitalpha.resourcereuse.helper.ResourceReuse;
 import org.polarsys.kitalpha.resourcereuse.model.Location;
 import org.polarsys.kitalpha.resourcereuse.model.SearchCriteria;
@@ -48,6 +50,7 @@ import org.polarsys.kitalpha.resourcereuse.model.SearchCriteria;
 /**
  * 
  * @author Amine Lajmi
+ * 		   Faycal Abka
  *
  */
 public class ResourceHelper {
@@ -216,21 +219,20 @@ public class ResourceHelper {
 		return computeURI(projectName, shortName, extension, null);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static URI computeURI(String projectName, String shortName, String extension, String fragment) {
 		String stringURI = projectName + "/" + MODELS_FOLDER + "/"+ shortName + "." + extension;
 		if (fragment!=null)
 			stringURI = stringURI + fragment;
-		return URI.createPlatformResourceURI(stringURI);
+		return URIFix.createPlatformResourceURI(stringURI, false);
 	}
 
 	public static URI computeURI(IFile file) {
 		IPath emfResourcePath = file.getFullPath();
-		return URI.createPlatformResourceURI(emfResourcePath.toString(), true);
+		return URIFix.createPlatformResourceURI(emfResourcePath.toString(), true);
 	}
 	
 	public static URI computeURI(IFile file, String extension) {
-		URI specResourceURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
+		URI specResourceURI = URIFix.createPlatformResourceURI(file.getFullPath().toString(), true);
 		if (getFileExtension(specResourceURI).equals(extension))
 			return specResourceURI;
 		List<URI> secondaryResourceURIsByExtension = getSecondaryResourceURIsByExtension(extension, file.getProject().getName());
@@ -242,9 +244,9 @@ public class ResourceHelper {
 	public static URI computeURI(org.polarsys.kitalpha.resourcereuse.model.Resource r) {
 		URI uri = null;
 		if (r.getProviderLocation().equals(Location.WORSPACE)) {
-			uri = URI.createPlatformResourceURI(r.getPath(), false);
+			uri = URIFix.createPlatformResourceURI(r.getPath(), false);
 		} else {
-			uri = URI.createPlatformPluginURI(r.getPath(), false);
+			uri = URIFix.createPlatformPluginURI(r.getPath(), false);
 		}
 		return uri;
 	}
@@ -289,7 +291,7 @@ public class ResourceHelper {
 		if (standaloneResourceURI!=null) {
 			IPath trimmed = file.getFullPath().removeFileExtension().removeFileExtension();
 			IPath standalonePath = trimmed.addFileExtension(FileExtension.VPDESC_EXTENSION);
-			URI createPlatformResourceURI = URI.createPlatformResourceURI(standalonePath.toString(), false);
+			URI createPlatformResourceURI = URIFix.createPlatformResourceURI(standalonePath.toString(), false);
 			if (createPlatformResourceURI.equals(standaloneResourceURI)) {
 				IFile standaloneFile = ResourcesPlugin.getWorkspace().getRoot().getFile(standalonePath);
 				if (standaloneFile.exists()) 
@@ -336,9 +338,15 @@ public class ResourceHelper {
 	@SuppressWarnings("unchecked")
 	public static IResourceServiceProvider getServiceProvider(URI uri, Map<String, Object> extensionToFactoryMap, String extension) {
 		Object object = getFactory(uri, extensionToFactoryMap, extension);
+		
+		if (object instanceof IResourceServiceProvider.Provider){
+			return ((IResourceServiceProvider.Provider) object).get(uri, null);
+		}
+		
 		if (object instanceof Provider<?>) {
 			return ((Provider<IResourceServiceProvider>) object).get();
 		}
+		
 		return (IResourceServiceProvider) object;
 	}
 	
@@ -502,6 +510,8 @@ public class ResourceHelper {
 			return loadServicesResource(file, resourceSet);
 		if (fileExtension.equals(FileExtension.DIAGRAM_EXTENSION))
 			return loadDiagramResource(file, resourceSet);
+		if (fileExtension.equals(FileExtension.ACTIVITYEXPLORER_EXTENSION))
+			return loadActivityexplorerResource(file, resourceSet);
 		return loadModel(file, resourceSet);		
 	}
 	
@@ -513,7 +523,7 @@ public class ResourceHelper {
 	 * @return
 	 */
 	public static List<EObject> loadModel(IFile file, ResourceSet resourceSet) {
-		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);			
+		URI uri = URIFix.createPlatformResourceURI(file.getFullPath().toString(), true);			
 		Resource resource = loadResource(uri, resourceSet);
 		EObject modelRoot = resource.getContents().get(0);
 		if (modelRoot!=null) {
@@ -717,7 +727,7 @@ public class ResourceHelper {
 			EPackage ecoreModel = resourceSet.getPackageRegistry().getEPackage(nsURI.toString());
 			if (ecoreModel !=null){
 				EPackage loadedEPackage = ExternalDataHelper.loadEPackage(nsURI.toString(), resourceSet);
-				Resource packageResource = loadedEPackage.eResource();
+				Resource packageResource = loadedEPackage != null? loadedEPackage.eResource(): null;
 				// [BZE] : modification of the condition, this avoid an exception raise
 				if (packageResource != null && ! resourceSet.getResources().contains(packageResource))
 				{
@@ -747,7 +757,7 @@ public class ResourceHelper {
 	 */
 	public static void loadExternalLibrary(String nsUri, ResourceSet resourceSet){
 		EPackage loadedPackage = ExternalDataHelper.loadEPackage(nsUri, resourceSet);
-		Resource resource = loadedPackage.eResource();
+		Resource resource = loadedPackage != null? loadedPackage.eResource(): null;
 		if (resource != null){
 			resourceSet.getResources().add(resource);
 		}
@@ -776,7 +786,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadUIResource(URI uiResourceURI, ResourceSet resourceSet) {
 		Resource uiResource = loadResource(uiResourceURI, resourceSet);
-		if (!uiResource.getContents().isEmpty()) {
+		if (uiResource != null && !uiResource.getContents().isEmpty()) {
 			EObject uiRoot = uiResource.getContents().get(0);
 			return uiRoot.eContents();
 		}
@@ -806,7 +816,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadDiagramResource(URI diagramResourceURI, ResourceSet resourceSet) {
 		Resource diagramResource = loadResource(diagramResourceURI, resourceSet);
-		if (!diagramResource.getContents().isEmpty()) {
+		if (diagramResource != null && !diagramResource.getContents().isEmpty()) {
 			EObject diagramRoot = diagramResource.getContents().get(0);
 			return diagramRoot.eContents();
 		}
@@ -836,7 +846,7 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadConfigurationResource(URI configurationResourceURI, ResourceSet resourceSet) {
 		Resource configurationResource = loadResource(configurationResourceURI, resourceSet);
-		if (!configurationResource.getContents().isEmpty()) {
+		if (configurationResource != null && !configurationResource.getContents().isEmpty()) {
 			EObject configurationRoot = configurationResource.getContents().get(0);
 			return Lists.newArrayList(configurationRoot);
 		}
@@ -866,21 +876,64 @@ public class ResourceHelper {
 	 */
 	public static List<EObject> loadServicesResource(URI servicesResourceURI, ResourceSet resourceSet) {
 		Resource servicesResource = loadResource(servicesResourceURI, resourceSet);
-		if (!servicesResource.getContents().isEmpty()) {
+		if (servicesResource != null && !servicesResource.getContents().isEmpty()) {
 			EObject servicesResourceRoot = servicesResource.getContents().get(0);
 			List<EObject> contents = servicesResourceRoot.eContents();
 			return contents;
 		}
 		return Collections.emptyList();
 	}
+	
+	
+	
+	public static List<EObject> loadActivityexplorerResource(IFile file, ResourceSet resourceSet){
+		
+		URI activityExplorerURI = computeURI(file, FileExtension.ACTIVITYEXPLORER_EXTENSION);
+		
+		if (activityExplorerURI == null)
+			return Collections.emptyList();
+		
+		return loadActivityexplorerResource(activityExplorerURI, resourceSet);
+	}
 
+
+	public static List<EObject> loadActivityexplorerResource(URI activityExplorerURI, ResourceSet resourceSet) {
+		
+		Resource activityExplorerResource = loadResource(activityExplorerURI, resourceSet);
+		
+		if (!activityExplorerResource.getContents().isEmpty()){
+			EObject activityExplorerRoot = activityExplorerResource.getContents().get(0);
+			return Lists.newArrayList(activityExplorerRoot);
+		}
+		return Collections.emptyList();
+	}
+	
 
 	public static String getProjectName(EObject object){	
-		String projectName = EcoreUtil.getURI(object).segment(1);	
+		return CoreModelHelper.getProjectName(object); 	
+	}
+	
+	
+	/**
+	 * Copied from {@link org.polarsys.kitalpha.ad.common.utils.URIFix}
+	 */
+	public static class URIFix {
 
-		if (projectName == null || projectName.isEmpty())	
-			throw new RuntimeException("Could not find the project where is defined the EObject: " + object);	
+		public static URI createPlatformPluginURI(String path, boolean encode) {
+			return createURI("platform:/plugin/", path);
+		}
 
-		return projectName; 	
+		public static URI createPlatformResourceURI(String path, boolean encode) {
+			return createURI("platform:/resource/", path);
+		}
+
+		private static URI createURI(String prefix, String path) {
+			String uri = prefix;
+			if (path.startsWith("/"))
+				uri += path.substring(1);
+			else
+				uri += path;
+			return URI.createURI(uri);
+		}
 	}
 }

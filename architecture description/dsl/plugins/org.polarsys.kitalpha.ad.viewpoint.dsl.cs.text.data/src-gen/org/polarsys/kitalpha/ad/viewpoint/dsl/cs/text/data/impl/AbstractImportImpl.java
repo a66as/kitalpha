@@ -11,8 +11,6 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.DataPackage;
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Abstract Import</b></em>'.
  * <!-- end-user-doc -->
- * <p>
- * </p>
  *
  * @generated
  */

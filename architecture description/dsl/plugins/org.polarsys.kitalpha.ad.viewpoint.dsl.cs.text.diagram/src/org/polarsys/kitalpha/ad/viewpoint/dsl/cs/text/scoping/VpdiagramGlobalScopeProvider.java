@@ -13,6 +13,7 @@ package org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.scoping;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -84,20 +85,24 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 		return MultimapBasedScope.createScope(result, exportedObjects, ignoreCase);	
 	}
 	
-	private static Iterable<IEObjectDescription> externalObjectDescriptions = null;
-	
+	private static Map<EClass,Iterable<IEObjectDescription>> computedPlatformEObjectDescriptions = new HashMap<EClass, Iterable<IEObjectDescription>>();
+			
 	private Iterable<IEObjectDescription> getTaIEObjectDescription(Resource eResource,Iterable<IEObjectDescription> exportedObjects, EClass type){
 		ResourceSet resourceSet = eResource.getResourceSet();
-		if (externalObjectDescriptions == null)
+		if (computedPlatformEObjectDescriptions.containsKey(type))
 		{
-			externalObjectDescriptions = getExternalObjectDescriptions(resourceSet, exportedObjects);
+			return computedPlatformEObjectDescriptions.get(type);
+		}
+		else
+		{
+			Iterable<IEObjectDescription> externalObjectDescriptions = getExternalObjectDescriptions(resourceSet, exportedObjects);
 			externalObjectDescriptions = Iterables.concat(externalObjectDescriptions, getDoremiDiagramDescriptions(eResource, type));
 			externalObjectDescriptions = Iterables.concat(externalObjectDescriptions, getDoremiEdgeMappings(eResource, type));
 			externalObjectDescriptions = Iterables.concat(externalObjectDescriptions, getDoremiNodeMappings(eResource, type));
 			externalObjectDescriptions = Iterables.concat(externalObjectDescriptions, getDoremiContainerMappings(eResource, type));
+			computedPlatformEObjectDescriptions.put(type, externalObjectDescriptions);
+			return externalObjectDescriptions;
 		}
-		
-		return externalObjectDescriptions;
 	}
 	
 
@@ -121,7 +126,7 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 		 * 
 		 * Check if it necessary to keep it, otherwise, to remove it.
 		 */
-		exportedObjects = Iterables.concat(exportedObjects, getImportedDiagrams(eResource));
+		//exportedObjects = Iterables.concat(exportedObjects, getImportedDiagrams(eResource));
 		exportedObjects = Iterables.concat(exportedObjects, getExternalImportDiagramObjectDescription(eResource, exportedObjects, type));
 
 		return MultimapBasedScope.createScope(parent, exportedObjects, ignoreCase);	
@@ -143,8 +148,9 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 					importDiagrams = DoremiDiagramElementHelper.getImportedDoremiDiagramFor(root);
 					for (DiagramDescription description : importDiagrams) {
 						EcoreUtil2.resolveAll(description);
-						// trim white spaces
-						IEObjectDescription desc = EObjectDescription.create(description.getName().replaceAll(" ", ""), description, null);
+						
+						String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(description.getName());
+						IEObjectDescription desc = EObjectDescription.create(simpleName, description, null);
 						doremiExportedObjects.add(desc);
 					}
 				}
@@ -169,8 +175,9 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 						importDiagrams = DoremiDiagramElementHelper.getAvailableDoremiDiagramFor(root);
 						for (DiagramDescription description : importDiagrams) {
 							EcoreUtil2.resolveAll(description);
-							// trim white spaces
-							IEObjectDescription desc = EObjectDescription.create(description.getName().replaceAll(" ", ""), description, null);
+							
+							String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(description.getName());
+							IEObjectDescription desc = EObjectDescription.create(simpleName, description, null);
 							doremiExportedObjects.add(desc);
 						}
 					}
@@ -194,8 +201,9 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 						availableDoremiDiagramFor = DoremiDiagramElementHelper.getAvailableEdgeMappingsFor(root);
 						for (EdgeMapping description : availableDoremiDiagramFor) {
 							EcoreUtil2.resolveAll(description);
-							// trim white spaces
-							IEObjectDescription desc = EObjectDescription.create(description.getName().replaceAll(" ", ""), description, null);
+							
+							String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(description.getName());
+							IEObjectDescription desc = EObjectDescription.create(simpleName, description, null);
 							doremiExportedObjects.add(desc);
 						}
 						
@@ -220,8 +228,9 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 						availableDoremiDiagramFor = DoremiDiagramElementHelper.getAvailableNodeMappingsFor(root);
 						for (NodeMapping description : availableDoremiDiagramFor) {
 							EcoreUtil2.resolveAll(description);
-							// trim white spaces
-							IEObjectDescription desc = EObjectDescription.create(description.getName().replaceAll(" ", ""), description, null);
+							
+							String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(description.getName());
+							IEObjectDescription desc = EObjectDescription.create(simpleName, description, null);
 							doremiExportedObjects.add(desc);
 						}
 					}
@@ -245,8 +254,9 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 						availableDoremiDiagramFor = DoremiDiagramElementHelper.getAvailableContainerMappingsFor(root);
 						for (ContainerMapping description : availableDoremiDiagramFor) {
 							EcoreUtil2.resolveAll(description);
-							// trim white spaces
-							IEObjectDescription desc = EObjectDescription.create(description.getName().replaceAll(" ", ""), description, null);
+							
+							String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(description.getName());
+							IEObjectDescription desc = EObjectDescription.create(simpleName, description, null);
 							doremiExportedObjects.add(desc);
 						}
 					}
@@ -294,7 +304,7 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 		} catch (RuntimeException ex) {
 			if (uri.isPlatformResource()) {
 				String platformString = uri.toPlatformString(true);
-				URI platformPluginURI = URI.createPlatformPluginURI(platformString, true);
+				URI platformPluginURI = ResourceHelper.URIFix.createPlatformPluginURI(platformString, true);
 				return loadEPackage(platformPluginURI.toString(), resourceSet);
 			}
 			return null;
@@ -314,8 +324,6 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 		return exportedObjects;
 	}
 	
-	//Handle external imports
-	// [BZE] Browse resource by EReferences rather than eAllContent iterator.
 	private Iterable<IEObjectDescription> getExternalImportDiagramObjectDescription(Resource resource,
 			Iterable<IEObjectDescription> exportedObjects, EClass type){
 
@@ -348,32 +356,6 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 				}
 			}
 		}
-		
-		//Collection<IEObjectDescription> exportImportedObjects = new ArrayList<IEObjectDescription>();
-//		TreeIterator<EObject> it = resource.getAllContents();
-//
-//		while (it.hasNext()){
-//			EObject next = it.next();
-//
-//			for(EObject content: next.eContents()){
-//				if (content instanceof ImportGroup){
-//					ImportGroup importedOdesign = (ImportGroup)content;
-//					String platformURI = importedOdesign.getImportedGroup();
-//
-//					if (platformURI != null && !platformURI.isEmpty()){
-//						String tmpUri = platformURI.substring(1, platformURI.length() - 1).trim();
-//						
-//						boolean isEcore = isEcoreURI(tmpUri);
-//						
-//						if (isEcore){
-//							exportedObjects = Iterables.concat(exportedObjects, exportEcoreElements(tmpUri, resource, exportedObjects));
-//						} else {
-//							exportedObjects = Iterables.concat(exportedObjects, exportRepresentationElements(tmpUri, resource, exportedObjects));
-//						}
-//					}
-//				}
-//			}
-//		}
 		return exportedObjects;
 	}
 	
@@ -389,67 +371,51 @@ public class VpdiagramGlobalScopeProvider extends DefaultGlobalScopeProvider {
 		Resource odesignResources = resource.getResourceSet().getResource(p_uri, true);	
 
 		if (descriptionManager != null && odesignResources != null) {	
-			// FIXME: [BZE] is this necessary
-//			EcoreUtil.resolveAll(odesignResources);	
 
 			Group group = SiriusViewpointHelper.getViewpointGroup(odesignResources);	
 
 			if (group != null){	
-				IEObjectDescription desc = EObjectDescription.create(group.getName().replaceAll(" ", ""), group, null);	
+				String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(group.getName());
+				IEObjectDescription desc = EObjectDescription.create(simpleName, group, null);	
 				exportImportedObjects.add(desc);	
 			}	
-
-			// [BZE] We need only DiagramDescription, so why add All RepresentationDescription (Table, CrossTable, etc.) in the scope.
-			// These kind of representations are never used anywhere
-			//List<RepresentationDescription> diagramDescriptions = SiriusViewpointHelper.getAllRepresentationDescription(odesignResources);	
-			//if (diagramDescriptions != null && !diagramDescriptions.isEmpty()){	
-			//	for (RepresentationDescription dd : diagramDescriptions) {	
-			//		IEObjectDescription desc = EObjectDescription.create(dd.getName().replaceAll(" ", ""), dd, null);	
-			//		exportImportedObjects.add(desc);	
-			//	}	
-			//}	
 			
 			List<DiagramDescription> diagramDescription = SiriusViewpointHelper.getAllDiagramDescription(odesignResources);	
 
 			if (diagramDescription != null && !diagramDescription.isEmpty()){	
-				for (DiagramDescription dd : diagramDescription) {	
-					IEObjectDescription desc = EObjectDescription.create(dd.getName().replaceAll(" ", ""), dd, null);	
+				for (DiagramDescription dd : diagramDescription) {
+					String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(dd.getName());
+					IEObjectDescription desc = EObjectDescription.create(simpleName, dd, null);	
 					exportImportedObjects.add(desc);	
 				}	
 			}	
-
-			//[BZE]: use new implementation
-			// original code. This avoid to compute DiagramDescription an other time
-			// List<ContainerMapping> containers = SiriusViewpointHelper.getAllContainerMapping(odesignResources);	
+			
 			List<ContainerMapping> containers = SiriusViewpointHelper.getAllContainerMapping(diagramDescription);
 
 			if (containers != null && !containers.isEmpty()){	
 				for (ContainerMapping containerMapping : containers) {	
-					IEObjectDescription desc = EObjectDescription.create(containerMapping.getName().replaceAll(" ", ""), containerMapping, null);	
+					String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(containerMapping.getName());
+					IEObjectDescription desc = EObjectDescription.create(simpleName, containerMapping, null);	
 					exportImportedObjects.add(desc);	
 				}	
 			}	
 
-			//[BZE]: use new implementation
-			// original code. This avoid to compute DiagramDescription an other time
-			// List<NodeMapping> nodeMappings = SiriusViewpointHelper.getAllNodeMapping(odesignResources);
 			List<NodeMapping> nodeMappings = SiriusViewpointHelper.getAllNodeMapping(diagramDescription);	
 
 			if (nodeMappings != null && !nodeMappings.isEmpty()){	
-				for (NodeMapping nm : nodeMappings) {	
-					IEObjectDescription desc = EObjectDescription.create(nm.getName().replaceAll(" ", ""), nm, null);	
+				for (NodeMapping nm : nodeMappings) {
+					String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(nm.getName());
+					IEObjectDescription desc = EObjectDescription.create(simpleName, nm, null);	
 					exportImportedObjects.add(desc);	
 				}	
 			}	
 
-			//[BZE]: use new implementation
-			// original code. This avoid to compute DiagramDescription an other time
-			// List<EdgeMapping> edgeMappings = SiriusViewpointHelper.getAllEdgeMapping(odesignResources);
 			List<EdgeMapping> edgeMappings = SiriusViewpointHelper.getAllEdgeMapping(diagramDescription);	
 
 			if (edgeMappings != null && !edgeMappings.isEmpty()){	
-				for (EdgeMapping em : edgeMappings) {	
-					IEObjectDescription desc = EObjectDescription.create(em.getName().replaceAll(" ", ""), em, null);	
+				for (EdgeMapping em : edgeMappings) {
+					String simpleName = VpdiagramIdentifierNormalizerHelper.normalizeIdentifier(em.getName());
+					IEObjectDescription desc = EObjectDescription.create(simpleName, em, null);	
 					exportImportedObjects.add(desc);	
 				}	
 			}	

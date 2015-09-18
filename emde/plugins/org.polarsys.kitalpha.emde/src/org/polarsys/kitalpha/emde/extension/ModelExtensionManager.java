@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.polarsys.kitalpha.emde.extension;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 
 /**

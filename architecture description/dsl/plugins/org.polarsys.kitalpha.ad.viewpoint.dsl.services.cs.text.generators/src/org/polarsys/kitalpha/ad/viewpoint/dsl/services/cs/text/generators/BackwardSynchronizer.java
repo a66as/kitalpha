@@ -14,8 +14,8 @@ package org.polarsys.kitalpha.ad.viewpoint.dsl.services.cs.text.generators;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.resource.XtextResource;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.DataFactory;
@@ -23,7 +23,6 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.DataSpec;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.diagram.DiagramFactory;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.diagram.Diagrams;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.helpers.vpspec.CoreModelHelper;
-import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.resources.ResourceHelper;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services.Services;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.services.ServicesFactory;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.ui.UiFactory;
@@ -31,6 +30,7 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.ui.UserInterface;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.services.cs.text.generators.util.GeneratorsUtil;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.services.cs.text.generators.util.ReferenceUtil;
 
+import org.polarsys.kitalpha.ad.viewpoint.dsl.as.activityexplorer.model.ViewpointActivityExplorer.ViewpointActivityExplorer;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdesc.Aspect;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdesc.Data;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdiagram.DiagramSet;
@@ -78,6 +78,7 @@ public class BackwardSynchronizer extends AbstractSynchronizer {
 
 	public EObject backwardSynchronize(UIDescription inputAspect, Resource resource) {
 		XtextResource textResource = (XtextResource) resource;
+		EcoreUtil.resolveAll(inputAspect);
 		String newContent = null;
 		EObject clone = copier.get(inputAspect);
 		if (textResource.getContents().isEmpty()) {
@@ -148,5 +149,10 @@ public class BackwardSynchronizer extends AbstractSynchronizer {
 		if (saveNewResource(textResource, newContent))
 			return textResource.getContents().get(0);
 		return null;
+	}
+
+	@Override
+	public EObject backwardSynchronize(ViewpointActivityExplorer object, Resource target) {
+		return backwardSynchronize((EObject)object, target);
 	}
 }

@@ -28,11 +28,9 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.polarsys.kitalpha.model.common.commands.action.ModelCommand;
 import org.polarsys.kitalpha.model.common.commands.contrib.backup.Messages;
 import org.polarsys.kitalpha.model.common.commands.exception.ModelCommandException;
-import org.polarsys.kitalpha.model.common.commands.registry.WorkflowType;
 
 /**
  * @author Faycal Abka
@@ -54,7 +52,7 @@ public class BackupAndSaveCommand extends ModelCommand {
 	public void exec(Resource resource, IProgressMonitor monitor) 
 			throws ModelCommandException {
 
-		URI uri = URI.createURI(resource.getURI().toString(), true);
+		URI uri = resource.getURI();
 		String plugin_id = uri.segment(1);
 
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(plugin_id);

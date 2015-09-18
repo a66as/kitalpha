@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension
+	     point="org.eclipse.ui.views">
+	  <view
+	        name="Component Sample"
+	        icon="icons/view.gif"
+	        category="org.polarsys.kitalpha.view.category"
+	        class="org.polarsys.kitalpha.ad.viewpoint.ui.views.ViewpointView"
+	        id="org.polarsys.kitalpha.vp.componentsample.view"
+	        resourceId="org.polarsys.kitalpha.vp.componentsample"/>
+	</extension>
+	<extension
+	     point="org.polarsys.kitalpha.resourcereuse.resources">
+	  <resource
+	        domain="AF"
+	        id="org.polarsys.kitalpha.vp.componentsample"
+	        tags="vp"
+	        name="Component Sample"
+	        path="/org.polarsys.kitalpha.vp.componentsample.af/model/ComponentSample.vp#_upHvUEJfEeSX2_-AyeUK-w"/>
+	</extension>
+	<extension 
+	     point="org.eclipse.ui.propertiesView">
+	 	<excludeSources
+	    	id="org.polarsys.kitalpha.vp.componentsample.view">
+	 	</excludeSources>
+	</extension>
+	<extension
+		point="org.polarsys.kitalpha.ad.viewpoint.javarules">
+		<JavaRule
+			name="ComponentSample.RuleThree"
+			class="org.polarsys.kitalpha.vp.componentsample.af.businessrules.RuleThree">
+		</JavaRule>
+	</extension>
+	<extension
+		point="org.polarsys.kitalpha.ad.viewpoint.javarules">
+		<JavaRule
+			name="ComponentSample.RuleTwo"
+			class="org.polarsys.kitalpha.vp.componentsample.af.businessrules.RuleTwo">
+		</JavaRule>
+	</extension>
+	<extension
+		point="org.polarsys.kitalpha.ad.viewpoint.javarules">
+		<JavaRule
+			name="ComponentSample.RuleOne"
+			class="org.polarsys.kitalpha.vp.componentsample.af.businessrules.RuleOne">
+		</JavaRule>
+	</extension>
+</plugin>
+

@@ -12,6 +12,7 @@ package org.polarsys.kitalpha.ad.integration.emde;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.polarsys.kitalpha.ad.services.manager.ViewpointManager;
 
 public class Activator implements BundleActivator {
 
@@ -30,7 +31,6 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
-		// ViewpointManager.INSTANCE.loadState();
 	}
 
 	/*

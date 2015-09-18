@@ -1,0 +1,26 @@
+<%
+String className = JavaNamingConvention.getJavaClassFQNFor(projectName, parameter, JavaNamingConvention.JavaUseContext.Page);
+
+String id = parameter.getActivityExplorerItemID();
+if (null == id || (null != id && id.isEmpty()))
+	id = "Page1";
+
+final boolean labelIsSet = parameter.eIsSet(ViewpointActivityExplorerPackage.eINSTANCE.getActivityExplorerItem_Label());
+final String name = labelIsSet && false == parameter.getLabel().isEmpty() ? parameter.getLabel() : parameter.getName();
+
+final boolean tabNameIsSet = parameter.eIsSet(ViewpointActivityExplorerPackage.eINSTANCE.getPage_TabName());
+final String tabName = tabNameIsSet && false == parameter.getTabName().isEmpty() ? parameter.getTabName() : name;
+%>
+
+<extension point="org.eclipse.amalgam.explorer.activity.ui.pagesProvider">
+	<Page
+		class="<%=className%>"
+        id="<%=id%>"
+<%if (parameter.getImagePathOff() != null && parameter.getImagePathOff().isEmpty() == false){%> 
+		imageOff="<%=IconsFileHelper.ICONS_FOLDER_NAME+"/"+parameter.getImagePathOff()%>"<%}%>
+<%if (parameter.getImagePathOn()  != null && parameter.getImagePathOn().isEmpty() == false){%> 
+		imageOn="<%=IconsFileHelper.ICONS_FOLDER_NAME+"/"+parameter.getImagePathOn()%>"<%}%>
+        index="<%=parameter.getIndex()%>"
+        tabName="<%=tabName%>"
+        title="<%=name%>"
+        viewer="<%=parameter.isShowViewer()%>">

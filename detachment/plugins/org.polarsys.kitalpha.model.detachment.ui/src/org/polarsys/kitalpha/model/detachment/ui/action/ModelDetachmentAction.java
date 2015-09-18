@@ -77,7 +77,21 @@ public class ModelDetachmentAction implements IObjectActionDelegate {
 							DetachmentHelper.openEditor(airdIResource, monitor);
 						} catch (PartInitException e) {
 							LOGGER.error(e.getMessage(), e);
+							} catch (InvalidPreconditionException e) {
+							handlePreconditionError(e);
 						}
+					}
+					private void handlePreconditionError(InvalidPreconditionException e) {
+						final String msg = e.getMessage();
+						LOGGER.error(e.getMessage());
+						
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, msg, null);
+								ErrorDialog.openError(shell, "Detachment Error", "Cannot perform Detach on your model. See the reasons below", status);
+							}
+						});
 					}
 				});
 			} catch (InvocationTargetException e) {

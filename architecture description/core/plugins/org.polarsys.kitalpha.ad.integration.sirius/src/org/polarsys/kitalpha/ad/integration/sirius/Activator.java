@@ -58,8 +58,6 @@ public class Activator extends AFUIActivator {
 		viewpoints = new HashSet<Viewpoint>();
 		viewpoints.addAll(ViewpointRegistry.getInstance().registerFromPlugin(AF_DESIGN));
 
-		// load AF model manager
-		// ModelExtensionHelper.getInstance(eObject);
 
 		ViewpointManager.addOverallListener(listener);
 		for (SessionManagerListener l : sessionListeners)

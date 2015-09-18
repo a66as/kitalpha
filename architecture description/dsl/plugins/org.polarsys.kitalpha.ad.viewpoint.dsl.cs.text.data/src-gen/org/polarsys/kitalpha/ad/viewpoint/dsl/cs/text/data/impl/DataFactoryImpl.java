@@ -30,7 +30,7 @@ public class DataFactoryImpl extends EFactoryImpl implements DataFactory
   {
     try
     {
-      DataFactory theDataFactory = (DataFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.polarsys.org/kitalpha/ad/viewpoint/dsl/cs/text/data/1.0.0"); 
+      DataFactory theDataFactory = (DataFactory)EPackage.Registry.INSTANCE.getEFactory(DataPackage.eNS_URI);
       if (theDataFactory != null)
       {
         return theDataFactory;

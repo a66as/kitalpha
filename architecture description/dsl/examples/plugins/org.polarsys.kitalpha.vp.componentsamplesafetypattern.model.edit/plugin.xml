@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+
+
+<plugin>
+
+   
+<!--@generated-->
+  <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <factory class="org.polarsys.kitalpha.vp.componentsamplesafetypattern.ComponentSampleSafetyPattern.provider.ComponentSampleSafetyPatternItemProviderAdapterFactory" supportedTypes="org.eclipse.emf.edit.provider.IEditingDomainItemProvider                org.eclipse.emf.edit.provider.IStructuredItemContentProvider                org.eclipse.emf.edit.provider.ITreeItemContentProvider                org.eclipse.emf.edit.provider.IItemLabelProvider                org.eclipse.emf.edit.provider.IItemPropertySource" uri="http://www.polarsys.org/kitalpha/ComponentSampleSafetyPattern/1.0.0"/>
+   </extension>
+
+   
+<!--@generated-->
+  <extension point="org.eclipse.emf.edit.childCreationExtenders">
+      <extender class="org.polarsys.kitalpha.vp.componentsamplesafetypattern.ComponentSampleSafetyPattern.provider.ComponentSampleSafetyPatternItemProviderAdapterFactory$ComponentSampleChildCreationExtender" uri="http://www.polarsys.org/kitalpha/ComponentSample/1.0.0"/>
+   </extension>
+
+</plugin>

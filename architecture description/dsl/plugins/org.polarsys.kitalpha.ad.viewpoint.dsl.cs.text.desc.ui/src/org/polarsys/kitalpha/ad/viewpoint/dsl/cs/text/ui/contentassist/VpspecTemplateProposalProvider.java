@@ -31,6 +31,8 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.ui.contentassist.output.Tr
 import org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.vpspec.Viewpoint;
 
 import com.google.inject.Inject;
+
+import org.polarsys.kitalpha.ad.viewpoint.dsl.as.activityexplorer.model.ViewpointActivityExplorer.ViewpointActivityExplorer;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdesc.Aspect;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdesc.Data;
 import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpdiagram.DiagramSet;
@@ -42,6 +44,7 @@ import org.polarsys.kitalpha.ad.viewpoint.dsl.as.model.vpconf.Configuration;
 /**
  * 
  * @author Amine Lajmi
+ * 		   Faycal Abka
  *
  */
 public class VpspecTemplateProposalProvider extends CommonTemplateProposalProvider {
@@ -51,9 +54,11 @@ public class VpspecTemplateProposalProvider extends CommonTemplateProposalProvid
 	private static final int DATA_PRIORITY = 90;
 	private static final int UI_PRIORITY = 80;
 	private static final int DIAGRAM_PRIORITY = 70;
-	private static final int SERVICES_PRIORITY = 60;
-	private static final int BUILD_PRIORITY = 50;
-	private static final int CONFIGURATION_PRIORITY = 40;
+	private static final int ACTIVITYEXPLORER_PRIORITY = 60;
+	private static final int SERVICES_PRIORITY = 50;
+	private static final int BUILD_PRIORITY = 40;
+	private static final int CONFIGURATION_PRIORITY = 30;
+	
 
 	@Inject
 	private IGrammarAccess grammar;
@@ -103,24 +108,13 @@ public class VpspecTemplateProposalProvider extends CommonTemplateProposalProvid
 							if (candidate instanceof DiagramSet && contextTypeId.equals(TemplateIDs.NEW_DIAGRAM_TEMPLATE)) {
 								return;
 							}
+							if (candidate instanceof ViewpointActivityExplorer && contextTypeId.equals(TemplateIDs.NEW_ACTIVITY_EXPLORER_TEMPLATE)){
+								return;
+							}
 						}			
 					}
 					
 					//Don't propose UI, Rules, Configuration, and Services before Data	
-					if (contextTypeId.matches(TemplateIDs.TEMPLATE_PREFIX + SEPARATOR + "kw_" + UI.class.getSimpleName()) ||
-							contextTypeId.matches(TemplateIDs.TEMPLATE_PREFIX + SEPARATOR + "kw_" + access.getViewpointAccess().getTypeServicesKeyword_16_0_0().getValue()) ||
-							contextTypeId.matches(TemplateIDs.TEMPLATE_PREFIX + SEPARATOR + "kw_" + access.getViewpointAccess().getTypeDiagramsKeyword_15_0_0().getValue()) ||
-							contextTypeId.matches(TemplateIDs.TEMPLATE_PREFIX + SEPARATOR + "kw_" + access.getViewpointAccess().getTypeBuildKeyword_17_0_0().getValue()) ||
-							contextTypeId.matches(TemplateIDs.TEMPLATE_PREFIX + SEPARATOR + "kw_" + access.getViewpointAccess().getTypeConfigurationKeyword_18_0_0().getValue())) {	
-						INode currentNode = context.getCurrentNode();
-						INode nextSibling = currentNode.getNextSibling();
-						if (nextSibling != null) {
-							String text = nextSibling.getText();
-							if (text.equals(access.getViewpointAccess().getDataKeyword_13_0().getValue())){
-								return;
-							}
-						}
-					}
 					
 					//Don't propose Diagram before UI	
 					if (contextTypeId.matches(TemplateIDs.TEMPLATE_PREFIX + SEPARATOR + "kw_" + access.getViewpointAccess().getTypeDiagramsKeyword_15_0_0().getValue())) {						
@@ -158,6 +152,8 @@ public class VpspecTemplateProposalProvider extends CommonTemplateProposalProvid
 		if (templateIdentifier.equals(TemplateIDs.NEW_UI_TEMPLATE)) {
 			return true;
 		}
+		if (templateIdentifier.equals(TemplateIDs.NEW_ACTIVITY_EXPLORER_TEMPLATE))
+			return true;
 		return false;
 	}
 
@@ -176,20 +172,11 @@ public class VpspecTemplateProposalProvider extends CommonTemplateProposalProvid
 	
 	protected String getTemplatePattern(String templateIdentifier, String shortName) {		
 		VpspecGrammarAccess access = (VpspecGrammarAccess)grammar;		
-		if (templateIdentifier.equals(TemplateIDs.NEW_BUILD_TEMPLATE)) {
-			return access.getViewpointAccess().getTypeBuildKeyword_17_0_0().getValue() + " " + VARIABLE_NAME;
-		}
-		if (templateIdentifier.equals(TemplateIDs.NEW_CONFIGURATION_TEMPLATE)) {
-			return access.getViewpointAccess().getTypeConfigurationKeyword_18_0_0().getValue() + " " + VARIABLE_NAME;
-		}
 		if (templateIdentifier.equals(TemplateIDs.NEW_DATA_TEMPLATE)) {
 			return access.getViewpointAccess().getDataKeyword_13_0().getValue() + " "  + VARIABLE_NAME;
 		}
 		if (templateIdentifier.equals(TemplateIDs.NEW_DIAGRAM_TEMPLATE)) {
 			return access.getViewpointAccess().getTypeDiagramsKeyword_15_0_0().getValue() + " "  + VARIABLE_NAME;
-		}
-		if (templateIdentifier.equals(TemplateIDs.NEW_SERVICES_TEMPLATE)) {
-			return access.getViewpointAccess().getTypeServicesKeyword_16_0_0().getValue() + " "  + VARIABLE_NAME;
 		}
 		if (templateIdentifier.equals(TemplateIDs.NEW_UI_TEMPLATE)) {
 			return access.getViewpointAccess().getTypeUIKeyword_14_0_0().getValue() + " "  + VARIABLE_NAME;
@@ -217,6 +204,9 @@ public class VpspecTemplateProposalProvider extends CommonTemplateProposalProvid
 		}
 		if (contextTypeId.equals(TemplateIDs.NEW_UI_TEMPLATE)) {
 			return UI_PRIORITY;
+		}
+		if (contextTypeId.equals(TemplateIDs.NEW_ACTIVITY_EXPLORER_TEMPLATE)) {
+			return ACTIVITYEXPLORER_PRIORITY;
 		}
 		return super.getRelevance(template);
 	}

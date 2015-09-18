@@ -36,7 +36,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -45,9 +44,7 @@ import org.eclipse.xtext.builder.nature.NatureAddingEditorCallback;
 import org.eclipse.xtext.builder.nature.ToggleXtextNatureAction;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.eclipse.xtext.ui.editor.DirtyStateEditorSupport;
 import org.eclipse.xtext.ui.editor.XtextEditor;
-import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.resource.IResourceSetProvider;
 import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.IConcreteSyntaxValidator;
@@ -75,9 +72,6 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	
 	@Inject
 	private ToggleXtextNatureAction toggleNature;
-	
-	@Inject
-	private DirtyStateEditorSupport editorSupport;
 	
 	@Inject
 	private Injector injector;
@@ -111,7 +105,7 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	public void afterCreatePartControl(XtextEditor editor) {
 		if (this.currentEditor != editor)
 			throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-		editorSupport.initializeDirtyStateSupport(this);	
+		
 		IResource resource = editor.getResource();
 		if (resource!=null && !toggleNature.hasNature(resource.getProject()) && resource.getProject().isAccessible() && !resource.getProject().isHidden()) {
 			toggleNature.toggleNature(resource.getProject());
@@ -122,7 +116,7 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	public void beforeDispose(XtextEditor editor) {
 		if (this.currentEditor != editor)
 			throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-		editorSupport.removeDirtyStateSupport(this);
+		
 		this.currentEditor = null;
 	}
 
@@ -130,14 +124,11 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 	public boolean onValidateEditorInputState(XtextEditor editor) {
 		if (this.currentEditor != editor)
 			throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-		return editorSupport.isEditingPossible(this);
+		return currentEditor.getDirtyStateEditorSupport().isEditingPossible(currentEditor);
 	}
 
 	@Override
 	public void beforeSetInput(XtextEditor editor) {
-		if (this.currentEditor != null) {
-			editorSupport.removeDirtyStateSupport(this);
-		}
 	}
 
 	@Override
@@ -145,32 +136,9 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 		if (this.currentEditor != null) {
 			if (this.currentEditor != editor)
 				throw new IllegalStateException(Messages.CommonEditorCallback_MultipleInstancesError);
-			editorSupport.initializeDirtyStateSupport(this);
 		} else {
 			this.currentEditor = editor;
 		}
-	}
-
-	@Override
-	public boolean isDirty() {
-		return currentEditor.isDirty();
-	}
-
-	@Override
-	public IXtextDocument getDocument() {
-		return currentEditor.getDocument();
-	}
-
-	@Override
-	public void addVerifyListener(VerifyListener listener) {
-		ISourceViewer sourceViewer = currentEditor.getInternalSourceViewer();
-		StyledText widget = sourceViewer.getTextWidget();
-		widget.addVerifyListener(listener);
-	}
-
-	@Override
-	public Shell getShell() {
-		return currentEditor.getEditorSite().getShell();
 	}
 
 	public void removeVerifyListener(VerifyListener listener) {
@@ -193,24 +161,7 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 				public void run() {			
 					if (!synchronizing) {
 						IFile file = (IFile) current.getEditorInput().getAdapter(IFile.class);						
-
 						synchronizing = doSynchronize(file);
-
-						/**
-						 * FIXME: Show label only on the vpdesc resournce (see the associated decorator)
-						 */
-//						IResource standaloneIResource = ResourceHelper.getStandaloneIResource(projectName);
-//						if (standaloneIResource != null){
-
-//							VpdslModelResourcesManager.addResource(file);
-
-
-//							if (synchronizing){
-//								VpdslModelResourcesManager.addPersistentProperty(file, "");
-//							} else {
-//								VpdslModelResourcesManager.addPersistentProperty(file, "Unsynchronized");
-//							}
-//						}
 					}	
 				}
 			};
@@ -219,7 +170,6 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 		} else {
 			synchronizing = false;
 		}
-		editorSupport.markEditorClean(this);
 	}
 	
 	protected boolean doSynchronize(IFile file) {
@@ -371,25 +321,28 @@ public class CommonEditorCallback extends NatureAddingEditorCallback {
 		
 		EList<EObject> content = resource.getContents();
 
-		org.eclipse.emf.common.util.Diagnostic result = 
-				Diagnostician.INSTANCE.validate(EcoreUtil.getRootContainer(content.get(0)));
+		if (content != null && !content.isEmpty())
+		{
+			org.eclipse.emf.common.util.Diagnostic result = 
+					Diagnostician.INSTANCE.validate(EcoreUtil.getRootContainer(content.get(0)));
 
 
-		if (result.getSeverity() == IStatus.ERROR){
-			String wsResourceName = resource.getURI().lastSegment();
-			assembleValidationMessages(result, wsResourceName);
-			return false;
+			if (result.getSeverity() == IStatus.ERROR){
+				String wsResourceName = resource.getURI().lastSegment();
+				assembleValidationMessages(result, wsResourceName);
+				return false;
+			}
 		}
-
 
 		return true;
 	}
 
 	private void assembleValidationMessages(
 			org.eclipse.emf.common.util.Diagnostic result, String resourceName) {
-		List<org.eclipse.emf.common.util.Diagnostic> children = result.getChildren();
+		
+		List<org.eclipse.emf.common.util.Diagnostic> children = result != null? result.getChildren(): null;
 
-		if (result != null && !result.getChildren().isEmpty()){
+		if (children != null && !children.isEmpty()){
 			for (org.eclipse.emf.common.util.Diagnostic diagnostic : children) {
 				if (diagnostic.getSeverity() == IStatus.ERROR){
 					if (!messages.containsKey(resourceName)){

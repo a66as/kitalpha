@@ -10,10 +10,10 @@ package org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.ImportURI#getImportURI <em>Import URI</em>}</li>
  * </ul>
- * </p>
  *
  * @see org.polarsys.kitalpha.ad.viewpoint.dsl.cs.text.data.DataPackage#getImportURI()
  * @model

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:domain="http://www.eclipse.org/egf/1.0.0/domain"
+    xmlns:fcore="http://www.eclipse.org/egf/1.0.0/fcore" xmlns:fprod="http://www.eclipse.org/egf/1.0.0/fprod"
+    xmlns:pattern="http://www.eclipse.org/egf/1.0.0/pattern">
+  <fcore:FactoryComponent xmi:id="_nr--EEJfEeSX2_-AyeUK-w" name="ComponentSample Launcher">
+    <viewpointContainer xmi:id="_nr--EUJfEeSX2_-AyeUK-w">
+      <viewpoints xmi:type="domain:DomainViewpoint" xmi:id="_nr--EkJfEeSX2_-AyeUK-w"/>
+    </viewpointContainer>
+    <orchestration xmi:type="fprod:ProductionPlan" xmi:id="_nr--E0JfEeSX2_-AyeUK-w">
+      <orchestrationParameterContainer xmi:id="_nr--FEJfEeSX2_-AyeUK-w">
+        <orchestrationParameters xmi:id="_nr--FUJfEeSX2_-AyeUK-w" name="generation extension">
+          <type xmi:type="pattern:TypePatternSubstitution" xmi:id="_nr--FkJfEeSX2_-AyeUK-w"/>
+        </orchestrationParameters>
+      </orchestrationParameterContainer>
+      <invocations xmi:id="_5f2hgFuUEeWOXeYIIPcMfw" name="ComponentSample invocation"
+          invokedActivity="#_nsIvEEJfEeSX2_-AyeUK-w">
+        <invocationContractContainer xmi:id="_5f2hgVuUEeWOXeYIIPcMfw"/>
+      </invocations>
+    </orchestration>
+  </fcore:FactoryComponent>
+  <fcore:FactoryComponent xmi:id="_nsIvEEJfEeSX2_-AyeUK-w" name="ComponentSample">
+    <viewpointContainer xmi:id="_nsIvEUJfEeSX2_-AyeUK-w">
+      <viewpoints xmi:type="domain:DomainViewpoint" xmi:id="_nsIvEkJfEeSX2_-AyeUK-w"/>
+    </viewpointContainer>
+    <orchestration xmi:type="fprod:ProductionPlan" xmi:id="_nsIvE0JfEeSX2_-AyeUK-w">
+      <orchestrationParameterContainer xmi:id="_nsIvFEJfEeSX2_-AyeUK-w">
+        <orchestrationParameters xmi:id="_nsIvFUJfEeSX2_-AyeUK-w" name="generation extension">
+          <type xmi:type="pattern:TypePatternSubstitution" xmi:id="_nsIvFkJfEeSX2_-AyeUK-w"/>
+        </orchestrationParameters>
+      </orchestrationParameterContainer>
+      <invocations xmi:id="_5gJccFuUEeWOXeYIIPcMfw" name="ComponentSample invocation"
+          invokedActivity="#_nsTHIEJfEeSX2_-AyeUK-w">
+        <invocationContractContainer xmi:id="_5gJccVuUEeWOXeYIIPcMfw"/>
+      </invocations>
+    </orchestration>
+  </fcore:FactoryComponent>
+  <fcore:FactoryComponent xmi:id="_nsTHIEJfEeSX2_-AyeUK-w" name="ComponentSample">
+    <viewpointContainer xmi:id="_nsTHIUJfEeSX2_-AyeUK-w">
+      <viewpoints xmi:type="domain:DomainViewpoint" xmi:id="_nsTHIkJfEeSX2_-AyeUK-w">
+        <domains xmi:type="domain:EMFDomain" xmi:id="_nx5_4EJfEeSX2_-AyeUK-w" helperImplementation="org.eclipse.egf.domain.emf.EMFDomainHelper"
+            uri="platform:/resource/org.polarsys.kitalpha.vp.componentsample.model/models/ComponentSample.genmodel"/>
+      </viewpoints>
+    </viewpointContainer>
+    <orchestration xmi:type="fprod:ProductionPlan" xmi:id="_nsTHI0JfEeSX2_-AyeUK-w">
+      <orchestrationParameterContainer xmi:id="_nsTHJEJfEeSX2_-AyeUK-w">
+        <orchestrationParameters xmi:id="_nsTHJUJfEeSX2_-AyeUK-w" name="generation extension"
+            invocationContracts="#_5gTNdFuUEeWOXeYIIPcMfw #_5gTNeVuUEeWOXeYIIPcMfw">
+          <type xmi:type="pattern:TypePatternSubstitution" xmi:id="_nsTHJkJfEeSX2_-AyeUK-w"/>
+        </orchestrationParameters>
+      </orchestrationParameterContainer>
+      <invocations xmi:id="_5gTNcFuUEeWOXeYIIPcMfw" name="emf.gen.model.common invocation"
+          invokedActivity="fcore:FactoryComponent platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.model.fcore#_fpAN4VhCEd-5FJ833LkcRA">
+        <invocationContractContainer xmi:id="_5gTNcVuUEeWOXeYIIPcMfw">
+          <invocationContracts xmi:id="_5gTNcluUEeWOXeYIIPcMfw" invokedContract="fcore:FactoryComponentContract platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.model.fcore#_orkvcVjjEd-5FJ833LkcRA">
+            <type xmi:type="domain:TypeDomain" xmi:id="_5gTNc1uUEeWOXeYIIPcMfw" domain="#_nx5_4EJfEeSX2_-AyeUK-w"/>
+          </invocationContracts>
+          <invocationContracts xmi:id="_5gTNdFuUEeWOXeYIIPcMfw" orchestrationParameter="#_nsTHJUJfEeSX2_-AyeUK-w"
+              invokedContract="fcore:FactoryComponentContract platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.model.fcore#_orkvdVjjEd-5FJ833LkcRA"/>
+        </invocationContractContainer>
+      </invocations>
+      <invocations xmi:id="_5gTNdVuUEeWOXeYIIPcMfw" name="emf.gen.edit.common invocation"
+          invokedActivity="fcore:FactoryComponent platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.edit.fcore#__rEKAFjjEd-5FJ833LkcRA">
+        <invocationContractContainer xmi:id="_5gTNdluUEeWOXeYIIPcMfw">
+          <invocationContracts xmi:id="_5gTNd1uUEeWOXeYIIPcMfw" invokedContract="fcore:FactoryComponentContract platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.edit.fcore#__rEKAljjEd-5FJ833LkcRA">
+            <type xmi:type="domain:TypeDomain" xmi:id="_5gTNeFuUEeWOXeYIIPcMfw" domain="#_nx5_4EJfEeSX2_-AyeUK-w"/>
+          </invocationContracts>
+          <invocationContracts xmi:id="_5gTNeVuUEeWOXeYIIPcMfw" orchestrationParameter="#_nsTHJUJfEeSX2_-AyeUK-w"
+              invokedContract="fcore:FactoryComponentContract platform:/plugin/org.polarsys.kitalpha.emde.portfolio.emf.egf/egf/emf.gen.edit.fcore#__rEKBljjEd-5FJ833LkcRA"/>
+        </invocationContractContainer>
+      </invocations>
+    </orchestration>
+  </fcore:FactoryComponent>
+</xmi:XMI>

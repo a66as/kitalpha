@@ -116,7 +116,7 @@ public class AFModelExtensionManager extends PreferenceModelExtensionManager {
 
 	private final Map<String, Boolean> extension2state = new HashMap<String, Boolean>();
 	private final Map<String, Boolean> managedByAF2state = new HashMap<String, Boolean>();
-
+ 
 	@Override
 	public boolean canDisableExtensionModel(ExtendedModel extended) {
 		if (getTarget() == null)

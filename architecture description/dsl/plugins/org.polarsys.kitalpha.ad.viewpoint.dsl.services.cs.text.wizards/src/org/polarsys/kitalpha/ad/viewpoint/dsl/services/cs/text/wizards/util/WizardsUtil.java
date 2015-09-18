@@ -17,8 +17,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -320,6 +318,36 @@ public class WizardsUtil {
 			"UIDescription " + fileName + " {\n" +
 			"	\n" +
 			"}";
+		return fileContent;
+	}
+	
+	public static String getInitialActivityExplorerContent(String shortName) {
+		String fileContent = 	
+			"/**\n" + 
+			" * Copyright (c) " + WizardsUtil.COPYRIGHT_KITALPHA + ", " + getCurrentYear() + ". All rights reserved. \n" +
+			" *\n" +
+			" *	Viewpoint " + shortName + "\n" +
+			" *	@author: " + getCurrentUserName() + "\n" +
+			" *	@date: " +  getCurrentDate()+"\n" +
+			" *\n" +
+			" */\n" +
+			"activity explorer " + shortName + ".activityexplorer" + " {\n\n" +
+			"}";
+		return fileContent;
+	}
+	
+	public static String getInitialActivityExplorerContent(String shortName, String fileName) {
+		String fileContent = 	
+				"/**\n" + 
+				" * Copyright (c) " + WizardsUtil.COPYRIGHT_KITALPHA + ", " + getCurrentYear() + ". All rights reserved. \n" +
+				" *\n" +
+				" *	Viewpoint " + shortName + "\n" +
+				" *	@author: " + getCurrentUserName() + "\n" +
+				" *	@date: " +  getCurrentDate()+"\n" +
+				" *\n" +
+				" */\n" +
+				"activity explorer " + fileName + " {\n\n" +
+				"}";
 		return fileContent;
 	}
 	
