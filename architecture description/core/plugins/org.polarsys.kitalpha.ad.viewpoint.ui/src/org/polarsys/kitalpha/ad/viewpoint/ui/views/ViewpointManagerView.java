@@ -197,6 +197,11 @@ public class ViewpointManagerView extends ViewPart {
 			@Override
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 				label.setText(selection.toString());
+				analyseSelection(selection);
+				updateButtons(null);
+			}
+			private void analyseSelection(ISelection selection) {
+				
 				if (selection.isEmpty()) {
 					clearSelection("Empty selection");
 					return;
@@ -514,7 +519,7 @@ public class ViewpointManagerView extends ViewPart {
 		refreshAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.REFRESH));
 
 		openViewAction = new OpenViewAction();
-		openViewAction.setText("Show in view");
+		openViewAction.setText("Show view");
 		openViewAction.setToolTipText("Show the viewpoint view");
 		openViewAction.setImageDescriptor(Activator.getDefault().getImageDescriptor(AFImages.VP));
 
