@@ -194,7 +194,7 @@ public class ViewpointRelationshipHelper {
 	private static Viewpoint getViewpointRootEObject(String path){
 		
 		if (checkString(path)){
-			URI uri = URI.createPlatformPluginURI(path, false);
+			URI uri = URI.createURI("platform:/plugin"+path, false);
 			ResourceSet resourceSet = new ResourceSetImpl();
 			
 			return (Viewpoint) resourceSet.getEObject(uri, true);
