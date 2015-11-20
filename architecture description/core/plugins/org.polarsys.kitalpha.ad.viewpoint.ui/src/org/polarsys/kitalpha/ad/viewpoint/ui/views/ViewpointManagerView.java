@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -128,7 +130,7 @@ public class ViewpointManagerView extends ViewPart {
 		}
 	}
 
-	private EObject context;
+	private ResourceSet context;
 	private TableViewer viewer;
 	private Action filterAction;
 	private Action unFilterAction;
@@ -196,52 +198,47 @@ public class ViewpointManagerView extends ViewPart {
 
 			@Override
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-				label.setText(selection.toString());
-				analyseSelection(selection);
+				context = null;
+				if (part instanceof IEditingDomainProvider) {
+					IEditingDomainProvider prov = (IEditingDomainProvider) part;
+					EditingDomain editingDomain = prov.getEditingDomain();
+					context = editingDomain.getResourceSet();
+				} else {
+					EditingDomain obj = part.getAdapter(EditingDomain.class);
+					if (obj != null) {
+						context = obj.getResourceSet();
+					}
+				}
+				if (context == null)
+					analyseSelection(selection);
+					
+					label.setText(computeLabel());
 				updateButtons(null);
+				
+				labelProvider.setContext(context);
+				viewer.refresh();
+			}
+
+			private String computeLabel()
+			{
+				if (context == null)
+					return "";
+				if (context.getResources().isEmpty())
+					return "";
+				String segment = context.getResources().get(0).getURI().segment(1);
+				return "Project "+segment;
 			}
 			private void analyseSelection(ISelection selection) {
-				
-				if (selection.isEmpty()) {
-					clearSelection("Empty selection");
+
+				if (selection.isEmpty()) 
 					return;
-				}
 				if (selection instanceof TreeSelection) {
 					Object[] selected = ((TreeSelection) selection).toArray();
-					if (selected.length > 1) {
-						clearSelection("Multiple selection");
-						return;
-					}
 					if (selected[0] instanceof EObject)
-						setSelection((EObject) selected[0]);
-					else
-						clearSelection("Expecting an EObject");
-
+						context = ((EObject) selected[0]).eResource().getResourceSet();
 				}
 			}
 
-			private void setSelection(EObject ctx) {
-				String labelTxt = null;
-				EObject rootContainer = EcoreUtil.getRootContainer(ctx);
-				EStructuralFeature eStructuralFeature = rootContainer.eClass().getEStructuralFeature("name");
-				if (eStructuralFeature != null) {
-					Object value = rootContainer.eGet(eStructuralFeature);
-					if (value != null)
-						labelTxt = "Context: Project '" + value + "'";
-				}
-
-				label.setText(labelTxt == null ? "Context: " + ctx : labelTxt);
-				labelProvider.setContext(ctx);
-				context = ctx;
-				viewer.refresh();
-			}
-
-			private void clearSelection(String text) {
-				label.setText(text);
-				labelProvider.setContext(null);
-				context = null;
-				viewer.refresh();
-			}
 		});
 	}
 
@@ -447,8 +444,7 @@ public class ViewpointManagerView extends ViewPart {
 					if (!MessageDialog.openQuestion(getSite().getShell(), "Stop using viewpoint " + res.getName(), "Viewpoint Detachment is required. Close model and Proceed ?"))
 						return;
 					// Launch detach editor
-					ResourceSet resourceSet = context.eResource().getResourceSet();
-					org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResources().get(0);
+					org.eclipse.emf.ecore.resource.Resource resource = context.getResources().get(0);
 					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(resource.getURI().toPlatformString(true)));
 					DetachmentHelper.openEditor(file, new NullProgressMonitor());
 

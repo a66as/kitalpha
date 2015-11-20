@@ -12,6 +12,7 @@
 package org.polarsys.kitalpha.ad.viewpoint.ui.views;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -26,7 +27,7 @@ import org.polarsys.kitalpha.resourcereuse.model.Resource;
  */
 public class ViewpointManagerLabelProvider extends LabelProvider implements ITableLabelProvider {
 
-	private EObject context;
+	private ResourceSet context;
 
 	public Image getColumnImage(Object element, int columnIndex) {
 		if (columnIndex != 0)
@@ -60,7 +61,7 @@ public class ViewpointManagerLabelProvider extends LabelProvider implements ITab
 		return "";
 	}
 
-	public void setContext(EObject context) {
+	public void setContext(ResourceSet context) {
 		this.context = context;
 	}
 
