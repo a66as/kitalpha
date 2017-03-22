@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Thales Global Services S.A.S.
+ * Copyright (c) 2014, 2017 Thales Global Services S.A.S.
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  which accompanies this distribution, and is available at
@@ -94,7 +94,7 @@ public class BackupAndSaveCommand extends ModelCommand {
 							if (resource2 != null){
 								backupResource(resource2, backupPath, subMonitor.newChild(1));
 								subMonitor.subTask(Messages.bind(Messages.SAVE_RESOURCE_MESSAGE, resource2.getURI()));
-								if (saveResources){
+								if (saveResources && resource2.isModified()){
 									resource2.save(null);
 								}
 								subMonitor.worked(1);
