@@ -533,7 +533,7 @@
       </steps>
       <steps xsi:type="buildfile:TarStep" xmi:id="_bCk0wdExEeSTbrZQrXnDzg" name="tar neon results" description="" destfile="${publish}/kitalpha_${kitalpha_version}-${timestamp}-${TP_os}-${TP_ws}-${TP_arch}-${eclipse_version}.tar.gz" baseDir="${publish}/${TP_name}" compression="gzip"/>
     </steps>
-    <steps xsi:type="buildcore:StepContainer" xmi:id="_caErsJWzEeSPapwxSH2ZqQ" name="TP_linux-gtk-x86_64" enabled="false">
+    <steps xsi:type="buildcore:StepContainer" xmi:id="_caErsJWzEeSPapwxSH2ZqQ" name="TP_linux-gtk-x86_64">
       <properties xmi:id="_caErsZWzEeSPapwxSH2ZqQ" key="TP_name" value="TP_linux-gtk-x86_64" type="INLINED"/>
       <properties xmi:id="_caErspWzEeSPapwxSH2ZqQ" key="TP_arch" value="x86_64" type="INLINED"/>
       <properties xmi:id="_caErs5WzEeSPapwxSH2ZqQ" key="TP_os" value="linux" type="INLINED"/>
